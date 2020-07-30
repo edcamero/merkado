@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package merka;
+package Merka;
 
-import database.Pool;
+
+import database.Pool2;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -13,7 +14,9 @@ import java.sql.SQLException;
  *
  * @author USUARIO
  */
-public class Merka {
+public class Main {
+
+    
     private static Connection connection = null;
     public static void main( String[] args) throws SQLException{
         System.out.println("hola bb");
@@ -22,7 +25,7 @@ public class Merka {
     }
     
     private static Connection getConnection() throws SQLException {
-		return Pool.getConexion();
+		return Pool2.getConexion();
 	}
     
 }
