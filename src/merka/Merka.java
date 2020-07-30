@@ -5,17 +5,24 @@
  */
 package merka;
 
+import database.Pool;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 /**
  *
  * @author USUARIO
  */
 public class Merka {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    private static Connection connection = null;
+    public static void main( String[] args) throws SQLException{
+        System.out.println("hola bb");
+        connection=getConnection();
+        
     }
+    
+    private static Connection getConnection() throws SQLException {
+		return Pool.getConexion();
+	}
     
 }
