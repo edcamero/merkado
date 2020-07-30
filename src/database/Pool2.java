@@ -6,9 +6,10 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 
+
 import org.apache.commons.dbcp2.BasicDataSource;
 
-public class Pool {
+public class Pool2 {
 	private static BasicDataSource ds = null;
 
 	public static DataSource getDataSource() {
@@ -20,7 +21,7 @@ public class Pool {
 			ds.setUrl("jdbc:postgresql://localhost:5432/merka");
 			// Definimos el tamano del pool de conexiones
 			ds.setInitialSize(2);// 2 Conexiones iniciales
-			ds.setMaxIdle(10);
+			ds.setMaxIdle(2);
 			ds.setMaxTotal(2);
 			ds.setMaxWaitMillis(5000);
 
