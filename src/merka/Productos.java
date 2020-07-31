@@ -6,7 +6,10 @@
 package merka;
 
 import VO.Producto;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,28 +20,55 @@ public class Productos extends javax.swing.JFrame {
     String nombre, descripcion;
     int precioCompra, precioVenta, cantidad;
     Producto producto = null;
+    private DefaultTableModel model;
 
     public Productos() {
         initComponents();
         this.setLocationRelativeTo(null);
         txtNombre.setFocusable(true);
+        cargar();
+
     }
 
     private boolean consultarproducto() {
-            this.nombre = txtNombre.getText().trim();
-            this.precioCompra = Integer.parseInt(txtPrecioCompra.getText().trim());
-            this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
-            this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
-            this.descripcion = txtDescripcion.getText().trim();
-            producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion);
-            
-            return (Fachada.getInstancia().registrarProducto(producto));
+        this.nombre = txtNombre.getText().trim();
+        this.precioCompra = Integer.parseInt(txtPrecioCompra.getText().trim());
+        this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
+        this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
+        this.descripcion = txtDescripcion.getText().trim();
+        producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion);
+
+        return (Fachada.getInstancia().registrarProducto(producto));
     }
 
     public void limpiar() {
         txtNombre.setText("");
         txtPrecioCompra.setText("");
         txtPrecioVenta.setText("");
+        txtCantidad.setText("");
+        txtDescripcion.setText("");
+    }
+
+    public void cargar() {
+        // Creamos un objeto Table con el molde del nuestro
+        ArrayList<Producto> productos = Fachada.getInstancia().obtenerProductos();
+        String data[][] = {};
+        String col[] = {"NOMBRE", "PRECIO/COMPRA", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION"};
+        model = new DefaultTableModel(data, col);
+        ///alumno d = cab;
+        //************************************
+        if (productos.size() != 0) {
+            for (Producto producto : productos) {
+                Object[] fila = new Object[5];
+                fila[0] = producto.getNombre();
+                fila[1] = producto.getPrecioCompra();
+                fila[2] = producto.getPrecioVenta();
+                fila[3] = producto.getCantidad();
+                fila[4] = producto.getDescripcion();
+                model.addRow(fila);
+            }
+            this.tablaProductos.setModel(model);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -263,32 +293,32 @@ public class Productos extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
 
-        if(txtNombre.getText().equals("") && txtPrecioCompra.getText().equals("") && txtPrecioVenta.getText().equals("")
-               && txtCantidad.getText() == "" && txtDescripcion.getText() == ""){
+        if (txtNombre.getText().equals("") && txtPrecioCompra.getText().equals("") && txtPrecioVenta.getText().equals("")
+                && txtCantidad.getText() == "" && txtDescripcion.getText() == "") {
             JOptionPane.showMessageDialog(this, "Debe Llenar Todos Los Campos");
-        }
-        else if(txtNombre.getText().equals("")){
+        } else if (txtNombre.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Nombre esta vacio.");
             txtNombre.setFocusable(true);
-        }else if(txtPrecioCompra.getText().trim().equals("")){
+        } else if (txtPrecioCompra.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "El Precio Esta Vacio.");
             txtPrecioCompra.setFocusable(true);
-        }else if(txtPrecioVenta.getText().trim().equals("")){
+        } else if (txtPrecioVenta.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "DIGITE EL PRECIO DE LA VENTA");
             txtPrecioVenta.setFocusable(true);
-        }else if(txtCantidad.getText().trim().equals("")){
+        } else if (txtCantidad.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "digite la cantidad");
             txtCantidad.setFocusable(true);
-        }else if(txtDescripcion.getText().trim().equals("")){
+        } else if (txtDescripcion.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "digite la descripcion");
             txtDescripcion.setFocusable(true);
-        }else if(consultarproducto()){
+        } else if (consultarproducto()) {
             JOptionPane.showMessageDialog(this, "EL PRODUCTO SE HA REGISTRADO");
-        }else{
+            limpiar();
+            cargar();
+        } else {
             JOptionPane.showMessageDialog(this, "PRODUCTO NO REGISTRADO");
         }
-        
-        
+
 //        if (Fachada.getInstancia().registrarProducto(producto)) {
 //            JOptionPane.showMessageDialog(this, "EL PRODUCTO SE HA REGISTRADO");
 //        } else if (txtNombre.getText().equals("") && txtPrecioCompra.getText().equals("") && txtPrecioVenta.getText().equals("")

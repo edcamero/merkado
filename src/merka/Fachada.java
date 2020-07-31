@@ -1,6 +1,7 @@
 package merka;
 
 import VO.Producto;
+import java.util.ArrayList;
 
 public class Fachada {
 
@@ -17,15 +18,21 @@ public class Fachada {
         }
         return fachada;
     }
-    
+
     //usuario
     public boolean login(String username, String pass) {
         return mediador.login(username, pass);
     }
-    
+
     //producto
     public boolean registrarProducto(Producto producto) {
         return mediador.registrarProducto(producto);
+    }
+
+    public ArrayList<Producto> obtenerProductos() {
+        ArrayList<Producto> lista = new ArrayList<Producto>();
+        lista = mediador.obtenerProductos();
+        return lista;
     }
 
 }

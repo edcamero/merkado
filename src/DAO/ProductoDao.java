@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,6 +20,7 @@ public class ProductoDao {
     public ProductoDao() {
     }
 
+    //GUARDAR PRODUCTO
     public boolean Guardar(Producto producto) {
 
         boolean resultado = false;
@@ -43,39 +45,44 @@ public class ProductoDao {
 
             rs = psql.executeQuery();
             while (rs.next()) {
-
                 producto.setId(rs.getInt("prod_id"));
                 resultado = true;
-
             }
             psql.close();
-
         } catch (SQLException e) {
-
             JOptionPane.showMessageDialog(null, "Error al intentar almacenar la información:\n"
                     + e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-
         } finally {
-
             try {
-
                 if (con != null) {
-
                     con.close();
-
                 }
-
             } catch (SQLException ex) {
 
                 JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-
             }
 
         }
-
         return resultado;
-
     }
 
+    //OBTENER LOS PRODUCTOS
+    public ArrayList<Producto> obtenerProductos() {
+        ArrayList<Producto> lista = new ArrayList();
+        String consulta = "select * FROM productos ORDER BY prod_id;";
+        try {
+            con = Conexion.getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
+                lista.add(P);
+            }
+        } catch (SQLException ex) {
+        }
+        return lista;
+    }
 }

@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS productos;
 
-DROP TABLE IF EXISTS _productos;
+--DROP TABLE IF EXISTS _productos;
 
 CREATE TABLE USUARIOS(
    user_id SERIAL,
