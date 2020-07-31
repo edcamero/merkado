@@ -18,13 +18,14 @@ public class Conexion {
             ds.setDriverClassName("org.postgresql.Driver");
 
             ds.setUsername("postgres");
-            ds.setPassword("1234");
+            ds.setPassword("fuentes");
             ds.setUrl("jdbc:postgresql://localhost:5432/merka");
             // Definimos el tamano del pool de conexiones
             ds.setInitialSize(2);// 2 Conexiones iniciales
             ds.setMaxIdle(2);
             ds.setMaxTotal(2);
             ds.setMaxWaitMillis(5000);
+            System.out.println("conecto");
         }
         return ds;
     }

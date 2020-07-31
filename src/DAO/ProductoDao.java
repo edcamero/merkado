@@ -23,31 +23,32 @@ public class ProductoDao {
 
         boolean resultado = false;
 
-        Connection con = null;
-
-        String SSQL = "INSERT INTO public.productos(\n" +
-"	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion)\n" +
-"	VALUES (?, ?, ?, ?, ?) returning prod_id;";
+        String SSQL = "INSERT INTO public.productos(\n"
+                + "prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion)\n"
+                + "VALUES (?, ?, ?, ?, ?) returning prod_id;";
 
         try {
 
             con = Conexion.getConexion();
 
-            PreparedStatement psql = con.prepareStatement(SSQL);
+            PreparedStatement psql = con.prepareStatement(SSQL, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            //PreparedStatement psql = con.prepareStatement(SSQL);
             psql.setString(1, producto.getNombre());
             psql.setInt(2, producto.getPrecioCompra());
             psql.setInt(3, producto.getPrecioVenta());
             psql.setInt(4, producto.getCantidad());
             psql.setString(5, producto.getDescripcion());
 
-            rs = pst.executeQuery();
+            rs = psql.executeQuery();
             while (rs.next()) {
-               
+
                 producto.setId(rs.getInt("prod_id"));
-                resultado=true;
+                resultado = true;
 
             }
-            pst.close();
+            psql.close();
 
         } catch (SQLException e) {
 
@@ -76,7 +77,5 @@ public class ProductoDao {
         return resultado;
 
     }
-
-
 
 }

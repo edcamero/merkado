@@ -5,6 +5,7 @@
  */
 package merka;
 
+import VO.Producto;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,27 +14,33 @@ import javax.swing.JOptionPane;
  */
 public class Productos extends javax.swing.JFrame {
 
-    String nombre;
-    int precio, cantidad;
+    String nombre, descripcion;
+    int precioCompra, precioVenta, cantidad;
+    Producto producto = null;
+
     public Productos() {
         initComponents();
         this.setLocationRelativeTo(null);
         txtNombre.setFocusable(true);
     }
-    
-    private void consultarproducto() {
-        this.nombre = txtNombre.getText().trim();
-        this.precio = Integer.parseInt(txtPrecio.getText().trim());
-        this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
-    }
-    
-    public void limpiar(){
-        txtNombre.setText("");
-        txtPrecio.setText("");
-        txtCantidad.setText("");
+
+    private boolean consultarproducto() {
+            this.nombre = txtNombre.getText().trim();
+            this.precioCompra = Integer.parseInt(txtPrecioCompra.getText().trim());
+            this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
+            this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
+            this.descripcion = txtDescripcion.getText().trim();
+            producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion);
+            
+            return (Fachada.getInstancia().registrarProducto(producto));
     }
 
-    
+    public void limpiar() {
+        txtNombre.setText("");
+        txtPrecioCompra.setText("");
+        txtPrecioVenta.setText("");
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -44,13 +51,13 @@ public class Productos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtPrecio = new javax.swing.JTextField();
+        txtPrecioCompra = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        txtPrecioVenta = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
-        txtCantidad1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtCantidad2 = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
@@ -75,9 +82,33 @@ public class Productos extends javax.swing.JFrame {
 
         jLabel1.setText("Nombre:");
 
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
+
         jLabel2.setText("precio de compra:");
 
+        txtPrecioCompra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioCompraKeyTyped(evt);
+            }
+        });
+
         jLabel3.setText("Precio de venta:");
+
+        txtPrecioVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioVentaKeyTyped(evt);
+            }
+        });
+
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
+        });
 
         jLabel4.setText("Cantidad:");
 
@@ -97,20 +128,20 @@ public class Productos extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtCantidad1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtCantidad2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -122,20 +153,20 @@ public class Productos extends javax.swing.JFrame {
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtCantidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtCantidad2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
@@ -231,24 +262,90 @@ public class Productos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        consultarproducto();
-        //if(usuario.equals(txtUsuario.getText().trim())&&password.equals(txtPassword.getText().trim())){
-        if (Fachada.getInstancia().registrarProducto(nombre, precio, cantidad)) {
-            JOptionPane.showMessageDialog(this, "EL PRODUCTO SE HA REGISTRADO");
-        } else if (txtNombre.getText().equals("") && txtPrecio.getText().equals("") && txtCantidad.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Debe Llenar Todos Los Campos");
 
-        } else if (txtNombre.getText().equals("")) {
+        if(txtNombre.getText().equals("") && txtPrecioCompra.getText().equals("") && txtPrecioVenta.getText().equals("")
+               && txtCantidad.getText() == "" && txtDescripcion.getText() == ""){
+            JOptionPane.showMessageDialog(this, "Debe Llenar Todos Los Campos");
+        }
+        else if(txtNombre.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Nombre esta vacio.");
             txtNombre.setFocusable(true);
-        } else if (txtPrecio.getText().trim().equals("")) {
+        }else if(txtPrecioCompra.getText().trim().equals("")){
             JOptionPane.showMessageDialog(this, "El Precio Esta Vacio.");
-            txtPrecio.setFocusable(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "El PRODUCTO NO SE HA REGISTRADO");
-            limpiar();
+            txtPrecioCompra.setFocusable(true);
+        }else if(txtPrecioVenta.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(this, "DIGITE EL PRECIO DE LA VENTA");
+            txtPrecioVenta.setFocusable(true);
+        }else if(txtCantidad.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(this, "digite la cantidad");
+            txtCantidad.setFocusable(true);
+        }else if(txtDescripcion.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(this, "digite la descripcion");
+            txtDescripcion.setFocusable(true);
+        }else if(consultarproducto()){
+            JOptionPane.showMessageDialog(this, "EL PRODUCTO SE HA REGISTRADO");
+        }else{
+            JOptionPane.showMessageDialog(this, "PRODUCTO NO REGISTRADO");
         }
+        
+        
+//        if (Fachada.getInstancia().registrarProducto(producto)) {
+//            JOptionPane.showMessageDialog(this, "EL PRODUCTO SE HA REGISTRADO");
+//        } else if (txtNombre.getText().equals("") && txtPrecioCompra.getText().equals("") && txtPrecioVenta.getText().equals("")
+//                && txtCantidad.getText() == "" && txtDescripcion.getText() == "") {
+//            JOptionPane.showMessageDialog(this, "Debe Llenar Todos Los Campos");
+//
+//        } else if (txtNombre.getText().equals("")) {
+//            JOptionPane.showMessageDialog(this, "Nombre esta vacio.");
+//            txtNombre.setFocusable(true);
+//            
+//        } else if (txtPrecioCompra.getText().trim().equals("")) {
+//            JOptionPane.showMessageDialog(this, "El Precio Esta Vacio.");
+//            txtPrecioCompra.setFocusable(true);
+//            
+//        } else if (txtPrecioVenta.getText().trim().equals("")) {
+//            JOptionPane.showMessageDialog(this, "DIGITE EL PRECIO DE LA VENTA");
+//        } else if (txtCantidad.getText().trim().equals("")) {
+//            JOptionPane.showMessageDialog(this, "digite la cantidad");
+//        } else if (txtDescripcion.getText().trim().equals("")) {
+//            JOptionPane.showMessageDialog(this, "digite la descripcion");
+//
+//        } else {
+//            JOptionPane.showMessageDialog(this, "no registrado");
+//
+//        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+//       
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtPrecioCompraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioCompraKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isLetter(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "DIGITE SOLO NUMEROS");
+        }
+    }//GEN-LAST:event_txtPrecioCompraKeyTyped
+
+    private void txtPrecioVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioVentaKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isLetter(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "DIGITE SOLO NUMEROS");
+        }
+    }//GEN-LAST:event_txtPrecioVentaKeyTyped
+
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isLetter(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "DIGITE SOLO NUMEROS");
+        }
+    }//GEN-LAST:event_txtCantidadKeyTyped
 
     /**
      * @param args the command line arguments
@@ -302,9 +399,9 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaProductos;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextField txtCantidad1;
-    private javax.swing.JTextField txtCantidad2;
+    private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtPrecioCompra;
+    private javax.swing.JTextField txtPrecioVenta;
     // End of variables declaration//GEN-END:variables
 }
