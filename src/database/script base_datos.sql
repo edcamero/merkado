@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS productos;
 CREATE TABLE USUARIOS(
    ID SERIAL,
    username VARCHAR(40) NOT NULL, 
@@ -7,8 +9,10 @@ CREATE TABLE USUARIOS(
 INSERT INTO public.usuarios(username, password)VALUES ('admin', 'admin');
 
 CREATE TABLE PRODUCTOS(
-   ID SERIAL,
-   nombre VARCHAR(40) NOT NULL, 
-   precio INT NOT NULL,
-   cantidad INT NOT NULL
+   prod_id SERIAL,
+   prod_nombre VARCHAR(40) NOT NULL, 
+   prod_precio_compra INT NOT NULL,
+   prod_precio_venta INT NOT NULL,
+   prod_cantidad INT NOT NULL,
+   prod_descripcion VARCHAR(200)
 );

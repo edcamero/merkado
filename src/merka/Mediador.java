@@ -2,6 +2,7 @@ package merka;
 
 import DAO.ProductoDao;
 import DAO.UsuarioDao;
+import VO.Producto;
 
 public class Mediador {
 
@@ -17,8 +18,8 @@ public class Mediador {
         return usuarioDao.login(username, pass);
     }
     
-    public boolean registrarProducto(String nombre, int precio, int cantidad) {
-        return productoDao.registrarProducto(nombre, precio, cantidad);
+    public boolean registrarProducto(Producto producto) {
+        return productoDao.Guardar(producto);
     }
 
 }

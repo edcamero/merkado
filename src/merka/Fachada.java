@@ -1,5 +1,7 @@
 package merka;
 
+import VO.Producto;
+
 public class Fachada {
 
     static private Fachada fachada;
@@ -22,8 +24,8 @@ public class Fachada {
     }
     
     //producto
-    public boolean registrarProducto(String nombre, int precio, int cantidad) {
-        return mediador.registrarProducto(nombre, precio, cantidad);
+    public boolean registrarProducto(Producto producto) {
+        return mediador.registrarProducto(producto);
     }
 
 }

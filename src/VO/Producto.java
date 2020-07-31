@@ -2,23 +2,35 @@ package VO;
 
 public class Producto {
 
-    private String id;
+    private int id;
     private String nombre;
-    private int precio;
+    private int precioCompra;
+    private int precioVenta;
     private int cantidad;
+    private String descripcion;
 
-    public Producto(String id, String nombre, int precio, int cantidad) {
-        this.id = id;
+    public Producto(String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion) {
         this.nombre = nombre;
-        this.precio = precio;
+        this.precioCompra = precioCompra;
+        this.precioVenta = precioVenta;
         this.cantidad = cantidad;
+        this.descripcion = descripcion;
     }
 
-    public String getId() {
+    public Producto(int id, String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precioCompra = precioCompra;
+        this.precioVenta = precioVenta;
+        this.cantidad = cantidad;
+        this.descripcion = descripcion;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -30,12 +42,20 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public int getPrecio() {
-        return precio;
+    public int getPrecioCompra() {
+        return precioCompra;
     }
 
-    public void setPrecio(int precio) {
-        this.precio = precio;
+    public void setPrecioCompra(int precioCompra) {
+        this.precioCompra = precioCompra;
+    }
+
+    public int getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(int precioVenta) {
+        this.precioVenta = precioVenta;
     }
 
     public int getCantidad() {
@@ -46,4 +66,17 @@ public class Producto {
         this.cantidad = cantidad;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    
+    
+    
+    
+  
 }
