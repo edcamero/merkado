@@ -1,25 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package merka;
 
+import DAO.ProductoDao;
 import DAO.UsuarioDao;
 
-/**
- *
- * @author USUARIO
- */
 public class Mediador {
+
     UsuarioDao usuarioDao;
+    ProductoDao productoDao;
 
     public Mediador() {
         usuarioDao = new UsuarioDao();
+        productoDao = new ProductoDao();
     }
-    
-    public boolean login(String username,String pass){
+
+    public boolean login(String username, String pass) {
         return usuarioDao.login(username, pass);
     }
     
+    public boolean registrarProducto(String nombre, int precio, int cantidad) {
+        return productoDao.registrarProducto(nombre, precio, cantidad);
+    }
+
 }

@@ -18,56 +18,48 @@ import java.util.logging.Logger;
  * @author USUARIO
  */
 public class UsuarioDao {
+
     private Connection con;
     private PreparedStatement pst;
     private ResultSet rs;
 
-    
-
     public UsuarioDao() {
     }
-    
-    
-    
-    
-    
-   
-    
-    public boolean login(String username,String password){
-        String consulta="select * from usuarios where username=? and password=?";
-        int id=0;
+
+    public boolean login(String username, String password) {
+        String consulta = "select * from usuarios where username=? and password=?";
+        int id = 0;
         try {
-            con=Conexion.getConexion();
-            pst=con.prepareStatement(consulta,ResultSet.TYPE_SCROLL_SENSITIVE,
-                     ResultSet.CONCUR_UPDATABLE);
-            pst.setString(1,username);
-            pst.setString(2,password);
-            rs=pst.executeQuery();
-            
-            
+            con = Conexion.getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pst.setString(1, username);
+            pst.setString(2, password);
+            rs = pst.executeQuery();
+
             while (rs.next()) {
-                
-                id=rs.getInt(1);
-                
+
+                id = rs.getInt(1);
+
             }
-            
-            if(id>0){
+
+            if (id > 0) {
                 System.out.println("ingreso");
                 return true;
             }
             System.out.println("usuario o contraseña erronea");
-             return false;
-             
+            return false;
+
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        } finally {
             try {
                 con.close();
             } catch (SQLException ex) {
                 Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return false;
     }
 }

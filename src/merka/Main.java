@@ -5,7 +5,6 @@
  */
 package Merka;
 
-
 import database.Conexion;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,25 +17,22 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-    
     private static Connection connection = null;
-    public static void main( String[] args) {
+
+    public static void main(String[] args) {
         System.out.println("hola bb");
         try {
-            connection=getConnection();
-             if (connection != null)
-        {
-                  System.out.println("¡Conectado correctamente!");
-            
-        }
+            connection = getConnection();
+            if (connection != null) {
+                System.out.println("¡Conectado correctamente!");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
-    
+
     private static Connection getConnection() throws SQLException {
-		return Conexion.getConexion();
-	}
-    
+        return Conexion.getConexion();
+    }
+
 }

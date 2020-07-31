@@ -12,7 +12,9 @@ import javax.swing.JOptionPane;
  * @author USUARIO
  */
 public class Login extends javax.swing.JFrame {
-private String usuario,password;
+
+    private String usuario, password;
+
     /**
      * Creates new form Login
      */
@@ -20,12 +22,17 @@ private String usuario,password;
         initComponents();
         setLocationRelativeTo(null);
         txtUsuario.setFocusable(true);
-        
+
     }
-    
-    private void consultarUsuario(){
-        this.usuario=txtUsuario.getText();
-        this.password=txtPassword.getText();
+
+    private void consultarUsuario() {
+        this.usuario = txtUsuario.getText().trim();
+        this.password = txtPassword.getText().trim();
+    }
+
+    public void limpiar() {
+        txtUsuario.setText("");
+        txtPassword.setText("");
     }
 
     /**
@@ -60,25 +67,26 @@ private String usuario,password;
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(112, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                        .addComponent(txtPassword))
-                    .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(93, 93, 93))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(txtPassword)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(13, 13, 13)))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(107, 107, 107)
+                .addGap(61, 61, 61)
                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnIngresar)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
@@ -91,23 +99,23 @@ private String usuario,password;
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         consultarUsuario();
         //if(usuario.equals(txtUsuario.getText().trim())&&password.equals(txtPassword.getText().trim())){
-           if(Fachada.getInstancia().login(usuario, password)) {
-               PanelPrincipal panel=new PanelPrincipal();
+        if (Fachada.getInstancia().login(usuario, password)) {
+            PanelPrincipal panel = new PanelPrincipal();
             panel.setVisible(true);
-            this.dispose(); 
-            
-            
-        }else if (txtUsuario.getText().equals("")&&txtPassword.getText().equals("")){
+            this.dispose();
+
+        } else if (txtUsuario.getText().equals("") && txtPassword.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Usuario y/o Contraseña deben llenarse");
-            
-        }else if( txtUsuario.getText().equals("")){
+
+        } else if (txtUsuario.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Usuario esta vacio.");
             txtUsuario.setFocusable(true);
-        }else if( txtPassword.getText().trim().equals("")){
+        } else if (txtPassword.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "La password esta vacia.");
             txtPassword.setFocusable(true);
-        }else{
-             JOptionPane.showMessageDialog(this, "Usuario y/o Contraseña son incorrectas");
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario y/o Contraseña son incorrectas");
+            limpiar();
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
