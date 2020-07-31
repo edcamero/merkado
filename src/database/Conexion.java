@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
-public class Pool2 {
+public class Conexion {
 	private static BasicDataSource ds = null;
 
 	public static DataSource getDataSource() {

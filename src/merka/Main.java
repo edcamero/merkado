@@ -6,7 +6,7 @@
 package Merka;
 
 
-import database.Pool2;
+import database.Conexion;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -24,6 +24,11 @@ public class Main {
         System.out.println("hola bb");
         try {
             connection=getConnection();
+             if (connection != null)
+        {
+                  System.out.println("¡Conectado correctamente!");
+            
+        }
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -31,7 +36,7 @@ public class Main {
     }
     
     private static Connection getConnection() throws SQLException {
-		return Pool2.getConexion();
+		return Conexion.getConexion();
 	}
     
 }
