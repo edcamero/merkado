@@ -21,10 +21,10 @@ public class Conexion {
             ds.setPassword("fuentes");
             ds.setUrl("jdbc:postgresql://localhost:5432/merka");
             // Definimos el tamano del pool de conexiones
-            ds.setInitialSize(2);// 2 Conexiones iniciales
-            ds.setMaxIdle(2);
-            ds.setMaxTotal(2);
-            ds.setMaxWaitMillis(5000);
+            ds.setInitialSize(1);// 2 Conexiones iniciales
+            ds.setMaxIdle(3);
+            ds.setMaxTotal(3);
+            ds.setMaxWaitMillis(0);
             System.out.println("conecto");
         }
         return ds;

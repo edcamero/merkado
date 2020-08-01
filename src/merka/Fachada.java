@@ -34,5 +34,9 @@ public class Fachada {
         lista = mediador.obtenerProductos();
         return lista;
     }
+    
+    public boolean actualizarProducto(Producto producto){
+        return mediador.actualizarProducto(producto);
+    }
 
 }

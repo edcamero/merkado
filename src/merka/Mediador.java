@@ -19,6 +19,8 @@ public class Mediador {
         return usuarioDao.login(username, pass);
     }
     
+    
+    //PRODUCTOS
     public boolean registrarProducto(Producto producto) {
         return productoDao.Guardar(producto);
     }
@@ -27,6 +29,10 @@ public class Mediador {
         ArrayList<Producto> lista = new ArrayList<Producto>();
         lista = productoDao.obtenerProductos();
         return lista;
+    }
+    
+    public boolean actualizarProducto(Producto producto){
+        return productoDao.actualizarProducto(producto);
     }
 
 }
