@@ -25,12 +25,11 @@ public class ProductoDao {
 
         boolean resultado = false;
 
-
         Connection con = null;
 
-        String consulta = "INSERT INTO public.productos(\n" +
-"	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion)\n" +
-"	VALUES (?, ?, ?, ?, ?) returning prod_id;";
+        String consulta = "INSERT INTO public.productos(\n"
+                + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion)\n"
+                + "	VALUES (?, ?, ?, ?, ?) returning prod_id;";
 
         try {
 
@@ -67,12 +66,12 @@ public class ProductoDao {
         return resultado;
     }
 
-    //OBTENER LOS PRODUCTOS
+//OBTENER LOS PRODUCTOS
     public ArrayList<Producto> obtenerProductos() {
         ArrayList<Producto> lista = new ArrayList();
         String consulta = "select * FROM productos ORDER BY prod_id;";
         try {
-            
+
             con = Conexion.getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -90,41 +89,45 @@ public class ProductoDao {
     //MODIFICAR PRODUCTOS
     public boolean actualizarProducto(Producto producto) {
         try {
-            String consulta = "update productos\n"
-                    + "set \n"
-                    + "prod_nombre=?,\n"
-                    + "prod_precio_compra=?,\n"
-                    + "prod_precio_venta=?,\n"
-                    + "prod_cantidad=?,\n"
-                    + "prod_descripcion=?\n"
-                    + "where prod_id=? returning *";
-            
-         
+//            String consulta = "update productos\n"
+//                    + "set \n"
+//                    + "prod_nombre=?,\n"
+//                    + "prod_precio_compra=?,\n"
+//                    + "prod_precio_venta=?,\n"
+//                    + "prod_cantidad=?,\n"
+//                    + "prod_descripcion=?\n"
+//                    + "where prod_id=? returning *";
+
+            String consulta = "UPDATE productos SET prod_nombre =  ?, prod_precio_compra =  ?, prod_precio_venta =  ?, prod_cantidad =  ?, prod_descripcion = ? WHERE prod_id=? returning *";
+
             con = Conexion.getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
             pst.setString(1, producto.getNombre());
-            System.out.println("nom");
+            System.out.println("nom" + pst);
             pst.setInt(2, producto.getPrecioCompra());
-            System.out.println("compr");
+            System.out.println("compr" + pst);
             pst.setInt(3, producto.getPrecioVenta());
-            System.out.println("venta");
+            System.out.println("venta" + pst);
             pst.setInt(4, producto.getCantidad());
-            System.out.println("cant");
+            System.out.println("cant" + pst);
             pst.setString(5, producto.getDescripcion());
-            System.out.println("desc");
+            System.out.println("desc" + pst);
             pst.setInt(6, producto.getId());
-            System.out.println("id");
+            System.out.println("id" + pst);
 
             rs = pst.executeQuery();
             return true;
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductoDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (con != null) {
+                    pst.close();
+                    rs.close();
                     con.close();
                 }
             } catch (SQLException ex) {

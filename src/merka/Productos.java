@@ -20,6 +20,7 @@ public class Productos extends javax.swing.JFrame {
     String nombre, descripcion;
     int precioCompra, precioVenta, cantidad;
     Producto producto = null;
+    int prod_id = 0;
     private DefaultTableModel model;
 
     public Productos() {
@@ -47,7 +48,7 @@ public class Productos extends javax.swing.JFrame {
         this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
         this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
         this.descripcion = txtDescripcion.getText().trim();
-        Producto producto2 = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion);
+        Producto producto2 = new Producto(prod_id, nombre, precioCompra, precioVenta, cantidad, descripcion);
 
         return (Fachada.getInstancia().actualizarProducto(producto2));
     }
@@ -419,13 +420,12 @@ public class Productos extends javax.swing.JFrame {
 //            int row = source.rowAtPoint( evt.getPoint() );
 //            int column = source.columnAtPoint( evt.getPoint() );
 //            String s=source.getModel().getValueAt(row, column)+"";
+        prod_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
         txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
         txtPrecioCompra.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
         txtPrecioVenta.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
         txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
         txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
-
-        System.out.println();
     }//GEN-LAST:event_tablaProductosMouseClicked
 
     /**
