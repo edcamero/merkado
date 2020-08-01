@@ -3,6 +3,7 @@ package merka;
 import DAO.ProductoDao;
 import DAO.UsuarioDao;
 import VO.Producto;
+import java.util.ArrayList;
 
 public class Mediador {
 
@@ -18,8 +19,20 @@ public class Mediador {
         return usuarioDao.login(username, pass);
     }
     
+    
+    //PRODUCTOS
     public boolean registrarProducto(Producto producto) {
         return productoDao.Guardar(producto);
+    }
+    
+    public ArrayList<Producto> obtenerProductos() {
+        ArrayList<Producto> lista = new ArrayList<Producto>();
+        lista = productoDao.obtenerProductos();
+        return lista;
+    }
+    
+    public boolean actualizarProducto(Producto producto){
+        return productoDao.actualizarProducto(producto);
     }
 
 }
