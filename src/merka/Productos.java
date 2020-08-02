@@ -53,6 +53,10 @@ public class Productos extends javax.swing.JFrame {
         return (Fachada.getInstancia().actualizarProducto(producto2));
     }
 
+    private boolean eliminarProducto() {
+        return (Fachada.getInstancia().eliminarProducto(prod_id));
+    }
+
     public void limpiar() {
         txtNombre.setText("");
         txtPrecioCompra.setText("");
@@ -225,6 +229,11 @@ public class Productos extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnModificarMouseClicked(evt);
+            }
+        });
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModificarActionPerformed(evt);
@@ -232,6 +241,11 @@ public class Productos extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -427,6 +441,38 @@ public class Productos extends javax.swing.JFrame {
         txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
         txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
     }//GEN-LAST:event_tablaProductosMouseClicked
+
+    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModificarMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if (txtNombre.getText().equals("") && txtPrecioCompra.getText().equals("") && txtPrecioVenta.getText().equals("")
+                && txtCantidad.getText() == "" && txtDescripcion.getText() == "") {
+            JOptionPane.showMessageDialog(this, "Debe Llenar Todos Los Campos");
+        } else if (txtNombre.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Nombre esta vacio.");
+            txtNombre.setFocusable(true);
+        } else if (txtPrecioCompra.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "El Precio Esta Vacio.");
+            txtPrecioCompra.setFocusable(true);
+        } else if (txtPrecioVenta.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "DIGITE EL PRECIO DE LA VENTA");
+            txtPrecioVenta.setFocusable(true);
+        } else if (txtCantidad.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "digite la cantidad");
+            txtCantidad.setFocusable(true);
+        } else if (txtDescripcion.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "digite la descripcion");
+            txtDescripcion.setFocusable(true);
+        } else if (eliminarProducto()) {
+            JOptionPane.showMessageDialog(this, "EL PRODUCTO SE HA ACTUALIZADO");
+            limpiar();
+            cargar();
+        } else {
+            JOptionPane.showMessageDialog(this, "PRODUCTO NO ACTUALIZADO");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -34,5 +34,9 @@ public class Mediador {
     public boolean actualizarProducto(Producto producto){
         return productoDao.actualizarProducto(producto);
     }
+    
+    public boolean eliminarProducto(int prod_id){
+        return productoDao.eliminarProducto(prod_id);
+    }
 
 }

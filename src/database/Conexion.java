@@ -26,24 +26,24 @@ public class Conexion {
     }
 
     public DataSource getDataSource() {
-        if (conexion.ds == null) {
-            conexion.ds = new BasicDataSource();
-            conexion.ds.setDriverClassName("org.postgresql.Driver");
-            conexion.ds.setUsername("postgres");
-            conexion.ds.setPassword("fuentes");
-            conexion.ds.setUrl("jdbc:postgresql://localhost:5432/merka");
+        if (ds == null) {
+            ds = new BasicDataSource();
+            ds.setDriverClassName("org.postgresql.Driver");
+            ds.setUsername("postgres");
+            ds.setPassword("fuentes");
+            ds.setUrl("jdbc:postgresql://localhost:5432/merka");
             // Definimos el tamano del pool de conexiones
-            conexion.ds.setInitialSize(1);// 2 Conexiones iniciales
-            conexion.ds.setMaxIdle(2);
-            conexion.ds.setMaxTotal(2);
-            conexion.ds.setMaxWaitMillis(1000);
-            return conexion.ds;
+            ds.setInitialSize(1);// 2 Conexiones iniciales
+            ds.setMaxIdle(2);
+            ds.setMaxTotal(2);
+            ds.setMaxWaitMillis(1000);
+            return ds;
         }
-        return conexion.ds;
+        return ds;
     }
 
     public Connection getConexion() throws SQLException {
-        connection = conexion.getDataSource().getConnection();
+        connection = getDataSource().getConnection();
         return connection;
     }
 
