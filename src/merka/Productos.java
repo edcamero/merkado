@@ -6,10 +6,14 @@
 package merka;
 
 import VO.Producto;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -22,6 +26,7 @@ public class Productos extends javax.swing.JFrame {
     Producto producto = null;
     int prod_id = 0;
     private DefaultTableModel model;
+    TableRowSorter<DefaultTableModel> tr;
 
     public Productos() {
         initComponents();
@@ -86,6 +91,13 @@ public class Productos extends javax.swing.JFrame {
             }
             this.tablaProductos.setModel(model);
         }
+    }
+
+    private void filtro() {
+        model = (DefaultTableModel) tablaProductos.getModel();
+        tr = new TableRowSorter<>(model);
+        tablaProductos.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 1)); //busca por nombre
     }
 
     @SuppressWarnings("unchecked")
@@ -288,6 +300,15 @@ public class Productos extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaProductos);
 
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
+
         boxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -473,6 +494,14 @@ public class Productos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "PRODUCTO NO ACTUALIZADO");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        filtro();
+    }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        
+    }//GEN-LAST:event_txtBuscarKeyTyped
 
     /**
      * @param args the command line arguments
