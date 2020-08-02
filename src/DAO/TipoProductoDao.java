@@ -24,6 +24,7 @@ public class TipoProductoDao {
     private Connection con;
     private PreparedStatement pst;
     private ResultSet rs;
+    private Conexion conexion;
 
     public boolean Guardar(TipoProducto tipoProducto) {
         boolean resultado = false;
@@ -32,7 +33,7 @@ public class TipoProductoDao {
                 + "	VALUES ( ?, ?) returning tipr_id;";
         
         try {
-            con = Conexion.getConexion();
+            //con = Conexion.getConexion();
             PreparedStatement psql = con.prepareStatement(consulta);
             psql.setString(1, tipoProducto.getNombre());
             psql.setString(2, tipoProducto.getDescripcion());

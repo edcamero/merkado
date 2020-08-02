@@ -9,28 +9,49 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 public class Conexion {
 
-    private static BasicDataSource ds = null;
+    private static BasicDataSource ds;
+    private static Conexion conexion;
+    private static Connection connection;
 
-    public static DataSource getDataSource() {
-        if (ds == null) {
-            ds = new BasicDataSource();
-
-            ds.setDriverClassName("org.postgresql.Driver");
-
-            ds.setUsername("postgres");
-            ds.setPassword("fuentes");
-            ds.setUrl("jdbc:postgresql://localhost:5432/merka");
-            // Definimos el tamano del pool de conexiones
-            ds.setInitialSize(1);// 2 Conexiones iniciales
-            ds.setMaxIdle(2);
-            ds.setMaxTotal(2);
-            ds.setMaxWaitMillis(0);
-            System.out.println("conecto");
-        }
-        return ds;
+    public Conexion() {
     }
 
-    public static Connection getConexion() throws SQLException {
-        return getDataSource().getConnection();
+    public Conexion objConexion() {
+        if (conexion == null) {
+            conexion = new Conexion();
+            return conexion;
+        } else {
+            return conexion;
+        }
+    }
+
+    public DataSource getDataSource() {
+        if (conexion.ds == null) {
+            conexion.ds = new BasicDataSource();
+            conexion.ds.setDriverClassName("org.postgresql.Driver");
+            conexion.ds.setUsername("postgres");
+            conexion.ds.setPassword("fuentes");
+            conexion.ds.setUrl("jdbc:postgresql://localhost:5432/merka");
+            // Definimos el tamano del pool de conexiones
+            conexion.ds.setInitialSize(1);// 2 Conexiones iniciales
+            conexion.ds.setMaxIdle(2);
+            conexion.ds.setMaxTotal(2);
+            conexion.ds.setMaxWaitMillis(1000);
+            return conexion.ds;
+        }
+        return conexion.ds;
+    }
+
+    public Connection getConexion() throws SQLException {
+        connection = conexion.getDataSource().getConnection();
+        return connection;
+    }
+
+    public void getClose() {
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+
+        }
     }
 }

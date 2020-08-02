@@ -22,6 +22,7 @@ public class UsuarioDao {
     private Connection con;
     private PreparedStatement pst;
     private ResultSet rs;
+    private Conexion conexion;
 
     public UsuarioDao() {
     }
@@ -30,7 +31,7 @@ public class UsuarioDao {
         String consulta = "select * from usuarios where username=? and password=?";
         int id = 0;
         try {
-            con = Conexion.getConexion();
+            con = conexion.getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, username);

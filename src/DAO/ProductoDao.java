@@ -13,9 +13,10 @@ import javax.swing.JOptionPane;
 
 public class ProductoDao {
 
-    private Connection con;
-    private PreparedStatement pst;
-    private ResultSet rs;
+    private static Connection con;
+    private static PreparedStatement pst;
+    private static ResultSet rs;
+    private static Conexion conexion = new Conexion();
 
     public ProductoDao() {
     }
@@ -33,8 +34,7 @@ public class ProductoDao {
 
         try {
 
-            con = Conexion.getConexion();
-
+            //con = Conexion.getConexion();
             PreparedStatement psql = con.prepareStatement(consulta);
             psql.setString(1, producto.getNombre());
             psql.setInt(2, producto.getPrecioCompra());
@@ -72,8 +72,11 @@ public class ProductoDao {
         String consulta = "select * FROM productos ORDER BY prod_id;";
         try {
 
-            con = Conexion.getConexion();
-            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+            //con = Conexion.getConexion();
+            conexion = conexion.objConexion();
+            Connection connection = conexion.getConexion();
+            //con = conexion.getConexion();
+            pst = connection.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
 
@@ -81,13 +84,15 @@ public class ProductoDao {
                 Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
                 lista.add(P);
             }
+            connection.close();
+            conexion.getClose();
         } catch (SQLException ex) {
         }
         return lista;
     }
 
     //MODIFICAR PRODUCTOS
-    public boolean actualizarProducto(Producto producto) {
+    public static boolean actualizarProducto(Producto producto) {
         try {
 //            String consulta = "update productos\n"
 //                    + "set \n"
@@ -100,8 +105,11 @@ public class ProductoDao {
 
             String consulta = "UPDATE productos SET prod_nombre =  ?, prod_precio_compra =  ?, prod_precio_venta =  ?, prod_cantidad =  ?, prod_descripcion = ? WHERE prod_id=? returning *";
 
-            con = Conexion.getConexion();
-            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+            //con = Conexion.getDataSource().getConnection();
+            conexion = conexion.objConexion();
+            //con = conexion.getConexion();
+            Connection connection = conexion.getConexion();
+            pst = connection.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
             pst.setString(1, producto.getNombre());
@@ -116,8 +124,12 @@ public class ProductoDao {
             System.out.println("desc" + pst);
             pst.setInt(6, producto.getId());
             System.out.println("id" + pst);
-
             rs = pst.executeQuery();
+
+            pst.close();
+            rs.close();
+            connection.close();
+
             return true;
 
         } catch (SQLException ex) {
@@ -125,11 +137,17 @@ public class ProductoDao {
                     .getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                if (con != null) {
-                    pst.close();
-                    rs.close();
-                    con.close();
-                }
+//                if (con != null) {
+//                    pst.close();
+//                    rs.close();
+//                    con.close();
+//                    conexion.getClose();
+//                }
+                pst.close();
+                rs.close();
+                //con.close();
+                conexion.getClose();
+
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
