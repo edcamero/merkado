@@ -22,7 +22,7 @@ public class ProductoDao {
     }
 
     //GUARDAR PRODUCTO
-    public boolean Guardar(Producto producto) {
+    public boolean registrarProductos(Producto producto) {
 
         boolean resultado = false;
 
@@ -31,7 +31,6 @@ public class ProductoDao {
         String consulta = "INSERT INTO public.productos(\n"
                 + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion)\n"
                 + "	VALUES (?, ?, ?, ?, ?) returning prod_id;";
-
         try {
 
             con = conexion.objConexion().getConexion();
@@ -58,11 +57,9 @@ public class ProductoDao {
                     con.close();
                 }
             } catch (SQLException ex) {
-
                 JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
-
         }
         return resultado;
     }
@@ -72,7 +69,6 @@ public class ProductoDao {
         ArrayList<Producto> lista = new ArrayList();
         String consulta = "select * FROM productos ORDER BY prod_id;";
         try {
-
             //con = Conexion.getConexion();
             conexion = conexion.objConexion();
             Connection connection = conexion.getConexion();
@@ -80,7 +76,6 @@ public class ProductoDao {
             pst = connection.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
-
             while (rs.next()) {
                 Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
                 lista.add(P);
@@ -105,7 +100,6 @@ public class ProductoDao {
 //                    + "where prod_id=? returning *";
 
             String consulta = "UPDATE productos SET prod_nombre =  ?, prod_precio_compra =  ?, prod_precio_venta =  ?, prod_cantidad =  ?, prod_descripcion = ? WHERE prod_id=? returning *";
-
             //con = Conexion.getDataSource().getConnection();
             conexion = conexion.objConexion();
             //con = conexion.getConexion();
@@ -158,13 +152,12 @@ public class ProductoDao {
                     + "WHERE prod_id = ?";
             conexion = conexion.objConexion();
             Connection connection = conexion.getConexion();
-            pst = connection.prepareStatement(consulta,ResultSet.TYPE_SCROLL_SENSITIVE,
+            pst = connection.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
             pst.setInt(1, prod_id);
-            
-            
-            if (pst.executeUpdate()>0) {
+
+            if (pst.executeUpdate() > 0) {
                 return true;
             }
             connection.close();
@@ -183,46 +176,5 @@ public class ProductoDao {
             }
         }
         return false;
-
-//            String consulta = "update productos\n"
-//                    + "set \n"
-//                    + "prod_nombre=?,\n"
-//                    + "prod_precio_compra=?,\n"
-//                    + "prod_precio_venta=?,\n"
-//                    + "prod_cantidad=?,\n"
-//                    + "prod_descripcion=?\n"
-//                    + "where prod_id=? returning *";
-//            String consulta = "UPDATE productos SET prod_nombre =  ?, prod_precio_compra =  ?, prod_precio_venta =  ?, prod_cantidad =  ?, prod_descripcion = ? WHERE prod_id=? returning *";
-//
-//            //con = Conexion.getDataSource().getConnection();
-//            conexion = conexion.objConexion();
-//            //con = conexion.getConexion();
-//            Connection connection = conexion.getConexion();
-//            pst = connection.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
-//                    ResultSet.CONCUR_UPDATABLE);
-//
-//            rs = pst.executeQuery();
-//
-//            pst.close();
-//            rs.close();
-//            connection.close();
-//
-//            return true;
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ProductoDao.class
-//                    .getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            try {
-//                pst.close();
-//                rs.close();
-//                conexion.getClose();
-//
-//            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
-//                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }
-//        return false;
     }
 }

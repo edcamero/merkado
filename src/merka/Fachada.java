@@ -1,6 +1,7 @@
 package merka;
 
 import VO.Producto;
+import VO.TipoProducto;
 import java.util.ArrayList;
 
 public class Fachada {
@@ -42,5 +43,9 @@ public class Fachada {
     public boolean eliminarProducto(int prod_id){
         return mediador.eliminarProducto(prod_id);
     }
-
+    
+    //TIPO PRODUCTO
+    public boolean registrarTipoProducto(TipoProducto tipoProducto) {
+        return mediador.registrarTipoProducto(tipoProducto);
+    }
 }
