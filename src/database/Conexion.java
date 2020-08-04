@@ -9,14 +9,26 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 public class Conexion {
 
-    private static BasicDataSource ds = null;
+    private static BasicDataSource ds;
+    private static Conexion conexion;
+    private static Connection connection;
 
-    public static DataSource getDataSource() {
+    public Conexion() {
+    }
+
+    public Conexion objConexion() {
+        if (conexion == null) {
+            conexion = new Conexion();
+            return conexion;
+        } else {
+            return conexion;
+        }
+    }
+
+    public DataSource getDataSource() {
         if (ds == null) {
             ds = new BasicDataSource();
-
             ds.setDriverClassName("org.postgresql.Driver");
-
             ds.setUsername("postgres");
             ds.setPassword("1234");
             ds.setUrl("jdbc:postgresql://localhost:5432/merka");
@@ -24,14 +36,24 @@ public class Conexion {
             ds.setInitialSize(1);// 2 Conexiones iniciales
             ds.setMaxIdle(2);
             ds.setMaxTotal(2);
+
             ds.setMaxWaitMillis(2000);
             
             System.out.println("conecto");
-        }
+
         return ds;
     }
 
-    public static Connection getConexion() throws SQLException {
-        return getDataSource().getConnection();
+    public Connection getConexion() throws SQLException {
+        connection = getDataSource().getConnection();
+        return connection;
+    }
+
+    public void getClose() {
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+
+        }
     }
 }

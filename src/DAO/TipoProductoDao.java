@@ -24,48 +24,38 @@ public class TipoProductoDao {
     private Connection con;
     private PreparedStatement pst;
     private ResultSet rs;
+    private Conexion conexion;
 
     public boolean Guardar(TipoProducto tipoProducto) {
         boolean resultado = false;
         String consulta = "INSERT INTO public.tipo_productos(\n"
                 + "	tipr_nombre, tipr_descripcion)\n"
                 + "	VALUES ( ?, ?) returning tipr_id;";
-        
+
         try {
-            con = Conexion.getConexion();
+            //con = Conexion.getConexion();
             PreparedStatement psql = con.prepareStatement(consulta);
             psql.setString(1, tipoProducto.getNombre());
             psql.setString(2, tipoProducto.getDescripcion());
-            
+
             rs = pst.executeQuery();
             while (rs.next()) {
                 tipoProducto.setId(rs.getInt("tipr_id"));
-                resultado=true;
+                resultado = true;
             }
         } catch (SQLException ex) {
             Logger.getLogger(TipoProductoDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally {
-
+        } finally {
             try {
-
                 if (con != null) {
-
                     con.close();
-
                 }
-
             } catch (SQLException ex) {
 
                 JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-
             }
-
         }
-
-            
         return resultado;
     }
-
 }

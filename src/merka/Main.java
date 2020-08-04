@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class Main {
 
     private static Connection connection = null;
+    private static Conexion conexion;
 
     public static void main(String[] args) {
         System.out.println("hola bb");
@@ -32,7 +33,8 @@ public class Main {
     }
 
     private static Connection getConnection() throws SQLException {
-        return Conexion.getConexion();
+        //return Conexion.getConexion();
+        return conexion.objConexion().getConexion();
     }
 
 }

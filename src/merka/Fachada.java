@@ -38,5 +38,9 @@ public class Fachada {
     public boolean actualizarProducto(Producto producto){
         return mediador.actualizarProducto(producto);
     }
+    
+    public boolean eliminarProducto(int prod_id){
+        return mediador.eliminarProducto(prod_id);
+    }
 
 }
