@@ -47,5 +47,19 @@ public class Mediador {
     public boolean registrarTipoProducto(TipoProducto tipoProducto) {
         return tipoProductoDao.registrarTipoProducto(tipoProducto);
     }
+    
+    public ArrayList<TipoProducto> obtenerTipoProductos() {
+        ArrayList<TipoProducto> lista = new ArrayList<TipoProducto>();
+        lista = tipoProductoDao.obtenerTipoProductos();
+        return lista;
+    }
+    
+    public boolean actualizarTipoProducto(TipoProducto tipoProducto) {
+        return tipoProductoDao.actualizarTipoProducto(tipoProducto);
+    }
+    
+    public boolean eliminarTipoProducto(int tipr_id){
+        return tipoProductoDao.eliminarTipoProducto(tipr_id);
+    }
 
 }
