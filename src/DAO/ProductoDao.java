@@ -25,8 +25,6 @@ public class ProductoDao {
 
         boolean resultado = false;
 
-        Connection con = null;
-
         String consulta = "INSERT INTO public.productos(\n"
                 + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion)\n"
                 + "	VALUES (?, ?, ?, ?, ?) returning prod_id;";
@@ -35,37 +33,60 @@ public class ProductoDao {
 
             con = Conexion.getConexion();
 
-            PreparedStatement psql = con.prepareStatement(consulta);
-            psql.setString(1, producto.getNombre());
-            psql.setInt(2, producto.getPrecioCompra());
-            psql.setInt(3, producto.getPrecioVenta());
-            psql.setInt(4, producto.getCantidad());
-            psql.setString(5, producto.getDescripcion());
+            pst = con.prepareStatement(consulta);
+            pst.setString(1, producto.getNombre());
+            pst.setInt(2, producto.getPrecioCompra());
+            pst.setInt(3, producto.getPrecioVenta());
+            pst.setInt(4, producto.getCantidad());
+            pst.setString(5, producto.getDescripcion());
 
-            rs = psql.executeQuery();
+            rs = pst.executeQuery();
+            System.out.println("ejecuto consulta");
+            System.out.println(con.getCatalog());
             while (rs.next()) {
                 producto.setId(rs.getInt("prod_id"));
-                resultado = true;
+
             }
-            psql.close();
+
+            resultado = true;
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al intentar almacenar la información:\n"
                     + e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+
         } finally {
-            try {
-                if (con != null) {
-                    con.close();
+           
+
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+                } catch (Exception e) {
                 }
-            } catch (SQLException ex) {
+                try {
+                    if (pst != null) {
+                        pst.close();
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if (con != null) {
+                        con.close();
+                    }
+                } catch (Exception e) {
+                System.out.println("estamos cerrando la conexion por su bien ");
+
+            
 
                 JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
-                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+                        + e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
 
         }
+        
+    
         return resultado;
     }
-
 //OBTENER LOS PRODUCTOS
     public ArrayList<Producto> obtenerProductos() {
         ArrayList<Producto> lista = new ArrayList();
