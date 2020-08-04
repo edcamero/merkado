@@ -100,7 +100,6 @@ public class Productos extends javax.swing.JFrame {
         } else {
             tr.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); //busca por codigo
         }
-
     }
 
     public void validar(int metodo) {
