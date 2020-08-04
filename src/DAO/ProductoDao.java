@@ -107,6 +107,8 @@ public class ProductoDao {
             }
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         }
         finally{
             try {
