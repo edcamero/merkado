@@ -3,7 +3,7 @@ package VO;
 public class Usuario {
 
     private String usuario, password;
-    private int idTipoUsuario;
+    private int idTipoUsuario,id;
     private TipoUsuario tipoUsuario;
 
     public Usuario() {
@@ -47,6 +47,15 @@ public class Usuario {
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     
     
 

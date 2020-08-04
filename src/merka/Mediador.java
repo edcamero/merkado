@@ -7,6 +7,7 @@ import DAO.UsuarioDao;
 import VO.Producto;
 import VO.TipoProducto;
 import VO.TipoUsuario;
+import VO.Usuario;
 import java.util.ArrayList;
 
 public class Mediador {
@@ -72,5 +73,10 @@ public class Mediador {
         return tipoUsuarioDao.obtenerTipoUsuario();
     }
     
+    
+    //metodos de Usuario
+    public boolean registrarUsuario(Usuario usuario){
+        return usuarioDao.registrar(usuario);
+    }
 
 }

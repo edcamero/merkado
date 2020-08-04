@@ -36,7 +36,7 @@ CREATE TRIGGER tr_u_productos
  AFTER UPDATE ON productos
  FOR EACH ROW EXECUTE PROCEDURE ftr_u_productos();
  
- 
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------
  --funcion auditoria al borrar productos 
  CREATE OR REPLACE  FUNCTION ftr_d_productos() RETURNS TRIGGER AS $$
 BEGIN

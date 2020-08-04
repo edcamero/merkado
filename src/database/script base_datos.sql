@@ -1,8 +1,11 @@
+DROP TABLE IF EXISTS tipo_usuarios;
 DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS tipo_productos;
 DROP TABLE IF EXISTS _tipo_productos;
 DROP TABLE IF EXISTS _productos;
+DROP TABLE IF EXISTS _tipo_usuarios;
+DROP TABLE IF EXISTS _usuarios;
 
 CREATE TABLE TIPO_USUARIOS(
 tius_id SERIAL,
@@ -18,24 +21,26 @@ INSERT INTO public.tipo_usuarios(
 
 CREATE TABLE USUARIOS(
    user_id SERIAL,
-   username VARCHAR(40) NOT NULL, 
+   username VARCHAR(40) NOT NULL UNIQUE, 
    password VARCHAR(40) NOT NULL,
-   CONSTRAINT usuarios_pk PRIMARY KEY(user_id)
+   tius_id INT NOT NULL,
+   CONSTRAINT usuarios_pk PRIMARY KEY(user_id),
+   CONSTRAINT user_tius_fk foreign key(tius_id) references TIPO_USUARIOS(tius_id)
 );
 
-INSERT INTO public.usuarios(username, password)VALUES ('admin', 'admin');
+INSERT INTO public.usuarios(username, password,tius_id)VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3',1);
 
 
 CREATE TABLE TIPO_PRODUCTOS(
 tipr_id SERIAL,
-tipr_nombre VARCHAR(40),
+tipr_nombre VARCHAR(40) UNIQUE,
 tipr_descripcion VARCHAR(200),
 CONSTRAINT tipo_productos_pk PRIMARY KEY(tipr_id)
 );
 
 CREATE TABLE PRODUCTOS(
    prod_id SERIAL,
-   prod_nombre VARCHAR(40) NOT NULL, 
+   prod_nombre VARCHAR(40) NOT NULL UNIQUE, 
    prod_precio_compra INT NOT NULL,
    prod_precio_venta INT NOT NULL,
    prod_cantidad INT NOT NULL,

@@ -148,8 +148,11 @@ public class AddUsuario extends javax.swing.JFrame {
             TipoUsuario tipoUsuario=tiposUsuarios.get(selectTipoUsuario-1);
             username=txtNombre.getText();
             password=DigestUtils.md5Hex(txtConfirPassword.getText());
-            Usuario user=new Usuario(username,password);
+            Usuario user=new Usuario(username,password,tipoUsuario);
             System.out.println(password);
+            if(Fachada.getInstancia().registrarUsuario(user)){
+                JOptionPane.showMessageDialog(this, "Se ha registrado el Usuario con exito");
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

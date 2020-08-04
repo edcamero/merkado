@@ -38,8 +38,6 @@ public class ProductoDao {
             pst.setString(5, producto.getDescripcion());
 
             rs = pst.executeQuery();
-            System.out.println("ejecuto consulta");
-            System.out.println(con.getCatalog());
             while (rs.next()) {
                 producto.setId(rs.getInt("prod_id"));
             }

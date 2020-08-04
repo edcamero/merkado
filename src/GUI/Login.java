@@ -8,6 +8,7 @@ package GUI;
 import javax.swing.JOptionPane;
 import merka.Fachada;
 import merka.Fachada;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -29,7 +30,7 @@ public class Login extends javax.swing.JFrame {
 
     private void consultarUsuario() {
         this.usuario = txtUsuario.getText().trim();
-        this.password = txtPassword.getText().trim();
+        this.password = DigestUtils.md5Hex(txtPassword.getText().trim());
     }
 
     public void limpiar() {

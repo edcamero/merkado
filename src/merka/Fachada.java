@@ -3,6 +3,7 @@ package merka;
 import VO.Producto;
 import VO.TipoProducto;
 import VO.TipoUsuario;
+import VO.Usuario;
 import java.util.ArrayList;
 
 public class Fachada {
@@ -66,5 +67,12 @@ public class Fachada {
     
     public ArrayList<TipoUsuario> obtenerTipoUsuario(){
         return mediador.obtenerTipoUsuarios();
+    }
+    
+    
+    //USUARIO
+    
+    public boolean registrarUsuario(Usuario usuario){
+        return mediador.registrarUsuario(usuario);
     }
 }
