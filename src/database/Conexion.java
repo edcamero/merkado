@@ -13,10 +13,10 @@ public class Conexion {
     private static Conexion conexion;
     private static Connection connection;
 
-    public Conexion() {
+    private Conexion() {
     }
 
-    public Conexion objConexion() {
+    public static Conexion objConexion() {
         if (conexion == null) {
             conexion = new Conexion();
             return conexion;
@@ -51,11 +51,5 @@ public class Conexion {
         return connection;
     }
 
-    public void getClose() {
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-
-        }
-    }
+   
 }

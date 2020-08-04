@@ -13,10 +13,9 @@ import javax.swing.JOptionPane;
 
 public class ProductoDao {
 
-    //private static Connection con;
+    private static Connection con;
     private static PreparedStatement pst;
     private static ResultSet rs;
-    private static Conexion conexion = new Conexion();
 
     public ProductoDao() {
     }
@@ -32,13 +31,13 @@ public class ProductoDao {
         try {
 
 
-            con = conexion.objConexion().getConexion();
-            PreparedStatement psql = con.prepareStatement(consulta);
-            psql.setString(1, producto.getNombre());
-            psql.setInt(2, producto.getPrecioCompra());
-            psql.setInt(3, producto.getPrecioVenta());
-            psql.setInt(4, producto.getCantidad());
-            psql.setString(5, producto.getDescripcion());
+            con = Conexion.objConexion().getConexion();
+            PreparedStatement pst = con.prepareStatement(consulta);
+            pst.setString(1, producto.getNombre());
+            pst.setInt(2, producto.getPrecioCompra());
+            pst.setInt(3, producto.getPrecioVenta());
+            pst.setInt(4, producto.getCantidad());
+            pst.setString(5, producto.getDescripcion());
 
 
             rs = pst.executeQuery();
@@ -53,7 +52,7 @@ public class ProductoDao {
             resultado = true;
 
 
-            psql.close();
+            pst.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al intentar almacenar la información:\n"
@@ -66,7 +65,7 @@ public class ProductoDao {
                     if (rs != null) {
                         rs.close();
                     }
-                } catch (Exception e) {
+                } catch (SQLException e) {
                 }
 
                 try {
@@ -85,9 +84,6 @@ public class ProductoDao {
             
 
 
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
-                        + e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
         }
         
@@ -100,19 +96,26 @@ public class ProductoDao {
         String consulta = "select * FROM productos ORDER BY prod_id;";
         try {
             //con = Conexion.getConexion();
-            conexion = conexion.objConexion();
-            Connection connection = conexion.getConexion();
+            con=Conexion.objConexion().getConexion();
             //con = conexion.getConexion();
-            pst = connection.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
                 Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
                 lista.add(P);
             }
-            connection.close();
-            conexion.getClose();
+            
         } catch (SQLException ex) {
+        }
+        finally{
+            try {
+                rs.close();
+                pst.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return lista;
     }
@@ -131,10 +134,8 @@ public class ProductoDao {
 
             String consulta = "UPDATE productos SET prod_nombre =  ?, prod_precio_compra =  ?, prod_precio_venta =  ?, prod_cantidad =  ?, prod_descripcion = ? WHERE prod_id=? returning *";
             //con = Conexion.getDataSource().getConnection();
-            conexion = conexion.objConexion();
-            //con = conexion.getConexion();
-            Connection connection = conexion.getConexion();
-            pst = connection.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+            con=Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
             pst.setString(1, producto.getNombre());
@@ -153,7 +154,7 @@ public class ProductoDao {
 
             pst.close();
             rs.close();
-            connection.close();
+            con.close();
 
             return true;
 
@@ -164,7 +165,6 @@ public class ProductoDao {
             try {
                 pst.close();
                 rs.close();
-                conexion.getClose();
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
@@ -180,9 +180,8 @@ public class ProductoDao {
         try {
             String consulta = "DELETE FROM productos "
                     + "WHERE prod_id = ?";
-            conexion = conexion.objConexion();
-            Connection connection = conexion.getConexion();
-            pst = connection.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+            con=Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
             pst.setInt(1, prod_id);
@@ -190,7 +189,7 @@ public class ProductoDao {
             if (pst.executeUpdate() > 0) {
                 return true;
             }
-            connection.close();
+            con.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -199,7 +198,7 @@ public class ProductoDao {
             try {
                 pst.close();
                 rs.close();
-                conexion.getClose();
+                con.close();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);

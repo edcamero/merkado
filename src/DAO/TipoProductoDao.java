@@ -24,7 +24,7 @@ public class TipoProductoDao {
     private Connection con;
     private PreparedStatement pst;
     private ResultSet rs;
-    private Conexion conexion = new Conexion();
+   
 
     public boolean registrarTipoProducto(TipoProducto tipoProducto) {
         System.out.println("aaa");
@@ -35,7 +35,7 @@ public class TipoProductoDao {
                 + "	VALUES ( ?, ?) returning tipr_id;";
 
         try {
-            con = conexion.objConexion().getConexion();
+            con = Conexion.objConexion().getConexion();
             PreparedStatement psql = con.prepareStatement(consulta);
             psql.setString(1, tipoProducto.getNombre());
             psql.setString(2, tipoProducto.getDescripcion());
