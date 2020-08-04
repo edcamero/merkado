@@ -11,6 +11,11 @@ tius_descripcion VARCHAR(100) NOT NULL,
 CONSTRAINT tipo_usuario_pk PRIMARY KEY(tius_id)
 );
 
+INSERT INTO public.tipo_usuarios(
+	 tius_nombre, tius_descripcion)
+	VALUES ( 'admin', 'administrador del sistema'),
+	('cajero','cajero de turno en el almacen');
+
 CREATE TABLE USUARIOS(
    user_id SERIAL,
    username VARCHAR(40) NOT NULL, 

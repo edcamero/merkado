@@ -2,6 +2,7 @@ package merka;
 
 import VO.Producto;
 import VO.TipoProducto;
+import VO.TipoUsuario;
 import java.util.ArrayList;
 
 public class Fachada {
@@ -31,9 +32,7 @@ public class Fachada {
     }
 
     public ArrayList<Producto> obtenerProductos() {
-        ArrayList<Producto> lista = new ArrayList<Producto>();
-        lista = mediador.obtenerProductos();
-        return lista;
+        return mediador.obtenerProductos();
     }
     
     public boolean actualizarProducto(Producto producto){
@@ -50,9 +49,7 @@ public class Fachada {
     }
     
     public ArrayList<TipoProducto> obtenerTipoProductos() {
-        ArrayList<TipoProducto> lista = new ArrayList<TipoProducto>();
-        lista = mediador.obtenerTipoProductos();
-        return lista;
+        return mediador.obtenerTipoProductos();
     }
     
     public boolean actualizarTipoProducto(TipoProducto tipoProducto) {
@@ -61,5 +58,13 @@ public class Fachada {
     
     public boolean eliminarTipoProducto(int tipr_id){
         return mediador.eliminarTipoProducto(tipr_id);
+    }
+    
+    
+    //TIPO USUARIO
+    
+    
+    public ArrayList<TipoUsuario> obtenerTipoUsuario(){
+        return mediador.obtenerTipoUsuarios();
     }
 }

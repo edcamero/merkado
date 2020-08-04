@@ -2,13 +2,15 @@ package merka;
 
 import DAO.ProductoDao;
 import DAO.TipoProductoDao;
+import DAO.TipoUsuarioDao;
 import DAO.UsuarioDao;
 import VO.Producto;
 import VO.TipoProducto;
+import VO.TipoUsuario;
 import java.util.ArrayList;
 
 public class Mediador {
-
+    TipoUsuarioDao tipoUsuarioDao;
     UsuarioDao usuarioDao;
     ProductoDao productoDao;
     TipoProductoDao tipoProductoDao;
@@ -17,6 +19,7 @@ public class Mediador {
         usuarioDao = new UsuarioDao();
         productoDao = new ProductoDao();
         tipoProductoDao = new TipoProductoDao();
+        tipoUsuarioDao=new TipoUsuarioDao();
     }
 
     public boolean login(String username, String pass) {
@@ -44,13 +47,14 @@ public class Mediador {
     }
     
     //TIPO PRODUCTOS
+    
     public boolean registrarTipoProducto(TipoProducto tipoProducto) {
         return tipoProductoDao.registrarTipoProducto(tipoProducto);
     }
     
     public ArrayList<TipoProducto> obtenerTipoProductos() {
-        ArrayList<TipoProducto> lista = new ArrayList<TipoProducto>();
-        lista = tipoProductoDao.obtenerTipoProductos();
+        ArrayList<TipoProducto> lista =tipoProductoDao.obtenerTipoProductos();
+        
         return lista;
     }
     
@@ -61,5 +65,12 @@ public class Mediador {
     public boolean eliminarTipoProducto(int tipr_id){
         return tipoProductoDao.eliminarTipoProducto(tipr_id);
     }
+    
+    //metodos de Tipo Usuario
+    
+    public ArrayList<TipoUsuario> obtenerTipoUsuarios(){
+        return tipoUsuarioDao.obtenerTipoUsuario();
+    }
+    
 
 }

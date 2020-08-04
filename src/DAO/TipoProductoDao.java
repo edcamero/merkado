@@ -96,7 +96,13 @@ public class TipoProductoDao {
     }
 
     //ACUTLIZAR EL TIPO DE PRODUCTO
-    public static boolean actualizarTipoProducto(TipoProducto tipoProducto) {
+
+    /**
+     *
+     * @param tipoProducto
+     * @return
+     */
+    public  boolean actualizarTipoProducto(TipoProducto tipoProducto) {
 
         try {
 //            String consulta = "update productos\n"
@@ -142,7 +148,7 @@ public class TipoProductoDao {
     }
     
     //ELIMINAR TIPO DE PRODUCTO
-    public static boolean eliminarTipoProducto(int tipr_id) {
+    public  boolean eliminarTipoProducto(int tipr_id) {
         try {
             String consulta = "DELETE FROM tipo_productos "
                     + "WHERE tipr_id = ?";

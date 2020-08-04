@@ -85,7 +85,8 @@ public class ProductoDao {
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
+                Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3)
+                        , rs.getInt(4), rs.getInt(5), rs.getString(6));
                 lista.add(P);
             }
 

@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package merka;
+package GUI;
 
 import javax.swing.JOptionPane;
+import merka.Fachada;
+import merka.Fachada;
 
 /**
  *
