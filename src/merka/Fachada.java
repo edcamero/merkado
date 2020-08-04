@@ -48,4 +48,18 @@ public class Fachada {
     public boolean registrarTipoProducto(TipoProducto tipoProducto) {
         return mediador.registrarTipoProducto(tipoProducto);
     }
+    
+    public ArrayList<TipoProducto> obtenerTipoProductos() {
+        ArrayList<TipoProducto> lista = new ArrayList<TipoProducto>();
+        lista = mediador.obtenerTipoProductos();
+        return lista;
+    }
+    
+    public boolean actualizarTipoProducto(TipoProducto tipoProducto) {
+        return mediador.actualizarTipoProducto(tipoProducto);
+    }
+    
+    public boolean eliminarTipoProducto(int tipr_id){
+        return mediador.eliminarTipoProducto(tipr_id);
+    }
 }

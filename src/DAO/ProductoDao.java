@@ -29,8 +29,6 @@ public class ProductoDao {
                 + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion)\n"
                 + "	VALUES (?, ?, ?, ?, ?) returning prod_id;";
         try {
-
-
             con = Conexion.objConexion().getConexion();
             PreparedStatement pst = con.prepareStatement(consulta);
             pst.setString(1, producto.getNombre());
@@ -39,64 +37,49 @@ public class ProductoDao {
             pst.setInt(4, producto.getCantidad());
             pst.setString(5, producto.getDescripcion());
 
-
             rs = pst.executeQuery();
             System.out.println("ejecuto consulta");
             System.out.println(con.getCatalog());
             while (rs.next()) {
                 producto.setId(rs.getInt("prod_id"));
-
             }
-
-
             resultado = true;
-
-
             pst.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al intentar almacenar la información:\n"
                     + e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-
         } finally {
-           
-
-                try {
-                    if (rs != null) {
-                        rs.close();
-                    }
-                } catch (SQLException e) {
+            try {
+                if (rs != null) {
+                    rs.close();
                 }
-
-                try {
-                    if (pst != null) {
-                        pst.close();
-                    }
-                } catch (Exception e) {
+            } catch (SQLException e) {
+            }
+            try {
+                if (pst != null) {
+                    pst.close();
                 }
-                try {
-                    if (con != null) {
-                        con.close();
-                    }
-                } catch (Exception e) {
+            } catch (Exception e) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
                 System.out.println("estamos cerrando la conexion por su bien ");
-
-            
-
-
             }
         }
-        
-    
         return resultado;
     }
 //OBTENER LOS PRODUCTOS
+
     public ArrayList<Producto> obtenerProductos() {
         ArrayList<Producto> lista = new ArrayList();
         String consulta = "select * FROM productos ORDER BY prod_id;";
         try {
             //con = Conexion.getConexion();
-            con=Conexion.objConexion().getConexion();
+            con = Conexion.objConexion().getConexion();
             //con = conexion.getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -105,12 +88,11 @@ public class ProductoDao {
                 Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
                 lista.add(P);
             }
-            
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"
                     + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-        }
-        finally{
+        } finally {
             try {
                 rs.close();
                 pst.close();
@@ -136,7 +118,7 @@ public class ProductoDao {
 
             String consulta = "UPDATE productos SET prod_nombre =  ?, prod_precio_compra =  ?, prod_precio_venta =  ?, prod_cantidad =  ?, prod_descripcion = ? WHERE prod_id=? returning *";
             //con = Conexion.getDataSource().getConnection();
-            con=Conexion.objConexion().getConexion();
+            con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
@@ -182,7 +164,7 @@ public class ProductoDao {
         try {
             String consulta = "DELETE FROM productos "
                     + "WHERE prod_id = ?";
-            con=Conexion.objConexion().getConexion();
+            con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 

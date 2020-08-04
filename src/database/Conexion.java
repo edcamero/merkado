@@ -30,7 +30,7 @@ public class Conexion {
             ds = new BasicDataSource();
             ds.setDriverClassName("org.postgresql.Driver");
             ds.setUsername("postgres");
-            ds.setPassword("1234");
+            ds.setPassword("fuentes");
             ds.setUrl("jdbc:postgresql://localhost:5432/merka");
             // Definimos el tamano del pool de conexiones
             ds.setInitialSize(1);// 2 Conexiones iniciales
@@ -38,14 +38,11 @@ public class Conexion {
             ds.setMaxTotal(2);
 
             ds.setMaxWaitMillis(2000);
-            
             System.out.println("conecto");
-
-        
         }
         return ds;
     }
-
+    
     public Connection getConexion() throws SQLException {
         connection = getDataSource().getConnection();
         return connection;
