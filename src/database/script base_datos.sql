@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS tipo_usuarios;
 DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS tipo_usuarios;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS tipo_productos;
 DROP TABLE IF EXISTS _tipo_productos;
@@ -14,10 +14,7 @@ tius_descripcion VARCHAR(100) NOT NULL,
 CONSTRAINT tipo_usuario_pk PRIMARY KEY(tius_id)
 );
 
-INSERT INTO public.tipo_usuarios(
-	 tius_nombre, tius_descripcion)
-	VALUES ( 'admin', 'administrador del sistema'),
-	('cajero','cajero de turno en el almacen');
+INSERT INTO public.tipo_usuarios(tius_nombre, tius_descripcion) VALUES ( 'admin', 'administrador del sistema'), ('cajero','cajero de turno en el almacen');
 
 CREATE TABLE USUARIOS(
    user_id SERIAL,
@@ -36,6 +33,7 @@ tipr_id SERIAL,
 tipr_nombre VARCHAR(40) UNIQUE,
 tipr_descripcion VARCHAR(200),
 CONSTRAINT tipo_productos_pk PRIMARY KEY(tipr_id)
+
 );
 
 CREATE TABLE PRODUCTOS(
@@ -45,7 +43,9 @@ CREATE TABLE PRODUCTOS(
    prod_precio_venta INT NOT NULL,
    prod_cantidad INT NOT NULL,
    prod_descripcion VARCHAR(200),
-   CONSTRAINT productos_pk PRIMARY KEY(prod_id)
+   fk_tipr_id INT NOT NULL,
+   CONSTRAINT productos_pk PRIMARY KEY(prod_id),
+   FOREIGN KEY(fk_tipr_id) REFERENCES TIPO_PRODUCTOS(tipr_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 ------------------------------

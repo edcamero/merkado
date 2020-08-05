@@ -27,7 +27,8 @@ public class Fachada {
         return mediador.login(username, pass);
     }
 
-    //producto
+    //*******************************producto***************
+    
     public boolean registrarProducto(Producto producto) {
         return mediador.registrarProducto(producto);
     }
@@ -44,13 +45,18 @@ public class Fachada {
         return mediador.eliminarProducto(prod_id);
     }
     
-    //TIPO PRODUCTO
+    //*******************************TIPO PRODUCTO*****************
+    
     public boolean registrarTipoProducto(TipoProducto tipoProducto) {
         return mediador.registrarTipoProducto(tipoProducto);
     }
     
     public ArrayList<TipoProducto> obtenerTipoProductos() {
         return mediador.obtenerTipoProductos();
+    }
+    
+    public TipoProducto obtenerTipoProducto(String tipr_nombre) {
+        return mediador.obtenerTipoProducto(tipr_nombre);
     }
     
     public boolean actualizarTipoProducto(TipoProducto tipoProducto) {

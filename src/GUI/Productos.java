@@ -6,6 +6,7 @@
 package GUI;
 
 import VO.Producto;
+import VO.TipoProducto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -23,6 +24,7 @@ public class Productos extends javax.swing.JFrame {
     String nombre, descripcion;
     int precioCompra, precioVenta, cantidad;
     Producto producto = null;
+    TipoProducto tipoProducto = new TipoProducto();
     int prod_id = 0;
     private DefaultTableModel model;
     TableRowSorter<DefaultTableModel> tr;
@@ -32,7 +34,7 @@ public class Productos extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         txtNombre.setFocusable(true);
         cargar();
-
+        cargarBox();
     }
 
     private boolean registrarProducto() {
@@ -41,7 +43,11 @@ public class Productos extends javax.swing.JFrame {
         this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
         this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
         this.descripcion = txtDescripcion.getText().trim();
-        producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion);
+        System.out.println(boxTipoProducto.getSelectedItem().toString().trim());
+        this.tipoProducto = Fachada.getInstancia().obtenerTipoProducto(boxTipoProducto.getSelectedItem().toString().trim());
+        System.out.println(this.tipoProducto.getId());
+        System.out.println(this.tipoProducto.getNombre());
+        producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion,tipoProducto.getId());
         return (Fachada.getInstancia().registrarProducto(producto));
     }
 
@@ -51,7 +57,8 @@ public class Productos extends javax.swing.JFrame {
         this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
         this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
         this.descripcion = txtDescripcion.getText().trim();
-        Producto producto2 = new Producto(prod_id, nombre, precioCompra, precioVenta, cantidad, descripcion);
+        this.tipoProducto = Fachada.getInstancia().obtenerTipoProducto(boxBuscar.getSelectedItem().toString());
+        Producto producto2 = new Producto(prod_id, nombre, precioCompra, precioVenta, cantidad, descripcion, tipoProducto.getId());
         return (Fachada.getInstancia().actualizarProducto(producto2));
     }
 
@@ -87,6 +94,15 @@ public class Productos extends javax.swing.JFrame {
                 model.addRow(fila);
             }
             this.tablaProductos.setModel(model);
+        }
+    }
+
+    public void cargarBox() {
+        ArrayList<TipoProducto> tipoProductos = Fachada.getInstancia().obtenerTipoProductos();
+        if (tipoProductos.size() != 0) {
+            for (TipoProducto tipoProducto : tipoProductos) {
+                boxTipoProducto.addItem(tipoProducto.getNombre());
+            }
         }
     }
 
@@ -160,6 +176,8 @@ public class Productos extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtDescripcion = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        boxTipoProducto = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
@@ -218,6 +236,8 @@ public class Productos extends javax.swing.JFrame {
 
         jLabel5.setText("Descripción:");
 
+        jLabel6.setText("Tipo/Producto:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -242,10 +262,14 @@ public class Productos extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                            .addComponent(boxTipoProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -271,7 +295,11 @@ public class Productos extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(boxTipoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
@@ -517,6 +545,7 @@ public class Productos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxBuscar;
+    private javax.swing.JComboBox<String> boxTipoProducto;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
@@ -525,6 +554,7 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
