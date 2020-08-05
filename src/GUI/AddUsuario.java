@@ -9,6 +9,8 @@ import VO.TipoUsuario;
 import VO.Usuario;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import merka.Fachada;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -17,14 +19,37 @@ import org.apache.commons.codec.digest.DigestUtils;
  * @author USUARIO
  */
 public class AddUsuario extends javax.swing.JFrame {
-     ArrayList<TipoUsuario> tiposUsuarios;
-     String username,password;
+
+    ArrayList<TipoUsuario> tiposUsuarios;
+    String username, password;
+    private DefaultTableModel model;
+    TableRowSorter<DefaultTableModel> tr;
+
     /**
      * Creates new form AddUsuario
      */
     public AddUsuario() {
         initComponents();
         cargarTipoUsuario();
+        cargar();
+    }
+
+    private void cargar() {
+        ArrayList<Usuario> usuarios = Fachada.getInstancia().obtenerUsuarios();
+        String data[][] = {};
+        String col[] = {"ID", "USERNAME", "TIPO DE USUARIO"};
+        model = new DefaultTableModel(data, col);
+        if (usuarios.size() != 0) {
+            for (Usuario usuario : usuarios) {
+                Object[] fila = new Object[3];
+                fila[0] = usuario.getId();
+                fila[1] = usuario.getUsuario();
+                fila[2] = usuario.getTipoUsuario().getNombre();
+                model.addRow(fila);
+            }
+        }
+        tablaUsuario.setModel(model);
+
     }
 
     /**
@@ -36,6 +61,8 @@ public class AddUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         comboTipoUsuarios = new javax.swing.JComboBox<>();
@@ -46,6 +73,21 @@ public class AddUsuario extends javax.swing.JFrame {
         txtConfirPassword = new javax.swing.JPasswordField();
         txtPassword = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaUsuario = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,36 +101,24 @@ public class AddUsuario extends javax.swing.JFrame {
 
         jLabel4.setText("confirmar password:");
 
-        jButton1.setText("Agregar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboTipoUsuarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtConfirPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comboTipoUsuarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtConfirPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,10 +139,36 @@ public class AddUsuario extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtConfirPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jButton1.setText("Agregar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        tablaUsuario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "id", "nombre", "tipo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tablaUsuario);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,41 +176,63 @@ public class AddUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int selectTipoUsuario=comboTipoUsuarios.getSelectedIndex();
-        
-        if(selectTipoUsuario<1){
+        int selectTipoUsuario = comboTipoUsuarios.getSelectedIndex();
+
+        if (selectTipoUsuario < 1) {
             JOptionPane.showMessageDialog(this, "POR FAVOR SELECCIONE UN TIPO DE USUARIO");
-        }else if (txtNombre.getText().equals("")||txtPassword.getText().equals("")||txtConfirPassword.getText().equals("")){
+        } else if (txtNombre.getText().equals("") || txtPassword.getText().equals("") || txtConfirPassword.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "POR FAVOR LLENE TODOS LOS CAMPOS");
-        }else if (!txtPassword.getText().equals(txtConfirPassword.getText())){
+        } else if (!txtPassword.getText().equals(txtConfirPassword.getText())) {
             JOptionPane.showMessageDialog(this, "POR FAVOR CONFIRME LA CONTRASEÑA\n YA QUE NO COINCIDEN");
-        }
-        else{
-            TipoUsuario tipoUsuario=tiposUsuarios.get(selectTipoUsuario-1);
-            username=txtNombre.getText();
-            password=DigestUtils.md5Hex(txtConfirPassword.getText());
-            Usuario user=new Usuario(username,password,tipoUsuario);
-            System.out.println(password);
-            if(Fachada.getInstancia().registrarUsuario(user)){
+        } else {
+            TipoUsuario tipoUsuario = tiposUsuarios.get(selectTipoUsuario - 1);
+            username = txtNombre.getText();
+            password = DigestUtils.md5Hex(txtConfirPassword.getText());
+            Usuario user = new Usuario(username, password, tipoUsuario);
+            //System.out.println(password);
+            if (Fachada.getInstancia().registrarUsuario(user)) {
                 JOptionPane.showMessageDialog(this, "Se ha registrado el Usuario con exito");
+                limpiar();
+
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void limpiar() {
+        txtNombre.setText("");
+        txtPassword.setText("");
+        txtConfirPassword.setText("");
+        comboTipoUsuarios.setSelectedIndex(0);
+
+    }
 
     /**
      * @param args the command line arguments
@@ -190,14 +268,14 @@ public class AddUsuario extends javax.swing.JFrame {
             }
         });
     }
-    
-    private void cargarTipoUsuario(){
-        tiposUsuarios=Fachada.getInstancia().obtenerTipoUsuario();
+
+    private void cargarTipoUsuario() {
+        tiposUsuarios = Fachada.getInstancia().obtenerTipoUsuario();
         comboTipoUsuarios.addItem("Seleccione una opción");
-        for(TipoUsuario tipo:tiposUsuarios){
+        for (TipoUsuario tipo : tiposUsuarios) {
             comboTipoUsuarios.addItem(tipo.getNombre());
         }
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -208,6 +286,10 @@ public class AddUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaUsuario;
     private javax.swing.JPasswordField txtConfirPassword;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JPasswordField txtPassword;

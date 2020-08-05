@@ -75,4 +75,8 @@ public class Fachada {
     public boolean registrarUsuario(Usuario usuario){
         return mediador.registrarUsuario(usuario);
     }
+    
+    public ArrayList<Usuario> obtenerUsuarios(){
+        return mediador.obtenerUsuarios();
+    }
 }

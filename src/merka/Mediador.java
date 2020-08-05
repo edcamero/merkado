@@ -78,5 +78,9 @@ public class Mediador {
     public boolean registrarUsuario(Usuario usuario){
         return usuarioDao.registrar(usuario);
     }
+    
+    public ArrayList<Usuario> obtenerUsuarios(){
+        return usuarioDao.obtenerUsuarios();
+    }
 
 }

@@ -5,15 +5,18 @@
  */
 package DAO;
 
+import VO.TipoUsuario;
 import VO.Usuario;
 import database.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import merka.Fachada;
 
 /**
  *
@@ -83,15 +86,14 @@ public class UsuarioDao {
             while (rs.next()) {
                 usuario.setId(rs.getInt("user_id"));
             }
-            
+
             resultado = true;
             pst.close();
             rs.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al intentar almacenar la información:\n"
                     + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-        }
-        finally {
+        } finally {
             try {
                 if (rs != null) {
                     rs.close();
@@ -113,5 +115,45 @@ public class UsuarioDao {
             }
         }
         return resultado;
+    }
+
+    public ArrayList<Usuario> obtenerUsuarios() {
+        ArrayList<Usuario> lista = new ArrayList<Usuario>();
+        ArrayList<TipoUsuario> listaTipo=Fachada.getInstancia().obtenerTipoUsuario();
+        try {
+            
+            String consulta = "SELECT user_id, username,tius_id\n"
+                    + "	FROM public.usuarios where  user_activo=true;";
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {
+                TipoUsuario tipo=null;
+                for(TipoUsuario t:listaTipo){
+                    if(t.getId()==rs.getInt("tius_id")){
+                        tipo=t;
+                        break;
+                    }
+                }
+                Usuario usuario=new Usuario(rs.getInt("user_id"), rs.getString("username"),tipo);
+                lista.add(usuario);
+                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            try {
+                rs.close();
+                pst.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return lista;
     }
 }

@@ -1,5 +1,6 @@
-DROP TABLE IF EXISTS tipo_usuarios;
+
 DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS tipo_usuarios;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS tipo_productos;
 DROP TABLE IF EXISTS _tipo_productos;
@@ -24,6 +25,7 @@ CREATE TABLE USUARIOS(
    username VARCHAR(40) NOT NULL UNIQUE, 
    password VARCHAR(40) NOT NULL,
    tius_id INT NOT NULL,
+   user_activo boolean not null default TRUE,
    CONSTRAINT usuarios_pk PRIMARY KEY(user_id),
    CONSTRAINT user_tius_fk foreign key(tius_id) references TIPO_USUARIOS(tius_id)
 );
@@ -54,7 +56,7 @@ CREATE TABLE PRODUCTOS(
 
 --TABLA PARA AUDITORIA DE TIPO_PRODUCTOS
 CREATE TABLE _TIPO_USUARIOS(
-	tius_id SERIAL,
+	tius_id numeric,
 	tius_nombre VARCHAR(40) NOT NULL,
 	tius_descripcion VARCHAR(100) NOT NULL,
 	tius_fecha_operacion timestamp not null,
@@ -62,7 +64,7 @@ CREATE TABLE _TIPO_USUARIOS(
 );
 
 CREATE TABLE _USUARIOS(
-	user_id SERIAL,
+	user_id numeric,
 	username VARCHAR(40) NOT NULL, 
 	password VARCHAR(40) NOT NULL,   
 	user_fecha_operacion timestamp not null,
@@ -72,7 +74,7 @@ CREATE TABLE _USUARIOS(
 --TABLA PARA AUDITORIA DE TIPO_PRODUCTOS
 
 CREATE TABLE _TIPO_PRODUCTOS(
-	tipr_id SERIAL,
+	tipr_id numeric,
 	tipr_nombre VARCHAR(40),
 	tipr_descripcion VARCHAR(200),
 	tipr_fecha_operacion timestamp not null,

@@ -16,6 +16,15 @@ public class Usuario {
         this.idTipoUsuario=this.tipoUsuario.getId();
     }
 
+    public Usuario(int id,String usuario, TipoUsuario tipoUsuario) {
+        this.usuario = usuario;
+        this.tipoUsuario=tipoUsuario;
+        this.idTipoUsuario=this.tipoUsuario.getId();
+        this.id = id;
+    }
+    
+    
+
     public String getUsuario() {
         return usuario;
     }
