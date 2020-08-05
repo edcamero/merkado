@@ -38,6 +38,8 @@ CONSTRAINT tipo_productos_pk PRIMARY KEY(tipr_id)
 
 );
 
+INSERT INTO public.tipo_productos(tipr_nombre,tipr_descripcion) VALUES ('LACTEOS','LECHES YOGURT'),('ASEO','ARTICULOS PARA EL ASEO EN EL HOGAR');
+
 CREATE TABLE PRODUCTOS(
    prod_id SERIAL,
    prod_nombre VARCHAR(40) NOT NULL UNIQUE, 
