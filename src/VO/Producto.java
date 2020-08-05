@@ -8,22 +8,33 @@ public class Producto {
     private int precioVenta;
     private int cantidad;
     private String descripcion;
+    private int tipoProducto;
 
-    public Producto(String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion) {
+    public Producto(String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion, int tipoProducto) {
         this.nombre = nombre;
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.cantidad = cantidad;
         this.descripcion = descripcion;
+        this.tipoProducto = tipoProducto;
     }
 
-    public Producto(int id, String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion) {
+    public Producto(int id, String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion, int tipoProducto) {
         this.id = id;
         this.nombre = nombre;
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.cantidad = cantidad;
         this.descripcion = descripcion;
+        this.tipoProducto = tipoProducto;
+    }
+
+    public int getTipoProducto() {
+        return tipoProducto;
+    }
+
+    public void setTipoProducto(int tipoProducto) {
+        this.tipoProducto = tipoProducto;
     }
 
     public int getId() {

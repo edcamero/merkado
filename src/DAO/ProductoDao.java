@@ -26,16 +26,18 @@ public class ProductoDao {
         boolean resultado = false;
 
         String consulta = "INSERT INTO public.productos(\n"
-                + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion)\n"
-                + "	VALUES (?, ?, ?, ?, ?) returning prod_id;";
+                + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion, fk_tipr_id)\n"
+                + "	VALUES (?, ?, ?, ?, ?, ?) returning prod_id;";
         try {
             con = Conexion.objConexion().getConexion();
+
             PreparedStatement pst = con.prepareStatement(consulta);
             pst.setString(1, producto.getNombre());
             pst.setInt(2, producto.getPrecioCompra());
             pst.setInt(3, producto.getPrecioVenta());
             pst.setInt(4, producto.getCantidad());
             pst.setString(5, producto.getDescripcion());
+            pst.setInt(6, producto.getTipoProducto());
 
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -70,8 +72,8 @@ public class ProductoDao {
         }
         return resultado;
     }
-//OBTENER LOS PRODUCTOS
 
+    //OBTENER LOS PRODUCTOS
     public ArrayList<Producto> obtenerProductos() {
         ArrayList<Producto> lista = new ArrayList();
         String consulta = "select * FROM productos ORDER BY prod_id;";
@@ -83,8 +85,8 @@ public class ProductoDao {
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3)
-                        , rs.getInt(4), rs.getInt(5), rs.getString(6));
+                Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3),
+                         rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getInt(7));
                 lista.add(P);
             }
 
@@ -102,6 +104,8 @@ public class ProductoDao {
         }
         return lista;
     }
+    
+    
 
     //MODIFICAR PRODUCTOS
     public static boolean actualizarProducto(Producto producto) {

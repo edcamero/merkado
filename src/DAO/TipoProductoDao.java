@@ -94,6 +94,38 @@ public class TipoProductoDao {
         }
         return lista;
     }
+    
+    //OBTENER TIPO DE PRODUCTO
+    public TipoProducto obtenerTipoProducto(String tipr_nombre) {
+        TipoProducto tipoProducto = new TipoProducto();
+        String consulta = "select * FROM tipo_productos where tipr_nombre=?;";
+        try {
+            //con = Conexion.getConexion();
+            con = Conexion.objConexion().getConexion();
+            //con = conexion.getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pst.setString(1, tipr_nombre);
+            
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                tipoProducto = new TipoProducto(rs.getInt(1), rs.getString(2), rs.getString(3));
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tipoProducto;
+    }
 
     //ACUTLIZAR EL TIPO DE PRODUCTO
 

@@ -28,7 +28,7 @@ public class Mediador {
     }
     
     
-    //PRODUCTOS
+    //*********************PRODUCTOS
     public boolean registrarProducto(Producto producto) {
         return productoDao.registrarProductos(producto);
     }
@@ -47,16 +47,18 @@ public class Mediador {
         return productoDao.eliminarProducto(prod_id);
     }
     
-    //TIPO PRODUCTOS
+    //*******************TIPO PRODUCTOS
     
     public boolean registrarTipoProducto(TipoProducto tipoProducto) {
         return tipoProductoDao.registrarTipoProducto(tipoProducto);
     }
     
     public ArrayList<TipoProducto> obtenerTipoProductos() {
-        ArrayList<TipoProducto> lista =tipoProductoDao.obtenerTipoProductos();
-        
-        return lista;
+        return tipoProductoDao.obtenerTipoProductos();
+    }
+    
+    public TipoProducto obtenerTipoProducto(String tipr_nombre) {
+        return tipoProductoDao.obtenerTipoProducto(tipr_nombre);
     }
     
     public boolean actualizarTipoProducto(TipoProducto tipoProducto) {
@@ -67,14 +69,14 @@ public class Mediador {
         return tipoProductoDao.eliminarTipoProducto(tipr_id);
     }
     
-    //metodos de Tipo Usuario
+    //********************metodos de Tipo Usuario
     
     public ArrayList<TipoUsuario> obtenerTipoUsuarios(){
         return tipoUsuarioDao.obtenerTipoUsuario();
     }
     
     
-    //metodos de Usuario
+    //***********************metodos de Usuario
     public boolean registrarUsuario(Usuario usuario){
         return usuarioDao.registrar(usuario);
     }

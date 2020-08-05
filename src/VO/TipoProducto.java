@@ -5,6 +5,10 @@ public class TipoProducto {
     private int id;
     private String nombre;
     private String descripcion;
+    
+    public TipoProducto(){
+        
+    }
 
     public TipoProducto(String nombre, String descripcion) {
         this.nombre = nombre;
