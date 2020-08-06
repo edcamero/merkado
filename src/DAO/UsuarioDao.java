@@ -157,22 +157,84 @@ public class UsuarioDao {
     }
 
     public boolean actualizarTipo(Usuario usuario) {
-         boolean respuesta = false;
+        boolean respuesta = false;
         try {
-           
+
             String consulta = "UPDATE public.usuarios\n"
                     + "	SET   tius_id=?\n"
                     + "	WHERE user_id=?;";
-            
+
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            
+
             pst.setInt(1, usuario.getIdTipoUsuario());
             pst.setInt(2, usuario.getId());
-             boolean execute = pst.execute();
-            respuesta=true;
+            boolean execute = pst.execute();
+            respuesta = true;
         } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+                con.close();
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return respuesta;
+    }
+
+    public boolean cambiarPassword(Usuario usuario) {
+
+        boolean respuesta = false;
+        String consulta = "UPDATE public.usuarios\n"
+                + "	SET   password=?\n"
+                + "	WHERE user_id=?;";
+        try {
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pst.setString(1, usuario.getPassword());
+            pst.setInt(2, usuario.getId());
+            boolean execute = pst.execute();
+
+            respuesta = true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+                con.close();
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return respuesta;
+    }
+
+    public boolean eliminarUsuario(int id) {
+        boolean respuesta = false;
+        String consulta = "UPDATE public.usuarios\n"
+                + "	SET  user_activo=false\n"
+                + "	WHERE user_id=?;";
+        try {
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pst.setInt(1, id);
+            boolean execute = pst.execute();
+
+            respuesta = true;
+        }
+        catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally {

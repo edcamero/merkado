@@ -33,9 +33,13 @@ public class AddUsuario extends javax.swing.JFrame {
      */
     public AddUsuario() {
         initComponents();
+        this.setLocationRelativeTo(null);
         cargarTipoUsuario();
         cargar();
-        btnCancelar.setVisible(false);
+        btnCancelar.setEnabled(false);
+        btnPassword.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnEliminar.setEnabled(false);
     }
 
     private void cargar() {
@@ -79,11 +83,11 @@ public class AddUsuario extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaUsuario = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnPassword = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -179,7 +183,12 @@ public class AddUsuario extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jButton2.setText("Eliminar");
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -202,10 +211,10 @@ public class AddUsuario extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Password");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnPassword.setText("Password");
+        btnPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnPasswordActionPerformed(evt);
             }
         });
 
@@ -216,11 +225,11 @@ public class AddUsuario extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(23, 23, 23))
         );
         jPanel2Layout.setVerticalGroup(
@@ -230,9 +239,9 @@ public class AddUsuario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEditar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnEliminar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(btnPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCancelar)
                 .addContainerGap(27, Short.MAX_VALUE))
@@ -286,6 +295,7 @@ public class AddUsuario extends javax.swing.JFrame {
             if (Fachada.getInstancia().registrarUsuario(user)) {
                 JOptionPane.showMessageDialog(this, "Se ha registrado el Usuario con exito");
                 limpiar();
+                cargar();
 
             }
         }
@@ -302,32 +312,69 @@ public class AddUsuario extends javax.swing.JFrame {
        }
        cargarUsuario();
        btnAgregar.setEnabled(false);
-       btnCancelar.setVisible(true);
+       btnCancelar.setEnabled(true);
+       btnPassword.setEnabled(true);
+       btnEditar.setEnabled(true);
+        btnEliminar.setEnabled(true);
     }//GEN-LAST:event_tablaUsuarioMouseClicked
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
        int selectTipoUsuario = comboTipoUsuarios.getSelectedIndex();
         if (selectTipoUsuario < 1) {
             JOptionPane.showMessageDialog(this, "POR FAVOR SELECCIONE UN TIPO DE USUARIO");
-        }else{
+        }else if(usuario.getId()==1){
+            JOptionPane.showMessageDialog(this, "Este administrador no se puede Editar");
+        }
+        else{
             TipoUsuario tipoUsuario = tiposUsuarios.get(selectTipoUsuario - 1);
             usuario.setTipoUsuario(tipoUsuario);
             if(Fachada.getInstancia().actualizarTipoUsuario(usuario)){
                 JOptionPane.showMessageDialog(this, "Se ha actualizado el tipo del usuario");
+                cargar();
+                limpiar();
             }
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         limpiar();
-        btnCancelar.setVisible(false);
+        btnCancelar.setEnabled(false);
         btnAgregar.setEnabled(true);
         txtNombre.setEditable(true);
+        btnPassword.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnEliminar.setEnabled(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasswordActionPerformed
+       if (!txtPassword.getText().equals(txtConfirPassword.getText())){
+            JOptionPane.showMessageDialog(this, "POR FAVOR CONFIRME LA CONTRASEÑA\n YA QUE NO COINCIDEN");
+       } else if (txtNombre.getText().equals("") || txtPassword.getText().equals("") || txtConfirPassword.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "POR FAVOR INGRESE LA CONTRASEÑA");
+        }else{
+           password = DigestUtils.md5Hex(txtConfirPassword.getText());
+           usuario.setPassword(password);
+           if(Fachada.getInstancia().actualizarPassword(usuario)){
+               JOptionPane.showMessageDialog(this, "CONTRASEÑA A SIDO ACTUALIZADA");
+           }else{
+               JOptionPane.showMessageDialog(this, "ERROR AL ACTUALIZAR LA CONTRASEÑA");
+           }
+       }
+    }//GEN-LAST:event_btnPasswordActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+       if(usuario.getId()==1){
+           JOptionPane.showMessageDialog(this, "Este administrador no se puede Eliminar");
+       }else{
+           if(Fachada.getInstancia().eliminarUsuario(usuario.getId())){
+             JOptionPane.showMessageDialog(this, "Se elimino el usuario: "+usuario.getUsuario());  
+             cargar();
+           }else{
+               JOptionPane.showMessageDialog(this, "Error a eliminar Usuario");  
+               
+           }
+       }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     
     private void cargarUsuario(){
@@ -395,9 +442,9 @@ public class AddUsuario extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnPassword;
     private javax.swing.JComboBox<String> comboTipoUsuarios;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

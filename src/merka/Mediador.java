@@ -83,10 +83,18 @@ public class Mediador {
     
     public ArrayList<Usuario> obtenerUsuarios(){
         return usuarioDao.obtenerUsuarios();
+        
     }
     
     public boolean actualizarTipoUsuario(Usuario usuario){
         return usuarioDao.actualizarTipo(usuario);
     }
+    
+    public boolean actualizarPassword(Usuario usuario){
+        return usuarioDao.cambiarPassword(usuario);
+    }
 
+    public boolean eliminarUsuario(int id){
+        return usuarioDao.eliminarUsuario(id);
+    }
 }

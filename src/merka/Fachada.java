@@ -89,4 +89,12 @@ public class Fachada {
     public boolean actualizarTipoUsuario(Usuario usuario){
      return mediador.actualizarTipoUsuario(usuario);
     }
+    
+    public boolean actualizarPassword(Usuario usuario){
+        return mediador.actualizarPassword(usuario);
+    }
+    
+    public boolean eliminarUsuario(int id){
+        return mediador.eliminarUsuario(id);
+    }
 }
