@@ -86,7 +86,7 @@ public class ProductoDao {
             rs = pst.executeQuery();
             while (rs.next()) {
                 Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3),
-                         rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getInt(7));
+                        rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getInt(7));
                 lista.add(P);
             }
 
@@ -104,11 +104,9 @@ public class ProductoDao {
         }
         return lista;
     }
-    
-    
 
     //MODIFICAR PRODUCTOS
-    public static boolean actualizarProducto(Producto producto) {
+    public boolean actualizarProducto(Producto producto) {
         try {
 //            String consulta = "update productos\n"
 //                    + "set \n"
@@ -139,10 +137,6 @@ public class ProductoDao {
             System.out.println("id" + pst);
             rs = pst.executeQuery();
 
-            pst.close();
-            rs.close();
-            con.close();
-
             return true;
 
         } catch (SQLException ex) {
@@ -152,6 +146,7 @@ public class ProductoDao {
             try {
                 pst.close();
                 rs.close();
+                con.close();
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"

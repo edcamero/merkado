@@ -55,6 +55,8 @@ public class Usuario {
 
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+        this.idTipoUsuario=this.tipoUsuario.getId();
+        
     }
 
     public int getId() {

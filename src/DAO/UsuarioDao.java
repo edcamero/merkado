@@ -119,33 +119,32 @@ public class UsuarioDao {
 
     public ArrayList<Usuario> obtenerUsuarios() {
         ArrayList<Usuario> lista = new ArrayList<Usuario>();
-        ArrayList<TipoUsuario> listaTipo=Fachada.getInstancia().obtenerTipoUsuario();
+        ArrayList<TipoUsuario> listaTipo = Fachada.getInstancia().obtenerTipoUsuario();
         try {
-            
+
             String consulta = "SELECT user_id, username,tius_id\n"
                     + "	FROM public.usuarios where  user_activo=true;";
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
-            
+
             while (rs.next()) {
-                TipoUsuario tipo=null;
-                for(TipoUsuario t:listaTipo){
-                    if(t.getId()==rs.getInt("tius_id")){
-                        tipo=t;
+                TipoUsuario tipo = null;
+                for (TipoUsuario t : listaTipo) {
+                    if (t.getId() == rs.getInt("tius_id")) {
+                        tipo = t;
                         break;
                     }
                 }
-                Usuario usuario=new Usuario(rs.getInt("user_id"), rs.getString("username"),tipo);
+                Usuario usuario = new Usuario(rs.getInt("user_id"), rs.getString("username"), tipo);
                 lista.add(usuario);
-                
+
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally {
+        } finally {
             try {
                 rs.close();
                 pst.close();
@@ -155,5 +154,38 @@ public class UsuarioDao {
             }
         }
         return lista;
+    }
+
+    public boolean actualizarTipo(Usuario usuario) {
+         boolean respuesta = false;
+        try {
+           
+            String consulta = "UPDATE public.usuarios\n"
+                    + "	SET   tius_id=?\n"
+                    + "	WHERE user_id=?;";
+            
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            
+            pst.setInt(1, usuario.getIdTipoUsuario());
+            pst.setInt(2, usuario.getId());
+             boolean execute = pst.execute();
+            respuesta=true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            try {
+                pst.close();
+                rs.close();
+                con.close();
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return respuesta;
     }
 }

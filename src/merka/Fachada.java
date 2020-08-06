@@ -85,4 +85,8 @@ public class Fachada {
     public ArrayList<Usuario> obtenerUsuarios(){
         return mediador.obtenerUsuarios();
     }
+    
+    public boolean actualizarTipoUsuario(Usuario usuario){
+     return mediador.actualizarTipoUsuario(usuario);
+    }
 }
