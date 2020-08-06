@@ -68,7 +68,9 @@ CREATE TABLE _TIPO_USUARIOS(
 CREATE TABLE _USUARIOS(
 	user_id numeric,
 	username VARCHAR(40) NOT NULL, 
-	password VARCHAR(40) NOT NULL,   
+	password VARCHAR(40) NOT NULL,
+	tius_id INT NOT NULL,	
+	user_activo boolean not null,
 	user_fecha_operacion timestamp not null,
 	user_operacion VARCHAR(1) NOT NULL
 );
