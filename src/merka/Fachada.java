@@ -1,5 +1,6 @@
 package merka;
 
+import VO.Persona;
 import VO.Producto;
 import VO.TipoProducto;
 import VO.TipoUsuario;
@@ -28,7 +29,6 @@ public class Fachada {
     }
 
     //*******************************producto***************
-    
     public boolean registrarProducto(Producto producto) {
         return mediador.registrarProducto(producto);
     }
@@ -36,65 +36,77 @@ public class Fachada {
     public ArrayList<Producto> obtenerProductos() {
         return mediador.obtenerProductos();
     }
-    
-    public boolean actualizarProducto(Producto producto){
+
+    public boolean actualizarProducto(Producto producto) {
         return mediador.actualizarProducto(producto);
     }
-    
-    public boolean eliminarProducto(int prod_id){
+
+    public boolean eliminarProducto(int prod_id) {
         return mediador.eliminarProducto(prod_id);
     }
-    
+
     //*******************************TIPO PRODUCTO*****************
-    
     public boolean registrarTipoProducto(TipoProducto tipoProducto) {
         return mediador.registrarTipoProducto(tipoProducto);
     }
-    
+
     public ArrayList<TipoProducto> obtenerTipoProductos() {
         return mediador.obtenerTipoProductos();
     }
-    
+
     public TipoProducto obtenerTipoProducto(String tipr_nombre) {
         return mediador.obtenerTipoProducto(tipr_nombre);
     }
-    
+
     public boolean actualizarTipoProducto(TipoProducto tipoProducto) {
         return mediador.actualizarTipoProducto(tipoProducto);
     }
-    
-    public boolean eliminarTipoProducto(int tipr_id){
+
+    public boolean eliminarTipoProducto(int tipr_id) {
         return mediador.eliminarTipoProducto(tipr_id);
     }
-    
-    
-    //TIPO USUARIO
-    
-    
-    public ArrayList<TipoUsuario> obtenerTipoUsuario(){
+
+    //******************************TIPO USUARIO
+    public ArrayList<TipoUsuario> obtenerTipoUsuario() {
         return mediador.obtenerTipoUsuarios();
     }
-    
-    
-    //USUARIO
-    
-    public boolean registrarUsuario(Usuario usuario){
+
+    //***********************USUARIO
+    public boolean registrarUsuario(Usuario usuario) {
         return mediador.registrarUsuario(usuario);
     }
-    
-    public ArrayList<Usuario> obtenerUsuarios(){
+
+    public ArrayList<Usuario> obtenerUsuarios() {
         return mediador.obtenerUsuarios();
     }
-    
-    public boolean actualizarTipoUsuario(Usuario usuario){
-     return mediador.actualizarTipoUsuario(usuario);
+
+    public boolean actualizarTipoUsuario(Usuario usuario) {
+        return mediador.actualizarTipoUsuario(usuario);
     }
-    
-    public boolean actualizarPassword(Usuario usuario){
+
+    public boolean actualizarPassword(Usuario usuario) {
         return mediador.actualizarPassword(usuario);
     }
-    
-    public boolean eliminarUsuario(int id){
+
+    public boolean eliminarUsuario(int id) {
         return mediador.eliminarUsuario(id);
+    }
+
+    //*********************PERSONA*******************************************************
+    public boolean registrarPersona(Persona persona) {
+        return mediador.registrarPersona(persona);
+    }
+
+    public ArrayList<Persona> obtenerPersona() {
+        return mediador.obtenerPersonas();
+
+    }
+
+    public boolean actualizarPersona(Persona persona) {
+        return mediador.actualizarPersona(persona);
+    }
+
+    public boolean eliminarPersona(int pers_id) {
+        return mediador.eliminarPersona(pers_id);
     }
 }

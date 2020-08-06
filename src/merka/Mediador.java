@@ -1,9 +1,11 @@
 package merka;
 
+import DAO.PersonaDao;
 import DAO.ProductoDao;
 import DAO.TipoProductoDao;
 import DAO.TipoUsuarioDao;
 import DAO.UsuarioDao;
+import VO.Persona;
 import VO.Producto;
 import VO.TipoProducto;
 import VO.TipoUsuario;
@@ -15,6 +17,7 @@ public class Mediador {
     UsuarioDao usuarioDao;
     ProductoDao productoDao;
     TipoProductoDao tipoProductoDao;
+    PersonaDao personaDao;
 
     public Mediador() {
         usuarioDao = new UsuarioDao();
@@ -96,5 +99,23 @@ public class Mediador {
 
     public boolean eliminarUsuario(int id){
         return usuarioDao.eliminarUsuario(id);
+    }
+    
+    //******************PERSONA******************************
+    public boolean registrarPersona(Persona persona){
+        return personaDao.registrarPersona(persona);
+    }
+    
+    public ArrayList<Persona> obtenerPersonas(){
+        return personaDao.obtenerPersonas();
+        
+    }
+    
+    public boolean actualizarPersona(Persona persona){
+        return personaDao.actualizarPersona(persona);
+    }
+
+    public boolean eliminarPersona(int pers_id){
+        return personaDao.eliminarPersona(pers_id);
     }
 }

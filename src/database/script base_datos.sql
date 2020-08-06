@@ -7,6 +7,17 @@ DROP TABLE IF EXISTS _tipo_productos;
 DROP TABLE IF EXISTS _productos;
 DROP TABLE IF EXISTS _tipo_usuarios;
 DROP TABLE IF EXISTS _usuarios;
+DROP TABLE IF EXISTS personas;
+
+CREATE TABLE PERSONAS(
+pers_id SERIAL,
+pers_nombre VARCHAR(40) NOT NULL,
+pers_apellido VARCHAR(40) NOT NULL,
+pers_documento VARCHAR(10) NOT NULL,
+pers_telefono VARCHAR(10) NOT NULL,
+pers_email VARCHAR(30) NOT NULL,
+CONSTRAINT persona_pk PRIMARY KEY(pers_id)
+);
 
 CREATE TABLE TIPO_USUARIOS(
 tius_id SERIAL,
