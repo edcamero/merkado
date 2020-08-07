@@ -1,10 +1,12 @@
 package merka;
 
+import DAO.ClienteDao;
 import DAO.PersonaDao;
 import DAO.ProductoDao;
 import DAO.TipoProductoDao;
 import DAO.TipoUsuarioDao;
 import DAO.UsuarioDao;
+import VO.Cliente;
 import VO.Persona;
 import VO.Producto;
 import VO.TipoProducto;
@@ -19,6 +21,7 @@ public class Mediador {
     ProductoDao productoDao;
     TipoProductoDao tipoProductoDao;
     PersonaDao personaDao;
+    ClienteDao clienteDao;
 
     public Mediador() {
         usuarioDao = new UsuarioDao();
@@ -26,6 +29,7 @@ public class Mediador {
         tipoProductoDao = new TipoProductoDao();
         tipoUsuarioDao = new TipoUsuarioDao();
         personaDao = new PersonaDao();
+        clienteDao = new ClienteDao();
     }
 
     public boolean login(String username, String pass) {
@@ -100,8 +104,7 @@ public class Mediador {
     }
 
     //******************PERSONA******************************
-    public boolean registrarPersona(Persona persona) {
-        System.out.println("mediador");
+    public int registrarPersona(Persona persona) {
         return personaDao.registrarPersona(persona);
     }
 
@@ -116,5 +119,10 @@ public class Mediador {
 
     public boolean eliminarPersona(int pers_id) {
         return personaDao.eliminarPersona(pers_id);
+    }
+    
+    //******************CLIENTE**************************
+    public boolean registrarCliente(Cliente cliente) {
+        return clienteDao.registrarCliente(cliente);
     }
 }

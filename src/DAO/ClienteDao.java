@@ -16,7 +16,7 @@ public class ClienteDao {
     private static ResultSet rs;
 
     //GUARDAR PRODUCTO
-    public boolean registrarProductos(Cliente cliente) {
+    public boolean registrarCliente(Cliente cliente) {
 
         boolean resultado = false;
 
@@ -28,7 +28,6 @@ public class ClienteDao {
 
             PreparedStatement pst = con.prepareStatement(consulta);
             pst.setInt(1, cliente.getPers_Id());
-            
 
             rs = pst.executeQuery();
             while (rs.next()) {

@@ -9,8 +9,8 @@ public class Clientes extends javax.swing.JFrame {
 
     String nombre, apellido, documento, telefono, email, direccion;
     int pers_id = -1;
-    Persona persona = new Persona();
-    //Cliente cliente;
+    Persona persona;
+    Cliente cliente;
 
     public Clientes() {
         initComponents();
@@ -263,10 +263,14 @@ public class Clientes extends javax.swing.JFrame {
         this.email = txtEmail.getText().trim();
         this.direccion = txtDireccion.getText().trim();
         //System.out.println(boxTipoProducto.getSelectedItem().toString().trim());
-        Persona persona2 = new Persona(nombre, apellido, documento, telefono, email, direccion);
-        System.out.println(persona2);
-        boolean pers_i = Fachada.getInstancia().registrarPersona(persona2);
-        System.out.println("el id de la persona es" + pers_i);
+        persona = new Persona(nombre, apellido, documento, telefono, email, direccion);
+        System.out.println(persona);
+        int pers_i = Fachada.getInstancia().registrarPersona(persona);
+        persona.setPers_Id(pers_i);
+        cliente = new Cliente(persona);
+        boolean a = Fachada.getInstancia().registrarCliente(cliente);
+        System.out.println(a);
+        System.out.println("el id de la persona es" + cliente.getPers_Id());
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**

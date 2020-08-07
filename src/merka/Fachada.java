@@ -1,5 +1,6 @@
 package merka;
 
+import VO.Cliente;
 import VO.Persona;
 import VO.Producto;
 import VO.TipoProducto;
@@ -93,8 +94,7 @@ public class Fachada {
     }
 
     //*********************PERSONA*******************************************************
-    public boolean registrarPersona(Persona persona) {
-         System.out.println("fachada");
+    public int registrarPersona(Persona persona) {
         return mediador.registrarPersona(persona);
     }
 
@@ -109,5 +109,10 @@ public class Fachada {
 
     public boolean eliminarPersona(int pers_id) {
         return mediador.eliminarPersona(pers_id);
+    }
+
+    //********************CLIENTE********************************
+    public boolean registrarCliente(Cliente cliente) {
+        return mediador.registrarCliente(cliente);
     }
 }

@@ -17,8 +17,8 @@ public class PersonaDao {
     private static PreparedStatement pst;
     private static ResultSet rs;
 
-    public boolean registrarPersona(Persona persona) {
-        boolean resultado = false;
+    public int registrarPersona(Persona persona) {
+        int resultado = 0;
 
         String consulta = "INSERT INTO public.personas(\n"
                 + "	pers_nombre, pers_apellido, pers_documento, pers_telefono, pers_email, pers_direccion)\n"
@@ -27,7 +27,7 @@ public class PersonaDao {
             con = Conexion.objConexion().getConexion();
 
             PreparedStatement pst = con.prepareStatement(consulta);
-            
+
             pst.setString(1, persona.getNombre());
             pst.setString(2, persona.getApellido());
             pst.setString(3, persona.getDocumento());
@@ -39,7 +39,7 @@ public class PersonaDao {
             while (rs.next()) {
                 persona.setPers_Id(rs.getInt("pers_id"));
             }
-            resultado = true;
+            resultado = persona.getPers_Id();
             pst.close();
             rs.close();
         } catch (SQLException e) {
