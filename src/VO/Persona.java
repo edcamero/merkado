@@ -2,44 +2,49 @@ package VO;
 
 public class Persona {
 
-    private int id;
+    private int pers_id;
     private String nombre;
     private String apellido;
     private String documento;
     private String telefono;
     private String email;
+    private String direccion;
 
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String documento, String telefono, String email) {
+    public Persona(String nombre, String apellido, String documento, String telefono, String email, String direccion) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.documento = documento;
         this.telefono = telefono;
         this.email = email;
+        this.direccion = direccion;
     }
 
-    public Persona(int id, String nombre, String apellido, String documento, String telefono, String email) {
-        this.id = id;
+    public Persona(int pers_id, String nombre, String apellido, String documento, String telefono, String email, String direccion) {
+        this.pers_id = pers_id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.documento = documento;
         this.telefono = telefono;
         this.email = email;
+        this.direccion = direccion;
     }
+
+    
 
     @Override
     public String toString() {
-        return "Persona{" + "nombre=" + nombre + ", apellido=" + apellido + ", documento=" + documento +", telefono=" + telefono + ", email=" + email +'}';
+        return "Persona{" + "nombre=" + nombre + ", apellido=" + apellido + ", documento=" + documento + ", telefono=" + telefono + ", email=" + email + ", direccion=" + direccion + '}';
     }
 
-    public int getId() {
-        return id;
+    public int getPers_Id() {
+        return pers_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPers_Id(int pers_id) {
+        this.pers_id = pers_id;
     }
 
     public String getNombre() {
@@ -80,5 +85,13 @@ public class Persona {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 }

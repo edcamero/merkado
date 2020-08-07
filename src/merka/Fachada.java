@@ -94,6 +94,7 @@ public class Fachada {
 
     //*********************PERSONA*******************************************************
     public boolean registrarPersona(Persona persona) {
+         System.out.println("fachada");
         return mediador.registrarPersona(persona);
     }
 

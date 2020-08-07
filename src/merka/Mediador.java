@@ -13,6 +13,7 @@ import VO.Usuario;
 import java.util.ArrayList;
 
 public class Mediador {
+
     TipoUsuarioDao tipoUsuarioDao;
     UsuarioDao usuarioDao;
     ProductoDao productoDao;
@@ -23,99 +24,97 @@ public class Mediador {
         usuarioDao = new UsuarioDao();
         productoDao = new ProductoDao();
         tipoProductoDao = new TipoProductoDao();
-        tipoUsuarioDao=new TipoUsuarioDao();
+        tipoUsuarioDao = new TipoUsuarioDao();
+        personaDao = new PersonaDao();
     }
 
     public boolean login(String username, String pass) {
         return usuarioDao.login(username, pass);
     }
-    
-    
+
     //*********************PRODUCTOS
     public boolean registrarProducto(Producto producto) {
         return productoDao.registrarProductos(producto);
     }
-    
+
     public ArrayList<Producto> obtenerProductos() {
         ArrayList<Producto> lista = new ArrayList<Producto>();
         lista = productoDao.obtenerProductos();
         return lista;
     }
-    
-    public boolean actualizarProducto(Producto producto){
+
+    public boolean actualizarProducto(Producto producto) {
         return productoDao.actualizarProducto(producto);
     }
-    
-    public boolean eliminarProducto(int prod_id){
+
+    public boolean eliminarProducto(int prod_id) {
         return productoDao.eliminarProducto(prod_id);
     }
-    
+
     //*******************TIPO PRODUCTOS
-    
     public boolean registrarTipoProducto(TipoProducto tipoProducto) {
         return tipoProductoDao.registrarTipoProducto(tipoProducto);
     }
-    
+
     public ArrayList<TipoProducto> obtenerTipoProductos() {
         return tipoProductoDao.obtenerTipoProductos();
     }
-    
+
     public TipoProducto obtenerTipoProducto(String tipr_nombre) {
         return tipoProductoDao.obtenerTipoProducto(tipr_nombre);
     }
-    
+
     public boolean actualizarTipoProducto(TipoProducto tipoProducto) {
         return tipoProductoDao.actualizarTipoProducto(tipoProducto);
     }
-    
-    public boolean eliminarTipoProducto(int tipr_id){
+
+    public boolean eliminarTipoProducto(int tipr_id) {
         return tipoProductoDao.eliminarTipoProducto(tipr_id);
     }
-    
+
     //********************metodos de Tipo Usuario
-    
-    public ArrayList<TipoUsuario> obtenerTipoUsuarios(){
+    public ArrayList<TipoUsuario> obtenerTipoUsuarios() {
         return tipoUsuarioDao.obtenerTipoUsuario();
     }
-    
-    
+
     //***********************metodos de Usuario
-    public boolean registrarUsuario(Usuario usuario){
+    public boolean registrarUsuario(Usuario usuario) {
         return usuarioDao.registrar(usuario);
     }
-    
-    public ArrayList<Usuario> obtenerUsuarios(){
+
+    public ArrayList<Usuario> obtenerUsuarios() {
         return usuarioDao.obtenerUsuarios();
-        
+
     }
-    
-    public boolean actualizarTipoUsuario(Usuario usuario){
+
+    public boolean actualizarTipoUsuario(Usuario usuario) {
         return usuarioDao.actualizarTipo(usuario);
     }
-    
-    public boolean actualizarPassword(Usuario usuario){
+
+    public boolean actualizarPassword(Usuario usuario) {
         return usuarioDao.cambiarPassword(usuario);
     }
 
-    public boolean eliminarUsuario(int id){
+    public boolean eliminarUsuario(int id) {
         return usuarioDao.eliminarUsuario(id);
     }
-    
+
     //******************PERSONA******************************
-    public boolean registrarPersona(Persona persona){
+    public boolean registrarPersona(Persona persona) {
+        System.out.println("mediador");
         return personaDao.registrarPersona(persona);
     }
-    
-    public ArrayList<Persona> obtenerPersonas(){
+
+    public ArrayList<Persona> obtenerPersonas() {
         return personaDao.obtenerPersonas();
-        
+
     }
-    
-    public boolean actualizarPersona(Persona persona){
+
+    public boolean actualizarPersona(Persona persona) {
         return personaDao.actualizarPersona(persona);
     }
 
-    public boolean eliminarPersona(int pers_id){
+    public boolean eliminarPersona(int pers_id) {
         return personaDao.eliminarPersona(pers_id);
     }
 }

@@ -32,6 +32,7 @@ public class ProductoDao {
             con = Conexion.objConexion().getConexion();
 
             PreparedStatement pst = con.prepareStatement(consulta);
+            
             pst.setString(1, producto.getNombre());
             pst.setInt(2, producto.getPrecioCompra());
             pst.setInt(3, producto.getPrecioVenta());

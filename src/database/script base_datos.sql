@@ -10,20 +10,28 @@ DROP TABLE IF EXISTS _usuarios;
 DROP TABLE IF EXISTS personas;
 
 CREATE TABLE PERSONAS(
-pers_id SERIAL,
-pers_nombre VARCHAR(40) NOT NULL,
-pers_apellido VARCHAR(40) NOT NULL,
-pers_documento VARCHAR(10) NOT NULL,
-pers_telefono VARCHAR(10) NOT NULL,
-pers_email VARCHAR(30) NOT NULL,
-CONSTRAINT persona_pk PRIMARY KEY(pers_id)
+    pers_id SERIAL,
+    pers_nombre VARCHAR(40) NOT NULL,
+    pers_apellido VARCHAR(40) NOT NULL,
+    pers_documento VARCHAR(10) NOT NULL,
+    pers_telefono VARCHAR(10) NOT NULL,
+    pers_email VARCHAR(30) NOT NULL,
+    pers_direccion VARCHAR(30) NOT NULL,
+    CONSTRAINT persona_pk PRIMARY KEY(pers_id)
+);
+
+CREATE TABLE CLIENTES (
+    clie_id SERIAL,
+    fk_pers_id SERIAL,
+    CONSTRAINT cliente_pk PRIMARY KEY(clie_id),
+    FOREIGN KEY(pers_id) REFERENCES PERSONAS(pers_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE TIPO_USUARIOS(
-tius_id SERIAL,
-tius_nombre VARCHAR(40) NOT NULL,
-tius_descripcion VARCHAR(100) NOT NULL,
-CONSTRAINT tipo_usuario_pk PRIMARY KEY(tius_id)
+    tius_id SERIAL,
+    tius_nombre VARCHAR(40) NOT NULL,
+    tius_descripcion VARCHAR(100) NOT NULL,
+    CONSTRAINT tipo_usuario_pk PRIMARY KEY(tius_id)
 );
 
 INSERT INTO public.tipo_usuarios(tius_nombre, tius_descripcion) VALUES ( 'admin', 'administrador del sistema'), ('cajero','cajero de turno en el almacen');
@@ -42,11 +50,10 @@ INSERT INTO public.usuarios(username, password,tius_id)VALUES ('admin', '21232f2
 
 
 CREATE TABLE TIPO_PRODUCTOS(
-tipr_id SERIAL,
-tipr_nombre VARCHAR(40) UNIQUE,
-tipr_descripcion VARCHAR(200),
-CONSTRAINT tipo_productos_pk PRIMARY KEY(tipr_id)
-
+    tipr_id SERIAL,
+    tipr_nombre VARCHAR(40) UNIQUE,
+    tipr_descripcion VARCHAR(200),
+    CONSTRAINT tipo_productos_pk PRIMARY KEY(tipr_id)
 );
 
 INSERT INTO public.tipo_productos(tipr_nombre,tipr_descripcion) VALUES ('LACTEOS','LECHES YOGURT'),('ASEO','ARTICULOS PARA EL ASEO EN EL HOGAR');
@@ -69,31 +76,31 @@ CREATE TABLE PRODUCTOS(
 
 --TABLA PARA AUDITORIA DE TIPO_PRODUCTOS
 CREATE TABLE _TIPO_USUARIOS(
-	tius_id numeric,
-	tius_nombre VARCHAR(40) NOT NULL,
-	tius_descripcion VARCHAR(100) NOT NULL,
-	tius_fecha_operacion timestamp not null,
-	tius_operacion VARCHAR(1) NOT NULL
+    tius_id numeric,
+    tius_nombre VARCHAR(40) NOT NULL,
+    tius_descripcion VARCHAR(100) NOT NULL,
+    tius_fecha_operacion timestamp not null,
+    tius_operacion VARCHAR(1) NOT NULL
 );
 
 CREATE TABLE _USUARIOS(
-	user_id numeric,
-	username VARCHAR(40) NOT NULL, 
-	password VARCHAR(40) NOT NULL,
-	tius_id INT NOT NULL,	
-	user_activo boolean not null,
-	user_fecha_operacion timestamp not null,
-	user_operacion VARCHAR(1) NOT NULL
+    user_id numeric,
+    username VARCHAR(40) NOT NULL, 
+    password VARCHAR(40) NOT NULL,
+    tius_id INT NOT NULL,	
+    user_activo boolean not null,
+    user_fecha_operacion timestamp not null,
+    user_operacion VARCHAR(1) NOT NULL
 );
 
 --TABLA PARA AUDITORIA DE TIPO_PRODUCTOS
 
 CREATE TABLE _TIPO_PRODUCTOS(
-	tipr_id numeric,
-	tipr_nombre VARCHAR(40),
-	tipr_descripcion VARCHAR(200),
-	tipr_fecha_operacion timestamp not null,
-	tipr_operacion VARCHAR(1) NOT NULL
+    tipr_id numeric,
+    tipr_nombre VARCHAR(40),
+    tipr_descripcion VARCHAR(200),
+    tipr_fecha_operacion timestamp not null,
+    tipr_operacion VARCHAR(1) NOT NULL
 );
 
 --TABLA PARA AUDITORIA DE PRODUCTOS

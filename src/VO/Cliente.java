@@ -1,23 +1,20 @@
-
 package VO;
 
-public class Cliente extends Persona{
-   private int id;
-   private int credito;
+public class Cliente extends Persona {
+
+    private int id;
 
     public Cliente() {
         super();
     }
 
-    public Cliente(int credito, String nombre, String apellido, String documento, String telefono, String email) {
-        super(nombre, apellido, documento, telefono, email);
-        this.credito = credito;
+    public Cliente(Persona persona) {
+        super(persona.getNombre(), persona.getApellido(), persona.getDocumento(), persona.getTelefono(), persona.getEmail(), persona.getDireccion());
     }
-
-    public Cliente(int id, int credito, String nombre, String apellido, String documento, String telefono, String email) {
-        super(nombre, apellido, documento, telefono, email);
+    
+    public Cliente(int id, Persona persona) {
+        super(persona.getNombre(), persona.getApellido(), persona.getDocumento(), persona.getTelefono(), persona.getEmail(), persona.getDireccion());
         this.id = id;
-        this.credito = credito;
     }
 
     public int getId() {
@@ -28,18 +25,8 @@ public class Cliente extends Persona{
         this.id = id;
     }
 
-    public int getCredito() {
-        return credito;
-    }
-
-    public void setCredito(int credito) {
-        this.credito = credito;
-    }
-
     @Override
     public String toString() {
-        return super.toString() + "Cliente{" + "id=" + id + ", credito=" + credito + '}';
+        return super.toString() + " Cliente{" + "id=" + id + ", credito=" + '}';
     }
-    
-    
 }
