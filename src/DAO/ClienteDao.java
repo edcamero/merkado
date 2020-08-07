@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ClienteDao {
@@ -61,5 +64,40 @@ public class ClienteDao {
             }
         }
         return resultado;
+    }
+
+    //OBTENER LOS PRODUCTOS
+    public ArrayList<Cliente> obtenerClientes(ArrayList<Persona> personas) {
+        ArrayList<Cliente> lista = new ArrayList();
+        String consulta = "select * FROM clientes ORDER BY clie_id;";
+        try {
+            //con = Conexion.getConexion();
+            con = Conexion.objConexion().getConexion();
+            //con = conexion.getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            rs = pst.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                if (rs.getInt(2) == personas.get(i).getPers_Id()) {
+                    Cliente P = new Cliente(rs.getInt(1), personas.get(i));
+                    lista.add(P);
+                }
+                i++;
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return lista;
     }
 }

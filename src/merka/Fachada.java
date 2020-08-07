@@ -115,4 +115,8 @@ public class Fachada {
     public boolean registrarCliente(Cliente cliente) {
         return mediador.registrarCliente(cliente);
     }
+
+    public ArrayList<Cliente> obtenerClientes(ArrayList<Persona> personas) {
+        return mediador.obtenerClientes(personas);
+    }
 }

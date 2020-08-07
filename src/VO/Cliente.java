@@ -11,9 +11,9 @@ public class Cliente extends Persona {
     public Cliente(Persona persona) {
         super(persona.getPers_Id(), persona.getNombre(), persona.getApellido(), persona.getDocumento(), persona.getTelefono(), persona.getEmail(), persona.getDireccion());
     }
-    
+
     public Cliente(int id, Persona persona) {
-        super(persona.getNombre(), persona.getApellido(), persona.getDocumento(), persona.getTelefono(), persona.getEmail(), persona.getDireccion());
+        super(persona.getPers_Id(), persona.getNombre(), persona.getApellido(), persona.getDocumento(), persona.getTelefono(), persona.getEmail(), persona.getDireccion());
         this.id = id;
     }
 

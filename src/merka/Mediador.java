@@ -125,4 +125,8 @@ public class Mediador {
     public boolean registrarCliente(Cliente cliente) {
         return clienteDao.registrarCliente(cliente);
     }
+    
+    public ArrayList<Cliente> obtenerClientes(ArrayList<Persona> personas) {
+        return clienteDao.obtenerClientes(personas);
+    }
 }

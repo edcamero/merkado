@@ -3,6 +3,9 @@ package GUI;
 import VO.Cliente;
 import VO.Persona;
 import VO.Producto;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import merka.Fachada;
 
 public class Clientes extends javax.swing.JFrame {
@@ -11,10 +14,12 @@ public class Clientes extends javax.swing.JFrame {
     int pers_id = -1;
     Persona persona;
     Cliente cliente;
+    DefaultTableModel model;
 
     public Clientes() {
         initComponents();
         this.setLocationRelativeTo(null);
+        cargarCliente();
     }
 
     public void limpiar() {
@@ -26,23 +31,99 @@ public class Clientes extends javax.swing.JFrame {
         txtDireccion.setText("");
     }
 
-//    private boolean registrarCliente() {
-//        this.documento = txtDocumento.getText().trim();
-//        this.nombre = txtNombre.getText().trim();
-//        this.apellido = txtApellido.getText().trim();
-//        this.telefono = txtTelefono.getText().trim();
-//        this.email = txtEmail.getText().trim();
-//        this.direccion = txtDireccion.getText().trim();
-//        //System.out.println(boxTipoProducto.getSelectedItem().toString().trim());
-//        this.persona = new Persona(nombre, apellido, documento, telefono, email, direccion);
-//        this.pers_id = Fachada.getInstancia().registrarPersona(persona);
-//        System.out.println("el id de la persona es"+pers_id);
-//        //this.tipoProducto = Fachada.getInstancia().obtenerTipoProducto(boxTipoProducto.getSelectedItem().toString().trim());
-//////        System.out.println(this.tipoProducto.getId());
-//////        System.out.println(this.tipoProducto.getNombre());
-//////        producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion, tipoProducto.getId());
-//////        return (Fachada.getInstancia().registrarProducto(producto));
-//    }
+    public void cargarCliente() {
+        ArrayList<Persona> personas = Fachada.getInstancia().obtenerPersona();
+        ArrayList<Cliente> clientes = Fachada.getInstancia().obtenerClientes(personas);
+        String data[][] = {};
+        String col[] = {"ID", "NOMBRE", "APELLIDO", "CEDULA", "TELEFONO", "CORREO", "DIRECCION"};
+        model = new DefaultTableModel(data, col);
+        ///alumno d = cab;
+        //************************************
+        if (clientes.size() != 0) {
+            for (Cliente cliente : clientes) {
+                Object[] fila = new Object[7];
+                fila[0] = cliente.getId();
+                fila[1] = cliente.getNombre();
+                fila[2] = cliente.getApellido();
+                fila[3] = cliente.getDocumento();
+                fila[4] = cliente.getTelefono();
+                fila[5] = cliente.getEmail();
+                fila[6] = cliente.getDireccion();
+                model.addRow(fila);
+            }
+            this.tablaClientes.setModel(model);
+        }
+    }
+
+    private boolean registrarCliente() {
+        this.documento = txtDocumento.getText().trim();
+        this.nombre = txtNombre.getText().trim();
+        this.apellido = txtApellido.getText().trim();
+        this.telefono = txtTelefono.getText().trim();
+        this.email = txtEmail.getText().trim();
+        this.direccion = txtDireccion.getText().trim();
+        //System.out.println(boxTipoProducto.getSelectedItem().toString().trim());
+        persona = new Persona(nombre, apellido, documento, telefono, email, direccion);
+        System.out.println(persona);
+        int pers_i = Fachada.getInstancia().registrarPersona(persona);
+        persona.setPers_Id(pers_i);
+        cliente = new Cliente(persona);
+        return Fachada.getInstancia().registrarCliente(cliente);
+    }
+
+    public boolean modificarCliente() {
+        return false;
+    }
+
+    public boolean eliminarCliente() {
+        return false;
+    }
+
+    public void validar(int metodo) {
+        if (txtNombre.getText().equals("") && txtApellido.getText().equals("") && txtDocumento.getText().equals("")
+                && txtTelefono.getText() == "" && txtEmail.getText() == "" && txtDireccion.getText() == "") {
+            JOptionPane.showMessageDialog(this, "POR FAVOR LLENE TODOS LOS CAMPOS");
+        } else if (txtDocumento.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "DIGITE EL DOCUMENTO DEL CLIENTE");
+            txtDocumento.setFocusable(true);
+        } else if (txtNombre.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "DIGITE EL NOMBRE DEL CLIENTE");
+            txtNombre.setFocusable(true);
+        } else if (txtApellido.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "DIGITE EL APELLIDO DEL CLIENTE");
+            txtApellido.setFocusable(true);
+        } else if (txtTelefono.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "DIGITE EL TELEFONO");
+            txtTelefono.setFocusable(true);
+        } else if (txtEmail.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "DIGITE EL CORREO DEL CLIENTE");
+            txtEmail.setFocusable(true);
+        } else if (txtDireccion.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "DIGITE LA DIRECCION DEL CLIENTE");
+            txtDireccion.setFocusable(true);
+        } else if (metodo == 1) {
+            if (registrarCliente()) {
+                JOptionPane.showMessageDialog(this, "EL CLIENTE SE HA REGISTRADO");
+            } else {
+                JOptionPane.showMessageDialog(this, "EL CLIENTE NO SE HA REGISTRADO");
+            }
+        } else if (metodo == 2) {
+            if (modificarCliente()) {
+                JOptionPane.showMessageDialog(this, "EL CLIENTE SE HA MODIFICADO");
+            } else {
+                JOptionPane.showMessageDialog(this, "EL CLIENTE NO SE HA MODIFICADO");
+            }
+        } else {
+            if (eliminarCliente()) {
+                JOptionPane.showMessageDialog(this, "EL CLIENTE SE HA ELIMINADO");
+            } else {
+                JOptionPane.showMessageDialog(this, "EL CLIENTE NO SE HA ELIMINADO");
+            }
+        }
+        limpiar();
+        cargarCliente();
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -255,22 +336,7 @@ public class Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-
-        this.documento = txtDocumento.getText().trim();
-        this.nombre = txtNombre.getText().trim();
-        this.apellido = txtApellido.getText().trim();
-        this.telefono = txtTelefono.getText().trim();
-        this.email = txtEmail.getText().trim();
-        this.direccion = txtDireccion.getText().trim();
-        //System.out.println(boxTipoProducto.getSelectedItem().toString().trim());
-        persona = new Persona(nombre, apellido, documento, telefono, email, direccion);
-        System.out.println(persona);
-        int pers_i = Fachada.getInstancia().registrarPersona(persona);
-        persona.setPers_Id(pers_i);
-        cliente = new Cliente(persona);
-        boolean a = Fachada.getInstancia().registrarCliente(cliente);
-        System.out.println(a);
-        System.out.println("el id de la persona es" + cliente.getPers_Id());
+        validar(1);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
