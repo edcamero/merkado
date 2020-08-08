@@ -129,4 +129,8 @@ public class Mediador {
     public ArrayList<Cliente> obtenerClientes(ArrayList<Persona> personas) {
         return clienteDao.obtenerClientes(personas);
     }
+    
+    public int personaId(int pers_id){
+        return clienteDao.personaId(pers_id);
+    }
 }

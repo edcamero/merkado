@@ -100,4 +100,37 @@ public class ClienteDao {
         }
         return lista;
     }
+
+    //OBTENER EL ID DE LA PERSONA
+    public int personaId(int clie_id) {
+        int pers_id = 0;
+        String consulta = "select * FROM clientes where clie_id=?;";
+        try {
+            //con = Conexion.getConexion();
+            con = Conexion.objConexion().getConexion();
+            //con = conexion.getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            pst.setInt(1, clie_id);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                pers_id = rs.getInt(2);
+            }
+
+            //pers_id = rs.getInt(1);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return pers_id;
+    }
 }

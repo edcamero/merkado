@@ -16,7 +16,7 @@ public class Clientes extends javax.swing.JFrame {
     Persona persona;
     Cliente cliente;
     DefaultTableModel model;
-    int prod_id;
+    int prod_id, clie_id;
 
     public Clientes() {
         initComponents();
@@ -79,6 +79,8 @@ public class Clientes extends javax.swing.JFrame {
         this.telefono = txtTelefono.getText().trim();
         this.email = txtEmail.getText().trim();
         this.direccion = txtDireccion.getText().trim();
+        System.out.println(clie_id);
+        pers_id = Fachada.getInstancia().personaId(clie_id);
         persona = new Persona(pers_id, nombre, apellido, documento, telefono, email, direccion);
         return Fachada.getInstancia().actualizarPersona(persona);
     }
@@ -366,7 +368,7 @@ public class Clientes extends javax.swing.JFrame {
 //      int row = source.rowAtPoint( evt.getPoint() );
 //      int column = source.columnAtPoint( evt.getPoint() );
 //      String s=source.getModel().getValueAt(row, column)+"";
-        prod_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
+        clie_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
         txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
         txtApellido.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
         txtDocumento.setText(source.getValueAt(source.getSelectedRow(), 3).toString());

@@ -119,4 +119,8 @@ public class Fachada {
     public ArrayList<Cliente> obtenerClientes(ArrayList<Persona> personas) {
         return mediador.obtenerClientes(personas);
     }
+    
+    public int personaId(int pers_id){
+        return mediador.personaId(pers_id);
+    }
 }
