@@ -5,6 +5,7 @@ import VO.Persona;
 import VO.Producto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import merka.Fachada;
 
@@ -15,6 +16,7 @@ public class Clientes extends javax.swing.JFrame {
     Persona persona;
     Cliente cliente;
     DefaultTableModel model;
+    int prod_id;
 
     public Clientes() {
         initComponents();
@@ -64,7 +66,6 @@ public class Clientes extends javax.swing.JFrame {
         this.direccion = txtDireccion.getText().trim();
         //System.out.println(boxTipoProducto.getSelectedItem().toString().trim());
         persona = new Persona(nombre, apellido, documento, telefono, email, direccion);
-        System.out.println(persona);
         int pers_i = Fachada.getInstancia().registrarPersona(persona);
         persona.setPers_Id(pers_i);
         cliente = new Cliente(persona);
@@ -72,7 +73,14 @@ public class Clientes extends javax.swing.JFrame {
     }
 
     public boolean modificarCliente() {
-        return false;
+        this.documento = txtDocumento.getText().trim();
+        this.nombre = txtNombre.getText().trim();
+        this.apellido = txtApellido.getText().trim();
+        this.telefono = txtTelefono.getText().trim();
+        this.email = txtEmail.getText().trim();
+        this.direccion = txtDireccion.getText().trim();
+        persona = new Persona(pers_id, nombre, apellido, documento, telefono, email, direccion);
+        return Fachada.getInstancia().actualizarPersona(persona);
     }
 
     public boolean eliminarCliente() {
@@ -244,6 +252,11 @@ public class Clientes extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
 
@@ -281,6 +294,11 @@ public class Clientes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaClientes);
 
         jLabel6.setText("Buscar:");
@@ -338,6 +356,24 @@ public class Clientes extends javax.swing.JFrame {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         validar(1);
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        validar(2);
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
+        JTable source = (JTable) evt.getSource();
+//      int row = source.rowAtPoint( evt.getPoint() );
+//      int column = source.columnAtPoint( evt.getPoint() );
+//      String s=source.getModel().getValueAt(row, column)+"";
+        prod_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
+        txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
+        txtApellido.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
+        txtDocumento.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
+        txtTelefono.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
+        txtEmail.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+        txtDireccion.setText(source.getValueAt(source.getSelectedRow(), 6).toString());
+    }//GEN-LAST:event_tablaClientesMouseClicked
 
     /**
      * @param args the command line arguments

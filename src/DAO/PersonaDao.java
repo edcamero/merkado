@@ -101,6 +101,7 @@ public class PersonaDao {
 
     //MODIFICAR PRODUCTOS
     public boolean actualizarPersona(Persona persona) {
+        boolean resultado = false;
         try {
 //            String consulta = "update productos\n"
 //                    + "set \n"
@@ -125,8 +126,11 @@ public class PersonaDao {
             pst.setString(6, persona.getDireccion());
             pst.setInt(7, persona.getPers_Id());
             rs = pst.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getInt("pers_id"));
+            }
 
-            return true;
+            resultado = true;
 
         } catch (SQLException ex) {
             Logger.getLogger(PersonaDao.class
@@ -142,7 +146,7 @@ public class PersonaDao {
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
         }
-        return false;
+        return resultado;
     }
 
     //ELIMINAR PRODUCTO

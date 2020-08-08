@@ -125,17 +125,11 @@ public class ProductoDao {
                     ResultSet.CONCUR_UPDATABLE);
 
             pst.setString(1, producto.getNombre());
-            System.out.println("nom" + pst);
             pst.setInt(2, producto.getPrecioCompra());
-            System.out.println("compr" + pst);
             pst.setInt(3, producto.getPrecioVenta());
-            System.out.println("venta" + pst);
             pst.setInt(4, producto.getCantidad());
-            System.out.println("cant" + pst);
             pst.setString(5, producto.getDescripcion());
-            System.out.println("desc" + pst);
             pst.setInt(6, producto.getId());
-            System.out.println("id" + pst);
             rs = pst.executeQuery();
 
             return true;
