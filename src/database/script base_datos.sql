@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS _tipo_productos;
 DROP TABLE IF EXISTS _productos;
 DROP TABLE IF EXISTS _tipo_usuarios;
 DROP TABLE IF EXISTS _usuarios;
+DROP TABLE IF EXISTS clientes;
 DROP TABLE IF EXISTS personas;
 
 CREATE TABLE PERSONAS(
@@ -15,7 +16,6 @@ CREATE TABLE PERSONAS(
     pers_apellido VARCHAR(40) NOT NULL,
     pers_documento VARCHAR(10) NOT NULL,
     pers_telefono VARCHAR(10) NOT NULL,
-    pers_email VARCHAR(30) NOT NULL,
     pers_direccion VARCHAR(30) NOT NULL,
     CONSTRAINT persona_pk PRIMARY KEY(pers_id)
 );
@@ -23,8 +23,9 @@ CREATE TABLE PERSONAS(
 CREATE TABLE CLIENTES (
     clie_id SERIAL,
     fk_pers_id SERIAL,
+    estado BOOLEAN,
     CONSTRAINT cliente_pk PRIMARY KEY(clie_id),
-    FOREIGN KEY(pers_id) REFERENCES PERSONAS(pers_id) ON UPDATE CASCADE ON DELETE RESTRICT
+    FOREIGN KEY(fk_pers_id) REFERENCES PERSONAS(pers_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE TIPO_USUARIOS(

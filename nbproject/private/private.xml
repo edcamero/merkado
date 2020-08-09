@@ -5,9 +5,14 @@
         <group>
             <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/merka/Mediador.java</file>
             <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/DAO/PersonaDao.java</file>
+            <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/DAO/ClienteDao.java</file>
+            <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/GUI/Clientes.java</file>
             <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/merka/Fachada.java</file>
             <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/VO/Cliente.java</file>
+            <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/database/Conexion.java</file>
+            <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/DAO/ProductoDao.java</file>
             <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/VO/Persona.java</file>
+            <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/GUI/Productos.java</file>
             <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/database/script%20base_datos.sql</file>
         </group>
     </open-files>

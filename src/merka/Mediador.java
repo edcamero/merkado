@@ -130,7 +130,12 @@ public class Mediador {
         return clienteDao.obtenerClientes(personas);
     }
     
-    public int personaId(int pers_id){
-        return clienteDao.personaId(pers_id);
+    public int personaId(int clie_id){
+        return clienteDao.personaId(clie_id);
     }
+    
+    public boolean eliminarCliente(boolean estado, int clie_id){
+        return clienteDao.eliminarCliente(estado, clie_id);
+    }
+    
 }

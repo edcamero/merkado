@@ -21,8 +21,8 @@ public class PersonaDao {
         int resultado = 0;
 
         String consulta = "INSERT INTO public.personas(\n"
-                + "	pers_nombre, pers_apellido, pers_documento, pers_telefono, pers_email, pers_direccion)\n"
-                + "	VALUES (?, ?, ?, ?, ?, ?) returning pers_id;";
+                + "	pers_nombre, pers_apellido, pers_documento, pers_telefono, pers_direccion)\n"
+                + "	VALUES (?, ?, ?, ?, ?) returning pers_id;";
         try {
             con = Conexion.objConexion().getConexion();
 
@@ -32,8 +32,7 @@ public class PersonaDao {
             pst.setString(2, persona.getApellido());
             pst.setString(3, persona.getDocumento());
             pst.setString(4, persona.getTelefono());
-            pst.setString(5, persona.getEmail());
-            pst.setString(6, persona.getDireccion());
+            pst.setString(5, persona.getDireccion());
 
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -80,7 +79,7 @@ public class PersonaDao {
             rs = pst.executeQuery();
             while (rs.next()) {
                 Persona P = new Persona(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                        rs.getString(4), rs.getString(5), rs.getString(6));
                 personas.add(P);
             }
 
@@ -103,16 +102,7 @@ public class PersonaDao {
     public boolean actualizarPersona(Persona persona) {
         boolean resultado = false;
         try {
-//            String consulta = "update productos\n"
-//                    + "set \n"
-//                    + "prod_nombre=?,\n"
-//                    + "prod_precio_compra=?,\n"
-//                    + "prod_precio_venta=?,\n"
-//                    + "prod_cantidad=?,\n"
-//                    + "prod_descripcion=?\n"
-//                    + "where prod_id=? returning *";
-
-            String consulta = "UPDATE personas SET pers_nombre =  ?, pers_apellido =  ?, pers_documento =  ?, pers_telefono =  ?, pers_email = ?, pers_direccion = ? WHERE pers_id=? returning *";
+            String consulta = "UPDATE personas SET pers_nombre =  ?, pers_apellido =  ?, pers_documento =  ?, pers_telefono =  ?, pers_direccion = ? WHERE pers_id=? returning *";
             //con = Conexion.getDataSource().getConnection();
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -122,9 +112,8 @@ public class PersonaDao {
             pst.setString(2, persona.getApellido());
             pst.setString(3, persona.getDocumento());
             pst.setString(4, persona.getTelefono());
-            pst.setString(5, persona.getEmail());
-            pst.setString(6, persona.getDireccion());
-            pst.setInt(7, persona.getPers_Id());
+            pst.setString(5, persona.getDireccion());
+            pst.setInt(6, persona.getPers_Id());
             rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println(rs.getInt("pers_id"));

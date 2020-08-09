@@ -120,7 +120,11 @@ public class Fachada {
         return mediador.obtenerClientes(personas);
     }
     
-    public int personaId(int pers_id){
-        return mediador.personaId(pers_id);
+    public int personaId(int clie_id){
+        return mediador.personaId(clie_id);
+    }
+    
+    public boolean eliminarCliente(boolean estado, int clie_id){
+        return mediador.eliminarCliente(estado, clie_id);
     }
 }

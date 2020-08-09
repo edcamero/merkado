@@ -7,36 +7,31 @@ public class Persona {
     private String apellido;
     private String documento;
     private String telefono;
-    private String email;
     private String direccion;
 
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String documento, String telefono, String email, String direccion) {
+    public Persona(String nombre, String apellido, String documento, String telefono, String direccion) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.documento = documento;
         this.telefono = telefono;
-        this.email = email;
         this.direccion = direccion;
     }
 
-    public Persona(int pers_id, String nombre, String apellido, String documento, String telefono, String email, String direccion) {
+    public Persona(int pers_id, String nombre, String apellido, String documento, String telefono, String direccion) {
         this.pers_id = pers_id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.documento = documento;
         this.telefono = telefono;
-        this.email = email;
         this.direccion = direccion;
     }
 
-    
-
     @Override
     public String toString() {
-        return "Persona{" + "nombre=" + nombre + ", apellido=" + apellido + ", documento=" + documento + ", telefono=" + telefono + ", email=" + email + ", direccion=" + direccion + '}';
+        return "Persona{" + "nombre=" + nombre + ", apellido=" + apellido + ", documento=" + documento + ", telefono=" + telefono + ", direccion=" + direccion + '}';
     }
 
     public int getPers_Id() {
@@ -79,14 +74,6 @@ public class Persona {
         this.telefono = telefono;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
     public String getDireccion() {
         return direccion;
     }
