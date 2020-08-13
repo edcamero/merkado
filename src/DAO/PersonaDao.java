@@ -1,6 +1,6 @@
 package DAO;
 
-import VO.Producto;
+import VO.Persona;
 import database.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,40 +11,34 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class ProductoDao {
+public class PersonaDao {
 
     private static Connection con;
     private static PreparedStatement pst;
     private static ResultSet rs;
 
-    public ProductoDao() {
-    }
+    public int registrarPersona(Persona persona) {
+        int resultado = 0;
 
-    //GUARDAR PRODUCTO
-    public boolean registrarProductos(Producto producto) {
-
-        boolean resultado = false;
-
-        String consulta = "INSERT INTO public.productos(\n"
-                + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion, fk_tipr_id)\n"
-                + "	VALUES (?, ?, ?, ?, ?, ?) returning prod_id;";
+        String consulta = "INSERT INTO public.personas(\n"
+                + "	pers_nombre, pers_apellido, pers_documento, pers_telefono, pers_direccion)\n"
+                + "	VALUES (?, ?, ?, ?, ?) returning pers_id;";
         try {
             con = Conexion.objConexion().getConexion();
 
             PreparedStatement pst = con.prepareStatement(consulta);
-            
-            pst.setString(1, producto.getNombre());
-            pst.setInt(2, producto.getPrecioCompra());
-            pst.setInt(3, producto.getPrecioVenta());
-            pst.setInt(4, producto.getCantidad());
-            pst.setString(5, producto.getDescripcion());
-            pst.setInt(6, producto.getTipoProducto());
+
+            pst.setString(1, persona.getNombre());
+            pst.setString(2, persona.getApellido());
+            pst.setString(3, persona.getDocumento());
+            pst.setString(4, persona.getTelefono());
+            pst.setString(5, persona.getDireccion());
 
             rs = pst.executeQuery();
             while (rs.next()) {
-                producto.setId(rs.getInt("prod_id"));
+                persona.setPers_Id(rs.getInt("pers_id"));
             }
-            resultado = true;
+            resultado = persona.getPers_Id();
             pst.close();
             rs.close();
         } catch (SQLException e) {
@@ -75,20 +69,18 @@ public class ProductoDao {
     }
 
     //OBTENER LOS PRODUCTOS
-    public ArrayList<Producto> obtenerProductos() {
-        ArrayList<Producto> lista = new ArrayList();
-        String consulta = "select * FROM productos ORDER BY prod_id;";
+    public ArrayList<Persona> obtenerPersonas() {
+        ArrayList<Persona> personas = new ArrayList();
+        String consulta = "select * FROM personas ORDER BY pers_id;";
         try {
-            //con = Conexion.getConexion();
             con = Conexion.objConexion().getConexion();
-            //con = conexion.getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3),
-                        rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getInt(7));
-                lista.add(P);
+                Persona P = new Persona(rs.getInt(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6));
+                personas.add(P);
             }
 
         } catch (SQLException ex) {
@@ -100,42 +92,37 @@ public class ProductoDao {
                 pst.close();
                 con.close();
             } catch (SQLException ex) {
-                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PersonaDao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return lista;
+        return personas;
     }
 
     //MODIFICAR PRODUCTOS
-    public boolean actualizarProducto(Producto producto) {
+    public boolean actualizarPersona(Persona persona) {
+        boolean resultado = false;
         try {
-//            String consulta = "update productos\n"
-//                    + "set \n"
-//                    + "prod_nombre=?,\n"
-//                    + "prod_precio_compra=?,\n"
-//                    + "prod_precio_venta=?,\n"
-//                    + "prod_cantidad=?,\n"
-//                    + "prod_descripcion=?\n"
-//                    + "where prod_id=? returning *";
-
-            String consulta = "UPDATE productos SET prod_nombre =  ?, prod_precio_compra =  ?, prod_precio_venta =  ?, prod_cantidad =  ?, prod_descripcion = ? WHERE prod_id=? returning *";
+            String consulta = "UPDATE personas SET pers_nombre =  ?, pers_apellido =  ?, pers_documento =  ?, pers_telefono =  ?, pers_direccion = ? WHERE pers_id=? returning *";
             //con = Conexion.getDataSource().getConnection();
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            pst.setString(1, producto.getNombre());
-            pst.setInt(2, producto.getPrecioCompra());
-            pst.setInt(3, producto.getPrecioVenta());
-            pst.setInt(4, producto.getCantidad());
-            pst.setString(5, producto.getDescripcion());
-            pst.setInt(6, producto.getId());
+            pst.setString(1, persona.getNombre());
+            pst.setString(2, persona.getApellido());
+            pst.setString(3, persona.getDocumento());
+            pst.setString(4, persona.getTelefono());
+            pst.setString(5, persona.getDireccion());
+            pst.setInt(6, persona.getPers_Id());
             rs = pst.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getInt("pers_id"));
+            }
 
-            return true;
+            resultado = true;
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductoDao.class
+            Logger.getLogger(PersonaDao.class
                     .getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
@@ -148,20 +135,20 @@ public class ProductoDao {
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
         }
-        return false;
+        return resultado;
     }
 
     //ELIMINAR PRODUCTO
-    public static boolean eliminarProducto(int prod_id) {
+    public static boolean eliminarPersona(int pers_id) {
 
         try {
-            String consulta = "DELETE FROM productos "
-                    + "WHERE prod_id = ?";
+            String consulta = "DELETE FROM personas "
+                    + "WHERE pers_id = ?";
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            pst.setInt(1, prod_id);
+            pst.setInt(1, pers_id);
 
             if (pst.executeUpdate() > 0) {
                 return true;
@@ -169,7 +156,7 @@ public class ProductoDao {
             con.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PersonaDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         } finally {
             try {
