@@ -3,12 +3,22 @@ DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS tipo_usuarios;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS tipo_productos;
+DROP TABLE IF EXISTS clientes;
+DROP TABLE IF EXISTS empleados;
+DROP TABLE IF EXISTS personas;
+DROP TABLE IF EXISTS cargos;
+DROP TABLE IF EXISTS _usuarios;
+DROP TABLE IF EXISTS _tipo_usuarios;
 DROP TABLE IF EXISTS _tipo_productos;
 DROP TABLE IF EXISTS _productos;
-DROP TABLE IF EXISTS _tipo_usuarios;
-DROP TABLE IF EXISTS _usuarios;
-DROP TABLE IF EXISTS clientes;
-DROP TABLE IF EXISTS personas;
+DROP TABLE IF EXISTS _tipo_productos;
+DROP TABLE IF EXISTS _clientes;
+DROP TABLE IF EXISTS _empleados;
+DROP TABLE IF EXISTS _personas;
+DROP TABLE IF EXISTS _cargos;
+
+
+
 
 CREATE TABLE PERSONAS(
     pers_id SERIAL,
@@ -22,10 +32,10 @@ CREATE TABLE PERSONAS(
 
 CREATE TABLE CLIENTES (
     clie_id SERIAL,
-    fk_pers_id SERIAL,
+    pers_id integer,
     estado BOOLEAN,
     CONSTRAINT cliente_pk PRIMARY KEY(clie_id),
-    FOREIGN KEY(fk_pers_id) REFERENCES PERSONAS(pers_id) ON UPDATE CASCADE ON DELETE RESTRICT
+	CONSTRAINT clie_pers_fk foreign key(pers_id) references PERSONAS(pers_id)
 );
 
 CREATE TABLE TIPO_USUARIOS(
@@ -49,6 +59,27 @@ CREATE TABLE USUARIOS(
 
 INSERT INTO public.usuarios(username, password,tius_id)VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3',1);
 
+CREATE TABLE CARGOS(
+	carg_id SERIAL,
+	carg_nombre VARCHAR(40) NOT NULL UNIQUE,
+	carg_descripcion VARCHAR(200),
+	carg_salario_mensual INT NOT NULL,
+	CONSTRAINT cargos_pk PRIMARY KEY(carg_id)
+	);
+	
+CREATE TABLE EMPLEADOS(
+	empl_id SERIAL,
+	empl_fecha_contratacion date NOT NULL,
+	pers_id integer,
+	carg_id integer,
+	CONSTRAINT empleados_pk PRIMARY KEY(empl_id),
+	CONSTRAINT empl_pers_fk foreign key(pers_id) references PERSONAS(pers_id),
+	CONSTRAINT empl_carg_fk foreign key(carg_id) references CARGOS(carg_id)
+	);
+	
+	
+	
+
 
 CREATE TABLE TIPO_PRODUCTOS(
     tipr_id SERIAL,
@@ -66,9 +97,9 @@ CREATE TABLE PRODUCTOS(
    prod_precio_venta INT NOT NULL,
    prod_cantidad INT NOT NULL,
    prod_descripcion VARCHAR(200),
-   fk_tipr_id INT NOT NULL,
+   tipr_id INT NOT NULL,
    CONSTRAINT productos_pk PRIMARY KEY(prod_id),
-   FOREIGN KEY(fk_tipr_id) REFERENCES TIPO_PRODUCTOS(tipr_id) ON UPDATE CASCADE ON DELETE RESTRICT
+   CONSTRAINT fk_tipr_id foreign key(tipr_id) references TIPO_PRODUCTOS(tipr_id)
 );
 
 ------------------------------
@@ -97,7 +128,7 @@ CREATE TABLE _USUARIOS(
 --TABLA PARA AUDITORIA DE TIPO_PRODUCTOS
 
 CREATE TABLE _TIPO_PRODUCTOS(
-    tipr_id numeric,
+    tipr_id integer,
     tipr_nombre VARCHAR(40),
     tipr_descripcion VARCHAR(200),
     tipr_fecha_operacion timestamp not null,
@@ -106,15 +137,60 @@ CREATE TABLE _TIPO_PRODUCTOS(
 
 --TABLA PARA AUDITORIA DE PRODUCTOS
 CREATE TABLE _PRODUCTOS(
-   prod_id numeric,
-   prod_nombre VARCHAR(40) NOT NULL, 
+   prod_id integer,
+   prod_nombre VARCHAR(40) NOT NULL UNIQUE, 
    prod_precio_compra INT NOT NULL,
    prod_precio_venta INT NOT NULL,
    prod_cantidad INT NOT NULL,
    prod_descripcion VARCHAR(200),
+   tipr_id INT NOT NULL,
    prod_fecha_operacion timestamp not null,
    prod_operacion VARCHAR(1) NOT NULL
 );
 
+--TABLA  PARA AUDITORIA DE CARGOS
+CREATE TABLE _CARGOS(
+	carg_id integer,
+	carg_nombre VARCHAR(40) NOT NULL UNIQUE,
+	carg_descripcion VARCHAR(200),
+	carg_salario_mensual INT NOT NULL,
+	carg_fecha_operacion timestamp not null,
+    carg_operacion VARCHAR(1) NOT NULL
+	);
+	
+	
+--TABLA PARA AUDITORIA DE PERSONAS
+
+CREATE TABLE _PERSONAS(
+    pers_id integer,
+    pers_nombre VARCHAR(40) NOT NULL,
+    pers_apellido VARCHAR(40) NOT NULL,
+    pers_documento VARCHAR(10) NOT NULL,
+    pers_telefono VARCHAR(10) NOT NULL,
+    pers_direccion VARCHAR(30) NOT NULL,
+	pers_fecha_operacion timestamp not null,
+    pers_operacion VARCHAR(1) NOT NULL
+);
+
+--TABLA PARA AUDITORIA DE CLIENTES
+
+CREATE TABLE _CLIENTES (
+    clie_id integer,
+    fk_pers_id SERIAL,
+    estado BOOLEAN,
+	pers_fecha_operacion timestamp not null,
+    pers_operacion VARCHAR(1) NOT NULL
+);
+
+
+CREATE TABLE _EMPLEADOS(
+	empl_id integer,
+	empl_fecha_contratacion date NOT NULL,
+	pers_id numeric,
+	carg_id numeric,
+	empl_fecha_operacion timestamp not null,
+    empl_operacion VARCHAR(1) NOT NULL
+	);
+	
 
 

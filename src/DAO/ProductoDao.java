@@ -26,7 +26,7 @@ public class ProductoDao {
         boolean resultado = false;
 
         String consulta = "INSERT INTO public.productos(\n"
-                + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion, fk_tipr_id)\n"
+                + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion, tipr_id)\n"
                 + "	VALUES (?, ?, ?, ?, ?, ?) returning prod_id;";
         try {
             con = Conexion.objConexion().getConexion();
