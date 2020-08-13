@@ -132,7 +132,7 @@ public class Mediador {
     
     //************************* CARGOS *****************************
     public boolean registrarCargo(Cargo cargo) {
-        return cargoDao.actualizarCargo(cargo);
+        return cargoDao.registrarCargo(cargo);
     }
     
     public ArrayList<Cargo> obtenerCargos() {

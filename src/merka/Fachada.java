@@ -125,7 +125,7 @@ public class Fachada {
 
     //************************* CARGOS *****************************
     public boolean registrarCargo(Cargo cargo) {
-        return mediador.actualizarCargo(cargo);
+        return mediador.registrarCargo(cargo);
     }
 
     public ArrayList<Cargo> obtenerCargos() {

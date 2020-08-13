@@ -173,7 +173,7 @@ public class RegistrarCargo extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Cargo cargo = new Cargo(txtNombre.getText(), txtDescripcion.getText(), Integer.parseInt(txtSalario.getText()), true);
-        Fachada.getInstancia().registrarCargo(cargo);
+        System.out.println(Fachada.getInstancia().registrarCargo(cargo));
         cargar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
