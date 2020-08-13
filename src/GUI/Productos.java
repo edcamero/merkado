@@ -496,7 +496,6 @@ public class Productos extends javax.swing.JFrame {
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         filtro();
         String c = boxBuscar.getSelectedItem().toString();
-        System.out.println(c);
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped

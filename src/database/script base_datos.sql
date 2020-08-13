@@ -35,7 +35,7 @@ CREATE TABLE CLIENTES (
     pers_id integer,
     estado BOOLEAN,
     CONSTRAINT cliente_pk PRIMARY KEY(clie_id),
-	CONSTRAINT clie_pers_fk foreign key(pers_id) references PERSONAS(pers_id)
+    CONSTRAINT clie_pers_fk foreign key(pers_id) references PERSONAS(pers_id)
 );
 
 CREATE TABLE TIPO_USUARIOS(
@@ -60,27 +60,25 @@ CREATE TABLE USUARIOS(
 INSERT INTO public.usuarios(username, password,tius_id)VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3',1);
 
 CREATE TABLE CARGOS(
-	carg_id SERIAL,
-	carg_nombre VARCHAR(40) NOT NULL UNIQUE,
-	carg_descripcion VARCHAR(200),
-	carg_salario_mensual INT NOT NULL,
-	CONSTRAINT cargos_pk PRIMARY KEY(carg_id)
-	);
+    carg_id SERIAL,
+    carg_nombre VARCHAR(40) NOT NULL UNIQUE,
+    carg_descripcion VARCHAR(200),
+    carg_salario_mensual INT NOT NULL,
+    carg_estado boolean not null,
+    CONSTRAINT cargos_pk PRIMARY KEY(carg_id)
+);
 	
 CREATE TABLE EMPLEADOS(
-	empl_id SERIAL,
-	empl_fecha_contratacion date NOT NULL,
-	pers_id integer,
-	carg_id integer,
-	CONSTRAINT empleados_pk PRIMARY KEY(empl_id),
-	CONSTRAINT empl_pers_fk foreign key(pers_id) references PERSONAS(pers_id),
-	CONSTRAINT empl_carg_fk foreign key(carg_id) references CARGOS(carg_id)
-	);
+    empl_id SERIAL,
+    empl_fecha_contratacion date NOT NULL,
+    pers_id integer,
+    carg_id integer,
+    CONSTRAINT empleados_pk PRIMARY KEY(empl_id),
+    CONSTRAINT empl_pers_fk foreign key(pers_id) references PERSONAS(pers_id),
+    CONSTRAINT empl_carg_fk foreign key(carg_id) references CARGOS(carg_id)
+);
 	
 	
-	
-
-
 CREATE TABLE TIPO_PRODUCTOS(
     tipr_id SERIAL,
     tipr_nombre VARCHAR(40) UNIQUE,
@@ -150,13 +148,14 @@ CREATE TABLE _PRODUCTOS(
 
 --TABLA  PARA AUDITORIA DE CARGOS
 CREATE TABLE _CARGOS(
-	carg_id integer,
-	carg_nombre VARCHAR(40) NOT NULL UNIQUE,
-	carg_descripcion VARCHAR(200),
-	carg_salario_mensual INT NOT NULL,
-	carg_fecha_operacion timestamp not null,
+    carg_id integer,
+    carg_nombre VARCHAR(40) NOT NULL UNIQUE,
+    carg_descripcion VARCHAR(200),
+    carg_estado boolean,
+    carg_salario_mensual INT NOT NULL,
+    carg_fecha_operacion timestamp not null,
     carg_operacion VARCHAR(1) NOT NULL
-	);
+);
 	
 	
 --TABLA PARA AUDITORIA DE PERSONAS
@@ -184,13 +183,13 @@ CREATE TABLE _CLIENTES (
 
 
 CREATE TABLE _EMPLEADOS(
-	empl_id integer,
-	empl_fecha_contratacion date NOT NULL,
-	pers_id numeric,
-	carg_id numeric,
-	empl_fecha_operacion timestamp not null,
+    empl_id integer,
+    empl_fecha_contratacion date NOT NULL,
+    pers_id numeric,
+    carg_id numeric,
+    empl_fecha_operacion timestamp not null,
     empl_operacion VARCHAR(1) NOT NULL
-	);
+);
 	
 
 
