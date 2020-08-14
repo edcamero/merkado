@@ -137,6 +137,6 @@ public class Fachada {
     }
 
     public boolean eliminarCargo(boolean estado, int carg_id) {
-        return mediador.eliminarCliente(estado, carg_id);
+        return mediador.eliminarCargo(estado, carg_id);
     }
 }
