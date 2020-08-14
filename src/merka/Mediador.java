@@ -144,7 +144,7 @@ public class Mediador {
     }
     
     public boolean eliminarCargo(boolean estado, int carg_id){
-        return cargoDao.eliminarCliente(estado, carg_id);
+        return cargoDao.eliminarCargo(estado, carg_id);
     }
     
     

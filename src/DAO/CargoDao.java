@@ -134,22 +134,22 @@ public class CargoDao {
         }
         return false;
     }
-    
+
     //ELIMINAR CARGO
-    public boolean eliminarCliente(boolean estado, int carg_id) {
+    public boolean eliminarCargo(boolean estado, int carg_id) {
         boolean resultado = false;
         try {
-            String consulta = "UPDATE cargos SET estado=? WHERE carg_id=?";
+            String consulta = "UPDATE cargos SET carg_estado=? WHERE carg_id=?";
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
             pst.setBoolean(1, estado);
             pst.setInt(2, carg_id);
-
+            pst.executeUpdate();
             resultado = true;
         } catch (SQLException ex) {
-            Logger.getLogger(PersonaDao.class
+            Logger.getLogger(CargoDao.class
                     .getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
