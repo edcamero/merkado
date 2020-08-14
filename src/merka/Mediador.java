@@ -1,17 +1,7 @@
 package merka;
 
-import DAO.ClienteDao;
-import DAO.PersonaDao;
-import DAO.ProductoDao;
-import DAO.TipoProductoDao;
-import DAO.TipoUsuarioDao;
-import DAO.UsuarioDao;
-import VO.Cliente;
-import VO.Persona;
-import VO.Producto;
-import VO.TipoProducto;
-import VO.TipoUsuario;
-import VO.Usuario;
+import DAO.*;
+import VO.*;
 import java.util.ArrayList;
 
 public class Mediador {
@@ -22,6 +12,7 @@ public class Mediador {
     TipoProductoDao tipoProductoDao;
     PersonaDao personaDao;
     ClienteDao clienteDao;
+    CargoDao cargoDao;
 
     public Mediador() {
         usuarioDao = new UsuarioDao();
@@ -30,6 +21,7 @@ public class Mediador {
         tipoUsuarioDao = new TipoUsuarioDao();
         personaDao = new PersonaDao();
         clienteDao = new ClienteDao();
+        cargoDao = new CargoDao();
     }
 
     public boolean login(String username, String pass) {
@@ -137,5 +129,23 @@ public class Mediador {
     public boolean eliminarCliente(boolean estado, int clie_id){
         return clienteDao.eliminarCliente(estado, clie_id);
     }
+    
+    //************************* CARGOS *****************************
+    public boolean registrarCargo(Cargo cargo) {
+        return cargoDao.registrarCargo(cargo);
+    }
+    
+    public ArrayList<Cargo> obtenerCargos() {
+        return cargoDao.obtenerCargos();
+    }
+    
+    public boolean actualizarCargo(Cargo cargo){
+        return cargoDao.actualizarCargo(cargo);
+    }
+    
+    public boolean eliminarCargo(boolean estado, int carg_id){
+        return cargoDao.eliminarCliente(estado, carg_id);
+    }
+    
     
 }

@@ -1,11 +1,6 @@
 package merka;
 
-import VO.Cliente;
-import VO.Persona;
-import VO.Producto;
-import VO.TipoProducto;
-import VO.TipoUsuario;
-import VO.Usuario;
+import VO.*;
 import java.util.ArrayList;
 
 public class Fachada {
@@ -119,12 +114,29 @@ public class Fachada {
     public ArrayList<Cliente> obtenerClientes(ArrayList<Persona> personas) {
         return mediador.obtenerClientes(personas);
     }
-    
-    public int personaId(int clie_id){
+
+    public int personaId(int clie_id) {
         return mediador.personaId(clie_id);
     }
-    
-    public boolean eliminarCliente(boolean estado, int clie_id){
+
+    public boolean eliminarCliente(boolean estado, int clie_id) {
         return mediador.eliminarCliente(estado, clie_id);
+    }
+
+    //************************* CARGOS *****************************
+    public boolean registrarCargo(Cargo cargo) {
+        return mediador.registrarCargo(cargo);
+    }
+
+    public ArrayList<Cargo> obtenerCargos() {
+        return mediador.obtenerCargos();
+    }
+
+    public boolean actualizarCargo(Cargo cargo) {
+        return mediador.actualizarCargo(cargo);
+    }
+
+    public boolean eliminarCargo(boolean estado, int carg_id) {
+        return mediador.eliminarCliente(estado, carg_id);
     }
 }

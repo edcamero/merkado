@@ -1,7 +1,7 @@
 package DAO;
 
-import VO.Cliente;
-import VO.Persona;
+import VO.Cargo;
+import VO.Producto;
 import database.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,30 +12,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class ClienteDao {
+public class CargoDao {
 
     private static Connection con;
     private static PreparedStatement pst;
     private static ResultSet rs;
 
-    //GUARDAR CLIENTE
-    public boolean registrarCliente(Cliente cliente) {
+    //GUARDAR CARGO
+    public boolean registrarCargo(Cargo cargo) {
 
         boolean resultado = false;
 
-        String consulta = "INSERT INTO public.clientes(\n"
-                + "	fk_pers_id, estado)\n"
-                + "	VALUES (?,?) returning clie_id;";
+        String consulta = "INSERT INTO public.cargos(\n"
+                + "	carg_nombre, carg_descripcion, carg_salario_mensual, carg_estado)\n"
+                + "	VALUES (?, ?, ?, ?) returning carg_id;";
         try {
             con = Conexion.objConexion().getConexion();
 
             PreparedStatement pst = con.prepareStatement(consulta);
-            pst.setInt(1, cliente.getPers_Id());
-            pst.setBoolean(2, cliente.isEstado());
+
+            pst.setString(1, cargo.getNombre());
+            pst.setString(2, cargo.getDescripcion());
+            pst.setInt(3, cargo.getSalario());
+            pst.setBoolean(4, cargo.isEstado());
 
             rs = pst.executeQuery();
             while (rs.next()) {
-                cliente.setId(rs.getInt("clie_id"));
+                cargo.setId(rs.getInt("carg_id"));
             }
             resultado = true;
             pst.close();
@@ -67,24 +70,21 @@ public class ClienteDao {
         return resultado;
     }
 
-    //OBTENER LOS CLIENTES
-    public ArrayList<Cliente> obtenerClientes(ArrayList<Persona> personas) {
-        ArrayList<Cliente> lista = new ArrayList();
-        String consulta = "select * FROM clientes ORDER BY clie_id;";
+    //OBTENER LOS CARGOS
+    public ArrayList<Cargo> obtenerCargos() {
+        ArrayList<Cargo> lista = new ArrayList();
+        String consulta = "select * FROM cargos ORDER BY carg_id;";
         try {
-            //con = Conexion.getConexion();
             con = Conexion.objConexion().getConexion();
-            //con = conexion.getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
-            int i = 0;
             while (rs.next()) {
-                if (rs.getBoolean("estado") == true) {
-                    Cliente P = new Cliente(rs.getInt(1), rs.getBoolean(2), personas.get(i));
-                    lista.add(P);
+                if (rs.getBoolean(5) == true) {
+                    Cargo c = new Cargo(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getInt(4), rs.getBoolean(5));
+                    lista.add(c);
                 }
-                i++;
             }
 
         } catch (SQLException ex) {
@@ -102,51 +102,50 @@ public class ClienteDao {
         return lista;
     }
 
-    //OBTENER EL ID DE LA PERSONA
-    public int personaId(int clie_id) {
-        int pers_id = 0;
-        String consulta = "select * FROM clientes where clie_id=?;";
+    //MODIFICAR CARGOS
+    public boolean actualizarCargo(Cargo cargo) {
         try {
-            //con = Conexion.getConexion();
+            String consulta = "UPDATE cargos SET carg_nombre =  ?, carg_descripcion =  ?, carg_salario_mensual =  ? WHERE carg_id=? returning *";
             con = Conexion.objConexion().getConexion();
-            //con = conexion.getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            pst.setInt(1, clie_id);
+            pst.setString(1, cargo.getNombre());
+            pst.setString(2, cargo.getDescripcion());
+            pst.setInt(3, cargo.getSalario());
+            pst.setInt(4, cargo.getId());
             rs = pst.executeQuery();
-            if (rs.next()) {
-                pers_id = rs.getInt(2);
-            }
 
-            //pers_id = rs.getInt(1);
+            return true;
+
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"
-                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ProductoDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                rs.close();
                 pst.close();
+                rs.close();
                 con.close();
+
             } catch (SQLException ex) {
-                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
         }
-        return pers_id;
+        return false;
     }
-
-    //ELIMINAR CLIENTE
-    public boolean eliminarCliente(boolean estado, int clie_id) {
+    
+    //ELIMINAR CARGO
+    public boolean eliminarCliente(boolean estado, int carg_id) {
         boolean resultado = false;
         try {
-            String consulta = "UPDATE clientes SET estado=? WHERE clie_id=?";
-            //con = Conexion.getDataSource().getConnection();
+            String consulta = "UPDATE cargos SET estado=? WHERE carg_id=?";
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
             pst.setBoolean(1, estado);
-            pst.setInt(2, clie_id);
+            pst.setInt(2, carg_id);
 
             resultado = true;
         } catch (SQLException ex) {
