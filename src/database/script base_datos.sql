@@ -97,8 +97,28 @@ CREATE TABLE PRODUCTOS(
    prod_descripcion VARCHAR(200),
    tipr_id INT NOT NULL,
    CONSTRAINT productos_pk PRIMARY KEY(prod_id),
-   CONSTRAINT fk_tipr_id foreign key(tipr_id) references TIPO_PRODUCTOS(tipr_id)
+   CONSTRAINT prod_tipr_fk foreign key(tipr_id) references TIPO_PRODUCTOS(tipr_id)
 );
+
+CREATE TABLE PROVEEDOR(
+	prov_id SERIAL,
+	prov_nombre VARCHAR(40) NOT NULL UNIQUE,
+	prov_nit VARCHAR(12) NOT NULL,
+	prov_direccion VARCHAR(30) NOT NULL,
+	prov_telefono VARCHAR(10) NOT NULL,
+	CONSTRAINT proveedor_pk PRIMARY KEY(prov_id),
+	
+	);
+	
+CREATE TABLE PRODUCTO_PROVEEDOR(
+	prpr_id serial,
+	prod_id numeric,
+	prov_id numeric,
+	CONSTRAINT producto_proveedor_pk PRIMARY KEY(prpr_id),
+	CONSTRAINT prpr_prod_fk foreign key(prod_id) references PRODUCTOS(prod_id),
+	CONSTRAINT prpr_prov_fk foreign key(prov_id) references PRODUCTOS(prov_id),
+);	
+
 
 ------------------------------
 --Auditorias
@@ -181,7 +201,7 @@ CREATE TABLE _CLIENTES (
     pers_operacion VARCHAR(1) NOT NULL
 );
 
-
+--TABLA PARA AUDITORIA DE EMPLEADOS
 CREATE TABLE _EMPLEADOS(
     empl_id integer,
     empl_fecha_contratacion date NOT NULL,
@@ -191,5 +211,22 @@ CREATE TABLE _EMPLEADOS(
     empl_operacion VARCHAR(1) NOT NULL
 );
 	
-
+CREATE TABLE PROVEEDOR(
+	prov_id integer,
+	prov_nombre VARCHAR(40) NOT NULL UNIQUE,
+	prov_nit VARCHAR(12) NOT NULL,
+	prov_direccion VARCHAR(30) NOT NULL,
+	prov_telefono VARCHAR(10) NOT NULL,
+	prov_fecha_operacion timestamp not null,
+    empl_operacion VARCHAR(1) NOT NULL
+	
+	);
+	
+CREATE TABLE PRODUCTO_PROVEEDOR(
+	prpr_id integer,
+	prod_id numeric,
+	prov_id numeric,
+	prpr_fecha_operacion timestamp not null,
+    prpr_operacion VARCHAR(1) NOT NULL
+);	
 
