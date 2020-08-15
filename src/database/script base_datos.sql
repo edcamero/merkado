@@ -227,6 +227,5 @@ CREATE TABLE PRODUCTO_PROVEEDOR(
 	prod_id numeric,
 	prov_id numeric,
 	prpr_fecha_operacion timestamp not null,
-    prpr_operacion VARCHAR(1) NOT NULL
+        prpr_operacion VARCHAR(1) NOT NULL
 );	
-
