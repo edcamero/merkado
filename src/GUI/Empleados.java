@@ -1,13 +1,23 @@
 package GUI;
 
+import VO.Empleado;
+import VO.Cargo;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import merka.Fachada;
+//import java.sql.Date;
+import java.util.Date;
 
-public class Empleado extends javax.swing.JFrame {
+public class Empleados extends javax.swing.JFrame {
 
-    public Empleado() {
+    ArrayList<Cargo> cargos;
+
+    public Empleados() {
         initComponents();
         this.setLocationRelativeTo(null);
+        cargarCargos();
     }
 
     public void limpiar() {
@@ -18,10 +28,31 @@ public class Empleado extends javax.swing.JFrame {
 
     }
 
+    public void cargarCargos() {
+//        try {
+//            String formato = fecha.getDateFormatString();
+//            Date date = fecha.getDate();
+//            SimpleDateFormat sdf = new SimpleDateFormat(formato);
+//            String a = String.valueOf(sdf.format(date));
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "Al menos elija una FECHA DE NACIMIENTO VALIDA ", "Error..!!", JOptionPane.ERROR_MESSAGE);
+//
+//        }
+
+        cargos = Fachada.getInstancia().obtenerCargos();
+        boxCargos.addItem("Seleccione una opción");
+        for (Cargo cargo : cargos) {
+            boxCargos.addItem(cargo.getNombre());
+        }
+    }
+
     public boolean registrarEmpleado() {
-//        Empleado empleado
-//        Fachada.getInstancia().registrarEmpleado(empleado);
-        return false;
+        int selectCargo = boxCargos.getSelectedIndex();
+        Cargo cargo = cargos.get(selectCargo - 1);
+        System.out.println(fecha.getDate());
+        Empleado empleado = new Empleado(fecha.getDate(), true, cargo, txtNombre.getText(), txtApellido.getText(), txtDocumento.getText(), txtTelefono.getText(), txtDireccion.getText());
+        return Fachada.getInstancia().registrarEmpleado(empleado);
     }
 
     public boolean modificarEmpleado() {
@@ -31,8 +62,6 @@ public class Empleado extends javax.swing.JFrame {
     public boolean eliminarEmpleado() {
         return false;
     }
-    
-    
 
     public void validar(int metodo) {
         if (txtNombre.getText().equals("") && txtApellido.getText().equals("") && txtDocumento.getText().equals("")
@@ -78,6 +107,17 @@ public class Empleado extends javax.swing.JFrame {
         }
         limpiar();
         cargar();
+    }
+
+    public static Date ParseFecha(String fecha) {
+        SimpleDateFormat formato = new SimpleDateFormat("hh: mm: ss a dd-MMM-y");
+        Date fechaDate = null;
+        try {
+            fechaDate = formato.parse(fecha);
+        } catch (ParseException ex) {
+            System.out.println(ex);
+        }
+        return fechaDate;
     }
 
     @SuppressWarnings("unchecked")
@@ -238,6 +278,11 @@ public class Empleado extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
 
@@ -338,6 +383,17 @@ public class Empleado extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        Date date = fecha.getDate();
+        System.out.println(date);
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-y HH: mm: ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("hh: mm: ss a dd-MMM-y");
+        String a = sdf.format(fecha.getDate());
+        System.out.println(a);
+        System.out.println(ParseFecha(a));
+        validar(1);
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -368,7 +424,7 @@ public class Empleado extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Empleado().setVisible(true);
+                new Empleados().setVisible(true);
             }
         });
     }

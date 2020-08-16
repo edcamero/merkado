@@ -145,4 +145,8 @@ public class Fachada {
     public boolean eliminarCargo(boolean estado, int carg_id) {
         return mediador.eliminarCargo(estado, carg_id);
     }
+
+    public boolean registrarEmpleado(GUI.Empleados emplead) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

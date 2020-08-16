@@ -1,6 +1,6 @@
 package VO;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Empleado extends Persona {
 
@@ -9,9 +9,7 @@ public class Empleado extends Persona {
     private boolean estado;
     private Cargo cargo;
 
-    public Empleado() {
-        super();
-    }
+    
 
     public Empleado(Date fechaContratacion, boolean estado, Cargo cargo, String nombre, String apellido, String documento, String telefono, String direccion) {
         super(nombre, apellido, documento, telefono, direccion);

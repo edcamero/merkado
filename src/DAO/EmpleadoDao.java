@@ -2,6 +2,7 @@ package DAO;
 
 import VO.Empleado;
 import database.Conexion;
+import java.sql.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +27,11 @@ public class EmpleadoDao {
             con = Conexion.objConexion().getConexion();
 
             PreparedStatement pst = con.prepareStatement(consulta);
-            pst.setDate(1, empleado.getFechaContratacion());
+
+            java.util.Date utilDate = empleado.getFechaContratacion();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+            pst.setDate(1, sqlDate);
             pst.setBoolean(2, empleado.isEstado());
             pst.setInt(3, empleado.getPers_Id());
             pst.setInt(4, empleado.getCargo().getId());
