@@ -26,6 +26,10 @@ public class Empleado extends Persona {
         this.cargo = cargo;
     }
 
+//    public Empleado(int aInt, java.sql.Date date, boolean aBoolean, int aInt0, String nombre, String nombre0, String nombre1, String nombre2, String nombre3) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+
     public int getId() {
         return id;
     }

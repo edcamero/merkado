@@ -2,6 +2,8 @@ package GUI;
 
 import VO.Empleado;
 import VO.Cargo;
+import VO.Cliente;
+import VO.Persona;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,10 +11,12 @@ import javax.swing.JOptionPane;
 import merka.Fachada;
 //import java.sql.Date;
 import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 
 public class Empleados extends javax.swing.JFrame {
 
     ArrayList<Cargo> cargos;
+    DefaultTableModel model;
 
     public Empleados() {
         initComponents();
@@ -24,22 +28,31 @@ public class Empleados extends javax.swing.JFrame {
 
     }
 
-    public void cargar() {
-
-    }
+//    public void cargar() {
+//        ArrayList<Persona> personas = Fachada.getInstancia().obtenerPersona();
+//        ArrayList<Cliente> empleados = Fachada.getInstancia().obtenerEmpleados(personas);
+//        String data[][] = {};
+//        String col[] = {"ID", "NOMBRE", "APELLIDO", "CEDULA", "TELEFONO", "DIRECCION", "FECHA/CONTRATACION"};
+//        model = new DefaultTableModel(data, col);
+//        ///alumno d = cab;
+//        //************************************
+//        if (clientes.size() != 0) {
+//            for (Cliente cliente : clientes) {
+//                Object[] fila = new Object[7];
+//                fila[0] = cliente.getId();
+//                fila[1] = cliente.getNombre();
+//                fila[2] = cliente.getApellido();
+//                fila[3] = cliente.getDocumento();
+//                fila[4] = cliente.getTelefono();
+//                fila[5] = cliente.getDireccion();
+//                fila[6] = cliente.get;
+//                model.addRow(fila);
+//            }
+//            this.tablaEmpleados.setModel(model);
+//        }
+//    }
 
     public void cargarCargos() {
-//        try {
-//            String formato = fecha.getDateFormatString();
-//            Date date = fecha.getDate();
-//            SimpleDateFormat sdf = new SimpleDateFormat(formato);
-//            String a = String.valueOf(sdf.format(date));
-//
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, "Al menos elija una FECHA DE NACIMIENTO VALIDA ", "Error..!!", JOptionPane.ERROR_MESSAGE);
-//
-//        }
-
         cargos = Fachada.getInstancia().obtenerCargos();
         boxCargos.addItem("Seleccione una opción");
         for (Cargo cargo : cargos) {
@@ -106,7 +119,7 @@ public class Empleados extends javax.swing.JFrame {
             }
         }
         limpiar();
-        cargar();
+        //cargar();
     }
 
     public static Date ParseFecha(String fecha) {
@@ -151,7 +164,7 @@ public class Empleados extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tablaEmpleados = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -285,6 +298,11 @@ public class Empleados extends javax.swing.JFrame {
         });
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
 
@@ -322,7 +340,7 @@ public class Empleados extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -333,7 +351,7 @@ public class Empleados extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tablaEmpleados);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -384,15 +402,12 @@ public class Empleados extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        Date date = fecha.getDate();
-        System.out.println(date);
-        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-y HH: mm: ss");
-        SimpleDateFormat sdf = new SimpleDateFormat("hh: mm: ss a dd-MMM-y");
-        String a = sdf.format(fecha.getDate());
-        System.out.println(a);
-        System.out.println(ParseFecha(a));
         validar(1);
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        validar(2);
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -451,8 +466,8 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private com.toedter.calendar.JYearChooser jYearChooser1;
+    private javax.swing.JTable tablaEmpleados;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtDocumento;
