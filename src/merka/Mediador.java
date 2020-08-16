@@ -13,6 +13,7 @@ public class Mediador {
     PersonaDao personaDao;
     ClienteDao clienteDao;
     CargoDao cargoDao;
+    EmpleadoDao empleadoDao;
 
     public Mediador() {
         usuarioDao = new UsuarioDao();
@@ -22,6 +23,7 @@ public class Mediador {
         personaDao = new PersonaDao();
         clienteDao = new ClienteDao();
         cargoDao = new CargoDao();
+        empleadoDao = new EmpleadoDao();
     }
 
     public boolean login(String username, String pass) {
@@ -112,40 +114,49 @@ public class Mediador {
     public boolean eliminarPersona(int pers_id) {
         return personaDao.eliminarPersona(pers_id);
     }
-    
+
+    //*******************EMPLEADO***************************
+    public boolean registrarEmpleado(Empleado empleado) {
+        empleado.setPers_Id(registrarPersona(empleado));
+        return empleadoDao.registrarEmpleado(empleado);
+    }
+
+    public ArrayList<Empleado> obtenerEmpleados() {
+        return empleadoDao.obtenerEmpleados();
+    }
+
     //******************CLIENTE**************************
     public boolean registrarCliente(Cliente cliente) {
         return clienteDao.registrarCliente(cliente);
     }
-    
+
     public ArrayList<Cliente> obtenerClientes(ArrayList<Persona> personas) {
         return clienteDao.obtenerClientes(personas);
     }
-    
-    public int personaId(int clie_id){
+
+    public int personaId(int clie_id) {
         return clienteDao.personaId(clie_id);
     }
-    
-    public boolean eliminarCliente(boolean estado, int clie_id){
+
+    public boolean eliminarCliente(boolean estado, int clie_id) {
         return clienteDao.eliminarCliente(estado, clie_id);
     }
-    
+
     //************************* CARGOS *****************************
     public boolean registrarCargo(Cargo cargo) {
         return cargoDao.registrarCargo(cargo);
     }
-    
+
     public ArrayList<Cargo> obtenerCargos() {
         return cargoDao.obtenerCargos();
     }
-    
-    public boolean actualizarCargo(Cargo cargo){
+
+    public boolean actualizarCargo(Cargo cargo) {
         return cargoDao.actualizarCargo(cargo);
     }
-    
-    public boolean eliminarCargo(boolean estado, int carg_id){
+
+    public boolean eliminarCargo(boolean estado, int carg_id) {
         return cargoDao.eliminarCargo(estado, carg_id);
     }
-    
-    
+
 }

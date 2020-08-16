@@ -413,7 +413,6 @@ public class AddUsuario extends javax.swing.JFrame {
         for (TipoUsuario tipo : tiposUsuarios) {
             comboTipoUsuarios.addItem(tipo.getNombre());
         }
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

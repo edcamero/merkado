@@ -106,6 +106,15 @@ public class Fachada {
         return mediador.eliminarPersona(pers_id);
     }
 
+    //*******************EMPLEADO**********************
+    public boolean registrarEmpleado(Empleado empleado) {
+        return mediador.registrarEmpleado(empleado);
+    }
+
+    public ArrayList<Empleado> obtenerEmpleados() {
+        return mediador.obtenerEmpleados();
+    }
+
     //********************CLIENTE********************************
     public boolean registrarCliente(Cliente cliente) {
         return mediador.registrarCliente(cliente);
@@ -138,5 +147,9 @@ public class Fachada {
 
     public boolean eliminarCargo(boolean estado, int carg_id) {
         return mediador.eliminarCargo(estado, carg_id);
+    }
+
+    public boolean registrarEmpleado(GUI.Empleados emplead) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

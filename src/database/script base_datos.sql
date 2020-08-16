@@ -71,6 +71,7 @@ CREATE TABLE CARGOS(
 CREATE TABLE EMPLEADOS(
     empl_id SERIAL,
     empl_fecha_contratacion date NOT NULL,
+    empl_estado BOOLEAN NOT NULL,
     pers_id integer,
     carg_id integer,
     CONSTRAINT empleados_pk PRIMARY KEY(empl_id),
@@ -101,22 +102,21 @@ CREATE TABLE PRODUCTOS(
 );
 
 CREATE TABLE PROVEEDOR(
-	prov_id SERIAL,
-	prov_nombre VARCHAR(40) NOT NULL UNIQUE,
-	prov_nit VARCHAR(12) NOT NULL,
-	prov_direccion VARCHAR(30) NOT NULL,
-	prov_telefono VARCHAR(10) NOT NULL,
-	CONSTRAINT proveedor_pk PRIMARY KEY(prov_id),
-	
-	);
+    prov_id SERIAL,
+    prov_nombre VARCHAR(40) NOT NULL UNIQUE,
+    prov_nit VARCHAR(12) NOT NULL,
+    prov_direccion VARCHAR(30) NOT NULL,
+    prov_telefono VARCHAR(10) NOT NULL,
+    CONSTRAINT proveedor_pk PRIMARY KEY(prov_id)
+);
 	
 CREATE TABLE PRODUCTO_PROVEEDOR(
-	prpr_id serial,
-	prod_id numeric,
-	prov_id numeric,
-	CONSTRAINT producto_proveedor_pk PRIMARY KEY(prpr_id),
-	CONSTRAINT prpr_prod_fk foreign key(prod_id) references PRODUCTOS(prod_id),
-	CONSTRAINT prpr_prov_fk foreign key(prov_id) references PRODUCTOS(prov_id),
+    prpr_id serial,
+    prod_id INTEGER,
+    prov_id INTEGER,
+    CONSTRAINT producto_proveedor_pk PRIMARY KEY(prpr_id),
+    CONSTRAINT prpr_prod_fk foreign key(prod_id) references PRODUCTOS(prod_id),
+    CONSTRAINT prpr_prov_fk foreign key(prov_id) references PROVEEDOR(prov_id)
 );	
 
 
@@ -211,18 +211,18 @@ CREATE TABLE _EMPLEADOS(
     empl_operacion VARCHAR(1) NOT NULL
 );
 	
-CREATE TABLE PROVEEDOR(
+CREATE TABLE _PROVEEDOR(
 	prov_id integer,
 	prov_nombre VARCHAR(40) NOT NULL UNIQUE,
 	prov_nit VARCHAR(12) NOT NULL,
 	prov_direccion VARCHAR(30) NOT NULL,
 	prov_telefono VARCHAR(10) NOT NULL,
 	prov_fecha_operacion timestamp not null,
-    empl_operacion VARCHAR(1) NOT NULL
+        empl_operacion VARCHAR(1) NOT NULL
 	
 	);
 	
-CREATE TABLE PRODUCTO_PROVEEDOR(
+CREATE TABLE _PRODUCTO_PROVEEDOR(
 	prpr_id integer,
 	prod_id numeric,
 	prov_id numeric,
