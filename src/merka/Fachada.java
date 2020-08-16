@@ -105,11 +105,14 @@ public class Fachada {
     public boolean eliminarPersona(int pers_id) {
         return mediador.eliminarPersona(pers_id);
     }
-    
+
     //*******************EMPLEADO**********************
-    
     public boolean registrarEmpleado(Empleado empleado) {
         return mediador.registrarEmpleado(empleado);
+    }
+
+    public ArrayList<Empleado> obtenerEmpleados() {
+        return mediador.obtenerEmpleados();
     }
 
     //********************CLIENTE********************************

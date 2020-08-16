@@ -121,6 +121,10 @@ public class Mediador {
         return empleadoDao.registrarEmpleado(empleado);
     }
 
+    public ArrayList<Empleado> obtenerEmpleados() {
+        return empleadoDao.obtenerEmpleados();
+    }
+
     //******************CLIENTE**************************
     public boolean registrarCliente(Cliente cliente) {
         return clienteDao.registrarCliente(cliente);

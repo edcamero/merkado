@@ -88,13 +88,11 @@ public class EmpleadoDao {
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
-            int i = 0;
             while (rs.next()) {
                 if (rs.getBoolean("empl_estado") == true) {
                     Empleado e = new Empleado(rs.getInt(1), rs.getDate(2), rs.getBoolean(3), new Cargo(rs.getInt(12), rs.getString(13), rs.getString(14), rs.getInt(15), rs.getBoolean(16)), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11));
                     lista.add(e);
                 }
-                i++;
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"

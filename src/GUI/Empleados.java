@@ -22,35 +22,35 @@ public class Empleados extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         cargarCargos();
+        cargar();
     }
 
     public void limpiar() {
 
     }
 
-//    public void cargar() {
-//        ArrayList<Persona> personas = Fachada.getInstancia().obtenerPersona();
-//        ArrayList<Cliente> empleados = Fachada.getInstancia().obtenerEmpleados(personas);
-//        String data[][] = {};
-//        String col[] = {"ID", "NOMBRE", "APELLIDO", "CEDULA", "TELEFONO", "DIRECCION", "FECHA/CONTRATACION"};
-//        model = new DefaultTableModel(data, col);
-//        ///alumno d = cab;
-//        //************************************
-//        if (clientes.size() != 0) {
-//            for (Cliente cliente : clientes) {
-//                Object[] fila = new Object[7];
-//                fila[0] = cliente.getId();
-//                fila[1] = cliente.getNombre();
-//                fila[2] = cliente.getApellido();
-//                fila[3] = cliente.getDocumento();
-//                fila[4] = cliente.getTelefono();
-//                fila[5] = cliente.getDireccion();
-//                fila[6] = cliente.get;
-//                model.addRow(fila);
-//            }
-//            this.tablaEmpleados.setModel(model);
-//        }
-//    }
+    public void cargar() {
+        ArrayList<Empleado> empleados = Fachada.getInstancia().obtenerEmpleados();
+        String data[][] = {};
+        String col[] = {"ID", "NOMBRE", "APELLIDO", "CEDULA", "TELEFONO", "DIRECCION", "FECHA/CONTRATACION"};
+        model = new DefaultTableModel(data, col);
+        ///alumno d = cab;
+        //************************************
+        if (empleados.size() != 0) {
+            for (Empleado empleado : empleados) {
+                Object[] fila = new Object[7];
+                fila[0] = empleado.getId();
+                fila[1] = empleado.getNombre();
+                fila[2] = empleado.getApellido();
+                fila[3] = empleado.getDocumento();
+                fila[4] = empleado.getTelefono();
+                fila[5] = empleado.getDireccion();
+                fila[6] = empleado.getFechaContratacion();
+                model.addRow(fila);
+            }
+            this.tablaEmpleados.setModel(model);
+        }
+    }
 
     public void cargarCargos() {
         cargos = Fachada.getInstancia().obtenerCargos();
@@ -119,7 +119,7 @@ public class Empleados extends javax.swing.JFrame {
             }
         }
         limpiar();
-        //cargar();
+        cargar();
     }
 
     public static Date ParseFecha(String fecha) {
