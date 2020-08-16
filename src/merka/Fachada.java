@@ -139,4 +139,21 @@ public class Fachada {
     public boolean eliminarCargo(boolean estado, int carg_id) {
         return mediador.eliminarCargo(estado, carg_id);
     }
+    
+//************************* PROVEEDOR *****************************
+    public boolean registrarProveedor(Proveedor proveedor){
+        return mediador.registrarProveedor(proveedor);
+    }
+    
+    public ArrayList<Proveedor> obtenerProveedor() {
+        return mediador.obtenerProveedores();
+    }
+    
+    public boolean actualizarProveedor(Proveedor proveedor){
+        return mediador.actualizarProveedor(proveedor);
+    }
+    
+    public boolean eliminarProveedor(int id){
+        return mediador.eliminarProveedor(id);
+    }
 }
