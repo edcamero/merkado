@@ -102,13 +102,16 @@ CREATE TABLE PRODUCTOS(
 );
 
 CREATE TABLE PROVEEDOR(
-    prov_id SERIAL,
-    prov_nombre VARCHAR(40) NOT NULL UNIQUE,
-    prov_nit VARCHAR(12) NOT NULL,
-    prov_direccion VARCHAR(30) NOT NULL,
-    prov_telefono VARCHAR(10) NOT NULL,
-    CONSTRAINT proveedor_pk PRIMARY KEY(prov_id)
-);
+
+	prov_id SERIAL,
+	prov_nombre VARCHAR(40) NOT NULL UNIQUE,
+	prov_nit VARCHAR(12) NOT NULL,
+	prov_direccion VARCHAR(50) NOT NULL,
+	prov_telefono VARCHAR(10) NOT NULL,
+	CONSTRAINT proveedor_pk PRIMARY KEY(prov_id),
+	
+	);
+
 	
 CREATE TABLE PRODUCTO_PROVEEDOR(
     prpr_id serial,
@@ -218,8 +221,8 @@ CREATE TABLE _PROVEEDOR(
 	prov_direccion VARCHAR(30) NOT NULL,
 	prov_telefono VARCHAR(10) NOT NULL,
 	prov_fecha_operacion timestamp not null,
-        empl_operacion VARCHAR(1) NOT NULL
-	
+    prov_operacion VARCHAR(1) NOT NULL
+
 	);
 	
 CREATE TABLE _PRODUCTO_PROVEEDOR(

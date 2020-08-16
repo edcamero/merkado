@@ -149,7 +149,26 @@ public class Fachada {
         return mediador.eliminarCargo(estado, carg_id);
     }
 
+
     public boolean registrarEmpleado(GUI.Empleados emplead) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    
+//************************* PROVEEDOR *****************************
+    public boolean registrarProveedor(Proveedor proveedor){
+        return mediador.registrarProveedor(proveedor);
+    }
+    
+    public ArrayList<Proveedor> obtenerProveedor() {
+        return mediador.obtenerProveedores();
+    }
+    
+    public boolean actualizarProveedor(Proveedor proveedor){
+        return mediador.actualizarProveedor(proveedor);
+    }
+    
+    public boolean eliminarProveedor(int id){
+        return mediador.eliminarProveedor(id);
+
     }
 }

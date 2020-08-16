@@ -6,14 +6,15 @@ import java.util.ArrayList;
 
 public class Mediador {
 
-    TipoUsuarioDao tipoUsuarioDao;
-    UsuarioDao usuarioDao;
-    ProductoDao productoDao;
-    TipoProductoDao tipoProductoDao;
-    PersonaDao personaDao;
-    ClienteDao clienteDao;
-    CargoDao cargoDao;
-    EmpleadoDao empleadoDao;
+    private TipoUsuarioDao tipoUsuarioDao;
+    private UsuarioDao usuarioDao;
+    private ProductoDao productoDao;
+    private TipoProductoDao tipoProductoDao;
+    private PersonaDao personaDao;
+    private ClienteDao clienteDao;
+    private CargoDao cargoDao;
+    private ProveedorDao proveedorDao;
+    private EmpleadoDao empleadoDao;
 
     public Mediador() {
         usuarioDao = new UsuarioDao();
@@ -24,7 +25,7 @@ public class Mediador {
         clienteDao = new ClienteDao();
         cargoDao = new CargoDao();
         empleadoDao = new EmpleadoDao();
-    }
+        proveedorDao=new ProveedorDao();
 
     public boolean login(String username, String pass) {
         return usuarioDao.login(username, pass);
@@ -159,4 +160,21 @@ public class Mediador {
         return cargoDao.eliminarCargo(estado, carg_id);
     }
 
+    
+     //************************* PROVEEDOR *****************************
+    public boolean registrarProveedor(Proveedor proveedor){
+        return proveedorDao.registrarProveedor(proveedor);
+    }
+    
+    public ArrayList<Proveedor> obtenerProveedores(){
+        return proveedorDao.obtenerProveedores();
+    }
+    
+    public boolean actualizarProveedor(Proveedor proveedor){
+        return proveedorDao.actualizarProveedor(proveedor);
+    }
+    
+    public boolean eliminarProveedor(int id){
+        return proveedorDao.eliminarProveedor(id);
+    }
 }

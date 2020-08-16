@@ -1,6 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DAO;
 
 import VO.Producto;
+import VO.Proveedor;
 import database.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,45 +17,39 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class ProductoDao {
+/**
+ *
+ * @author enyerson
+ */
+public class ProveedorDao {
 
     private static Connection con;
     private static PreparedStatement pst;
     private static ResultSet rs;
 
-    public ProductoDao() {
-    }
+    public boolean registrarProveedor(Proveedor proveedor) {
 
-    //GUARDAR PRODUCTO
-    public boolean registrarProductos(Producto producto) {
-
-        boolean resultado = false;
-
-        String consulta = "INSERT INTO public.productos(\n"
-                + "	prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion, tipr_id)\n"
-                + "	VALUES (?, ?, ?, ?, ?, ?) returning prod_id;";
+        boolean respuesta = false;
+        String consulta = "INSERT INTO public.proveedor(\n"
+                + "	 prov_nombre, prov_nit, prov_direccion, prov_telefono)\n"
+                + "	VALUES ( ?, ?, ?, ?) returning prov_id;;";
         try {
             con = Conexion.objConexion().getConexion();
-
             PreparedStatement pst = con.prepareStatement(consulta);
-
-            pst.setString(1, producto.getNombre());
-            pst.setInt(2, producto.getPrecioCompra());
-            pst.setInt(3, producto.getPrecioVenta());
-            pst.setInt(4, producto.getCantidad());
-            pst.setString(5, producto.getDescripcion());
-            pst.setInt(6, producto.getTipoProducto());
+            pst.setString(1, proveedor.getNombre());
+            pst.setString(2, proveedor.getNit());
+            pst.setString(3, proveedor.getDireccion());
+            pst.setString(4, proveedor.getTelefono());
 
             rs = pst.executeQuery();
             while (rs.next()) {
-                producto.setId(rs.getInt("prod_id"));
+                proveedor.setId(rs.getInt("prov_id"));
             }
-            resultado = true;
+            respuesta = true;
             pst.close();
             rs.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al intentar almacenar la información:\n"
-                    + e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (rs != null) {
@@ -71,68 +71,70 @@ public class ProductoDao {
                 System.out.println("estamos cerrando la conexion por su bien ");
             }
         }
-        return resultado;
+        return respuesta;
+
     }
 
-    //OBTENER LOS PRODUCTOS
-    public ArrayList<Producto> obtenerProductos() {
-        ArrayList<Producto> lista = new ArrayList();
-        String consulta = "select * FROM productos ORDER BY prod_id;";
+    public ArrayList<Proveedor> obtenerProveedores() {
+
+        ArrayList<Proveedor> lista = new ArrayList();
+        String consulta = "select * FROM proveedor ORDER BY prod_id;";
         try {
-            //con = Conexion.getConexion();
             con = Conexion.objConexion().getConexion();
             //con = conexion.getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getInt(3),
-                        rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getInt(7));
-                lista.add(P);
-            }
+                Proveedor proveedor = new Proveedor(rs.getInt("prov_id"),
+                        rs.getString("prov_nombre"), rs.getString("prov_nit "),
+                        rs.getString("prov_direccion "), rs.getString("prov_telefono ")
+                );
 
+            }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"
-                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                rs.close();
                 pst.close();
+                rs.close();
                 con.close();
+
             } catch (SQLException ex) {
-                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
         }
         return lista;
+
     }
 
-    //MODIFICAR PRODUCTOS
-    public boolean actualizarProducto(Producto producto) {
+    public boolean actualizarProveedor(Proveedor proveedor) {
+
+        boolean respuesta = false;
+        String consulta = "UPDATE public.proveedor\n"
+                + "	SET  "
+                + "prov_nombre=?, "
+                + "prov_nit=?, "
+                + "prov_direccion=?, "
+                + "prov_telefono=?\n"
+                + "WHERE prov_id=?;";
         try {
-            String consulta = "UPDATE productos SET "
-                    + "prod_nombre =  ?, "
-                    + "prod_precio_compra =  ?,"
-                    + "prod_precio_venta =  ?, "
-                    + "prod_cantidad =  ?, "
-                    + "prod_descripcion = ? WHERE prod_id=? returning *";
-            
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            pst.setString(1, producto.getNombre());
-            pst.setInt(2, producto.getPrecioCompra());
-            pst.setInt(3, producto.getPrecioVenta());
-            pst.setInt(4, producto.getCantidad());
-            pst.setString(5, producto.getDescripcion());
-            pst.setInt(6, producto.getId());
+            pst.setString(1, proveedor.getNombre());
+            pst.setString(2, proveedor.getNit());
+            pst.setString(3, proveedor.getDireccion());
+            pst.setString(4, proveedor.getTelefono());
+            pst.setInt(5, proveedor.getId());
             rs = pst.executeQuery();
 
             return true;
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductoDao.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 pst.close();
@@ -144,30 +146,31 @@ public class ProductoDao {
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
         }
-        return false;
+
+        return respuesta;
     }
 
-    //ELIMINAR PRODUCTO
-    public boolean eliminarProducto(int prod_id) {
-
+    public boolean eliminarProveedor(int id) {
+        boolean respuesta = false;
+            String consulta = "DELETE FROM public.proveedor\n"
+                    + "	WHERE prov_id=?;";
         try {
-            String consulta = "DELETE FROM productos "
-                    + "WHERE prod_id = ?";
+            
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            pst.setInt(1, prod_id);
-
+            pst.setInt(1,id);
             if (pst.executeUpdate() > 0) {
-                return true;
+                respuesta=true;
             }
             con.close();
-
+            
+            //return respuesta;
         } catch (SQLException ex) {
-            Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        } finally {
+        }finally {
             try {
                 pst.close();
                 rs.close();
@@ -177,6 +180,7 @@ public class ProductoDao {
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
         }
-        return false;
+        return respuesta;
     }
+
 }
