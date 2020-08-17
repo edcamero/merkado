@@ -33,6 +33,8 @@ public class ProveedorGui extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Gestion de Proveedores");
         this.cargarProveedores();
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
     }
 
     private boolean validar() {
@@ -189,6 +191,11 @@ public class ProveedorGui extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Cancelar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -290,7 +297,19 @@ public class ProveedorGui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-
+        if(validar()){
+            proveedor.setNombre(txtnombre.getText());
+            proveedor.setNit(txtNit.getText());
+            proveedor.setDireccion(txtDireccion.getText());
+            proveedor.setTelefono(txtTelefono.getText());
+            if(Fachada.getInstancia().actualizarProveedor(proveedor)){
+                JOptionPane.showMessageDialog(this, "Se ha modificado el proveedor",
+                        "Modificación Exitosa!!", JOptionPane.INFORMATION_MESSAGE);
+                limpiar();
+                btnRegistrar.setEnabled(true);
+            }
+            
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -303,10 +322,20 @@ public class ProveedorGui extends javax.swing.JFrame {
             if (proveedore.getId() == Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString())) {
                 proveedor = proveedore;
                 cargarProveedor();
+                btnRegistrar.setEnabled(false);
                 break;
             }
         }
     }//GEN-LAST:event_tablaProveedoresMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(Fachada.getInstancia().eliminarProveedor(proveedor.getId())){
+            JOptionPane.showMessageDialog(this, "Se elimino el usuario: " + proveedor.getNombre());
+                cargarProveedores();
+                limpiar();
+                btnRegistrar.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments

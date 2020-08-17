@@ -50,6 +50,8 @@ public class ProveedorDao {
             rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 if (rs != null) {
@@ -133,7 +135,7 @@ public class ProveedorDao {
             pst.setString(3, proveedor.getDireccion());
             pst.setString(4, proveedor.getTelefono());
             pst.setInt(5, proveedor.getId());
-            rs = pst.executeQuery();
+            int res = pst.executeUpdate();
 
             return true;
 
