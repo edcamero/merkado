@@ -153,11 +153,14 @@ public class Fachada {
     public boolean registrarEmpleado(GUI.Empleados emplead) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+    }
     
-//************************* PROVEEDOR *****************************
+//************************* PROVEEDOR *****************************//
     public boolean registrarProveedor(Proveedor proveedor){
         return mediador.registrarProveedor(proveedor);
     }
+    
+  
     
     public ArrayList<Proveedor> obtenerProveedor() {
         return mediador.obtenerProveedores();

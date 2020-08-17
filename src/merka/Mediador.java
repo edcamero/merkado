@@ -26,7 +26,8 @@ public class Mediador {
         cargoDao = new CargoDao();
         empleadoDao = new EmpleadoDao();
         proveedorDao=new ProveedorDao();
-
+    }
+    
     public boolean login(String username, String pass) {
         return usuarioDao.login(username, pass);
     }
