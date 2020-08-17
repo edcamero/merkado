@@ -21,6 +21,7 @@ public class Empleados extends javax.swing.JFrame {
     public Empleados() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setTitle("Gestion de Empleado");
         cargarCargos();
         cargar();
     }
@@ -77,7 +78,8 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public void validar(int metodo) {
-        if (txtNombre.getText().equals("") && txtApellido.getText().equals("") && txtDocumento.getText().equals("")
+        if (txtNombre.getText().equals("") && txtApellido.getText().equals("") && 
+                txtDocumento.getText().equals("")
                 && txtTelefono.getText() == "" && txtDireccion.getText() == "") {
             JOptionPane.showMessageDialog(this, "POR FAVOR LLENE TODOS LOS CAMPOS");
         } else if (txtDocumento.getText().equals("")) {

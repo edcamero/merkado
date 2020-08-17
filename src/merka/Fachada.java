@@ -162,7 +162,7 @@ public class Fachada {
     
   
     
-    public ArrayList<Proveedor> obtenerProveedor() {
+    public ArrayList<Proveedor> obtenerProveedores() {
         return mediador.obtenerProveedores();
     }
     

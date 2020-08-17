@@ -78,7 +78,7 @@ public class ProveedorDao {
     public ArrayList<Proveedor> obtenerProveedores() {
 
         ArrayList<Proveedor> lista = new ArrayList();
-        String consulta = "select * FROM proveedor ORDER BY prod_id;";
+        String consulta = "select * FROM proveedor ORDER BY prov_id;";
         try {
             con = Conexion.objConexion().getConexion();
             //con = conexion.getConexion();
@@ -87,13 +87,17 @@ public class ProveedorDao {
             rs = pst.executeQuery();
             while (rs.next()) {
                 Proveedor proveedor = new Proveedor(rs.getInt("prov_id"),
-                        rs.getString("prov_nombre"), rs.getString("prov_nit "),
-                        rs.getString("prov_direccion "), rs.getString("prov_telefono ")
+                        rs.getString("prov_nombre"), rs.getString("prov_nit"),
+                        rs.getString("prov_direccion"), rs.getString("prov_telefono")
+                        
                 );
+                lista.add(proveedor);
 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();

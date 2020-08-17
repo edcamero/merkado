@@ -300,6 +300,9 @@ public class AddUsuario extends javax.swing.JFrame {
         btnEliminar.setEnabled(true);
     }//GEN-LAST:event_tablaUsuarioMouseClicked
 
+    
+    
+    
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         int selectTipoUsuario = comboTipoUsuarios.getSelectedIndex();
         if (selectTipoUsuario < 1) {
