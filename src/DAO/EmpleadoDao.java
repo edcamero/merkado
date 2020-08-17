@@ -147,10 +147,10 @@ public class EmpleadoDao {
     }
 
 //ELIMINAR CLIENTE
-    public boolean eliminarCliente(boolean estado, int empl_id) {
+    public boolean eliminarEmpleado(boolean estado, int empl_id) {
         boolean resultado = false;
         try {
-            String consulta = "UPDATE empleados SET estado=? WHERE empl_id=?";
+            String consulta = "UPDATE empleados SET empl_estado=? WHERE empl_id=?";
             //con = Conexion.getDataSource().getConnection();
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -158,6 +158,7 @@ public class EmpleadoDao {
 
             pst.setBoolean(1, estado);
             pst.setInt(2, empl_id);
+
             pst.executeUpdate();
 
             resultado = true;

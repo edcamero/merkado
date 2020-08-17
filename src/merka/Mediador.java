@@ -131,6 +131,10 @@ public class Mediador {
         this.actualizarPersona(empleado);
         return empleadoDao.actualizarEmpleado(empleado);
     }
+    
+    public boolean eliminarEmpleado(boolean estado, int empl_id){
+        return empleadoDao.eliminarEmpleado(estado, empl_id);
+    }
 
     //******************CLIENTE**************************
     public boolean registrarCliente(Cliente cliente) {

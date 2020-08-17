@@ -83,7 +83,7 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public boolean eliminarEmpleado() {
-        return false;
+        return Fachada.getInstancia().eliminarEmpleado(false, empl_id);
     }
 
     public void validar(int metodo) {
@@ -129,6 +129,7 @@ public class Empleados extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "EL EMPLEADO NO SE HA ELIMINADO");
             }
         }
+
         limpiar();
         cargar();
     }
@@ -316,6 +317,11 @@ public class Empleados extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Cancelar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -436,6 +442,10 @@ public class Empleados extends javax.swing.JFrame {
         fecha.setDate(this.ParseFecha(source.getValueAt(source.getSelectedRow(), 6).toString()));
         boxCargos.setSelectedItem(source.getValueAt(source.getSelectedRow(), 7).toString());
     }//GEN-LAST:event_tablaEmpleadosMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        validar(3);
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments

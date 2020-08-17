@@ -114,9 +114,13 @@ public class Fachada {
     public ArrayList<Empleado> obtenerEmpleados() {
         return mediador.obtenerEmpleados();
     }
-    
-    public boolean actualizarEmpleado(Empleado empleado){
+
+    public boolean actualizarEmpleado(Empleado empleado) {
         return mediador.actualizarEmpleado(empleado);
+    }
+
+    public boolean eliminarEmpleado(boolean estado, int empl_id) {
+        return mediador.eliminarEmpleado(estado, empl_id);
     }
 
     //********************CLIENTE********************************
@@ -153,28 +157,25 @@ public class Fachada {
         return mediador.eliminarCargo(estado, carg_id);
     }
 
-
     public boolean registrarEmpleado(GUI.Empleados emplead) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
     }
-    
+
 //************************* PROVEEDOR *****************************//
-    public boolean registrarProveedor(Proveedor proveedor){
+    public boolean registrarProveedor(Proveedor proveedor) {
         return mediador.registrarProveedor(proveedor);
     }
-    
-  
-    
+
     public ArrayList<Proveedor> obtenerProveedores() {
         return mediador.obtenerProveedores();
     }
-    
-    public boolean actualizarProveedor(Proveedor proveedor){
+
+    public boolean actualizarProveedor(Proveedor proveedor) {
         return mediador.actualizarProveedor(proveedor);
     }
-    
-    public boolean eliminarProveedor(int id){
+
+    public boolean eliminarProveedor(int id) {
         return mediador.eliminarProveedor(id);
 
     }
