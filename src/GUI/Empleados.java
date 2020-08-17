@@ -11,12 +11,15 @@ import javax.swing.JOptionPane;
 import merka.Fachada;
 //import java.sql.Date;
 import java.util.Date;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Empleados extends javax.swing.JFrame {
 
-    ArrayList<Cargo> cargos;
-    DefaultTableModel model;
+    private ArrayList<Cargo> cargos;
+    private DefaultTableModel model;
+    private ArrayList<Empleado> empleados;
+    private int empl_id;
 
     public Empleados() {
         initComponents();
@@ -31,15 +34,15 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public void cargar() {
-        ArrayList<Empleado> empleados = Fachada.getInstancia().obtenerEmpleados();
+        empleados = Fachada.getInstancia().obtenerEmpleados();
         String data[][] = {};
-        String col[] = {"ID", "NOMBRE", "APELLIDO", "CEDULA", "TELEFONO", "DIRECCION", "FECHA/CONTRATACION"};
+        String col[] = {"ID", "NOMBRE", "APELLIDO", "CEDULA", "TELEFONO", "DIRECCION", "FECHA/CONTRATACION", "CARGO"};
         model = new DefaultTableModel(data, col);
         ///alumno d = cab;
         //************************************
         if (empleados.size() != 0) {
             for (Empleado empleado : empleados) {
-                Object[] fila = new Object[7];
+                Object[] fila = new Object[8];
                 fila[0] = empleado.getId();
                 fila[1] = empleado.getNombre();
                 fila[2] = empleado.getApellido();
@@ -47,6 +50,7 @@ public class Empleados extends javax.swing.JFrame {
                 fila[4] = empleado.getTelefono();
                 fila[5] = empleado.getDireccion();
                 fila[6] = empleado.getFechaContratacion();
+                fila[7] = empleado.getCargo().getNombre();
                 model.addRow(fila);
             }
             this.tablaEmpleados.setModel(model);
@@ -70,7 +74,12 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public boolean modificarEmpleado() {
-        return false;
+        int selectCargo = boxCargos.getSelectedIndex();
+        Cargo cargo = cargos.get(selectCargo - 1);
+        Empleado empleado = new Empleado(empl_id, fecha.getDate(), true, cargo, empleados.get(empl_id - 1).getPers_Id(), txtNombre.getText(), txtApellido.getText(), txtDocumento.getText(), txtTelefono.getText(), txtDireccion.getText());
+        System.out.println(empleado.getId());
+        System.out.println(empleado.getFechaContratacion());
+        return Fachada.getInstancia().actualizarEmpleado(empleado);
     }
 
     public boolean eliminarEmpleado() {
@@ -78,8 +87,8 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public void validar(int metodo) {
-        if (txtNombre.getText().equals("") && txtApellido.getText().equals("") && 
-                txtDocumento.getText().equals("")
+        if (txtNombre.getText().equals("") && txtApellido.getText().equals("")
+                && txtDocumento.getText().equals("")
                 && txtTelefono.getText() == "" && txtDireccion.getText() == "") {
             JOptionPane.showMessageDialog(this, "POR FAVOR LLENE TODOS LOS CAMPOS");
         } else if (txtDocumento.getText().equals("")) {
@@ -125,7 +134,7 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public static Date ParseFecha(String fecha) {
-        SimpleDateFormat formato = new SimpleDateFormat("hh: mm: ss a dd-MMM-y");
+        SimpleDateFormat formato = new SimpleDateFormat("y-MM-dd");
         Date fechaDate = null;
         try {
             fechaDate = formato.parse(fecha);
@@ -353,6 +362,11 @@ public class Empleados extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEmpleadosMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tablaEmpleados);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -410,6 +424,18 @@ public class Empleados extends javax.swing.JFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         validar(2);
     }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void tablaEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEmpleadosMouseClicked
+        JTable source = (JTable) evt.getSource();
+        empl_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
+        txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
+        txtApellido.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
+        txtDocumento.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
+        txtTelefono.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
+        txtDireccion.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+        fecha.setDate(this.ParseFecha(source.getValueAt(source.getSelectedRow(), 6).toString()));
+        boxCargos.setSelectedItem(source.getValueAt(source.getSelectedRow(), 7).toString());
+    }//GEN-LAST:event_tablaEmpleadosMouseClicked
 
     /**
      * @param args the command line arguments

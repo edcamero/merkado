@@ -412,9 +412,6 @@ public class Clientes extends javax.swing.JFrame {
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
         JTable source = (JTable) evt.getSource();
-//      int row = source.rowAtPoint( evt.getPoint() );
-//      int column = source.columnAtPoint( evt.getPoint() );
-//      String s=source.getModel().getValueAt(row, column)+"";
         clie_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
         txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
         txtApellido.setText(source.getValueAt(source.getSelectedRow(), 2).toString());

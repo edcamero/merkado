@@ -137,6 +137,46 @@ public class PersonaDao {
         }
         return resultado;
     }
+//    MODIFICAR PRODUCTOS
+//    public boolean buscarPersona(String documento) {
+//        
+//        boolean resultado = false;
+//        try {
+//            String consulta = "UPDATE personas SET pers_nombre =  ?, pers_apellido =  ?, pers_documento =  ?, pers_telefono =  ?, pers_direccion = ? WHERE pers_id=? returning *";
+//            con = Conexion.getDataSource().getConnection();
+//            con = Conexion.objConexion().getConexion();
+//            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+//                    ResultSet.CONCUR_UPDATABLE);
+//
+//            pst.setString(1, persona.getNombre());
+//            pst.setString(2, persona.getApellido());
+//            pst.setString(3, persona.getDocumento());
+//            pst.setString(4, persona.getTelefono());
+//            pst.setString(5, persona.getDireccion());
+//            pst.setInt(6, persona.getPers_Id());
+//            rs = pst.executeQuery();
+//            while (rs.next()) {
+//                System.out.println(rs.getInt("pers_id"));
+//            }
+//
+//            resultado = true;
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(PersonaDao.class
+//                    .getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            try {
+//                pst.close();
+//                rs.close();
+//                con.close();
+//
+//            } catch (SQLException ex) {
+//                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+//                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+//            }
+//        }
+//        return resultado;
+//    }
 
     //ELIMINAR PRODUCTO
     public static boolean eliminarPersona(int pers_id) {

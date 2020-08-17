@@ -114,6 +114,10 @@ public class Fachada {
     public ArrayList<Empleado> obtenerEmpleados() {
         return mediador.obtenerEmpleados();
     }
+    
+    public boolean actualizarEmpleado(Empleado empleado){
+        return mediador.actualizarEmpleado(empleado);
+    }
 
     //********************CLIENTE********************************
     public boolean registrarCliente(Cliente cliente) {
