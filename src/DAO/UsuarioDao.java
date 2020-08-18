@@ -57,6 +57,8 @@ public class UsuarioDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 rs.close();
@@ -144,6 +146,8 @@ public class UsuarioDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 rs.close();
@@ -174,6 +178,8 @@ public class UsuarioDao {
             respuesta = true;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -206,6 +212,8 @@ public class UsuarioDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -233,11 +241,11 @@ public class UsuarioDao {
             boolean execute = pst.execute();
 
             respuesta = true;
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally {
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
             try {
                 pst.close();
                 rs.close();

@@ -133,6 +133,8 @@ public class ProductoDao {
         } catch (SQLException ex) {
             Logger.getLogger(ProductoDao.class
                     .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -166,6 +168,8 @@ public class ProductoDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             return false;
         } finally {
             try {

@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS clientes;
 DROP TABLE IF EXISTS empleados;
 DROP TABLE IF EXISTS personas;
 DROP TABLE IF EXISTS cargos;
+DROP TABLE IF EXISTS proveedor;
 DROP TABLE IF EXISTS _usuarios;
 DROP TABLE IF EXISTS _tipo_usuarios;
 DROP TABLE IF EXISTS _tipo_productos;
@@ -16,6 +17,7 @@ DROP TABLE IF EXISTS _clientes;
 DROP TABLE IF EXISTS _empleados;
 DROP TABLE IF EXISTS _personas;
 DROP TABLE IF EXISTS _cargos;
+DROP TABLE IF EXISTS _proveedor;
 
 
 
@@ -108,7 +110,7 @@ CREATE TABLE PROVEEDOR(
 	prov_nit VARCHAR(12) NOT NULL,
 	prov_direccion VARCHAR(50) NOT NULL,
 	prov_telefono VARCHAR(10) NOT NULL,
-	CONSTRAINT proveedor_pk PRIMARY KEY(prov_id),
+	CONSTRAINT proveedor_pk PRIMARY KEY(prov_id)
 	
 	);
 

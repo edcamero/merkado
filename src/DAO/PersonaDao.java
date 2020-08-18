@@ -124,6 +124,8 @@ public class PersonaDao {
         } catch (SQLException ex) {
             Logger.getLogger(PersonaDao.class
                     .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -197,6 +199,8 @@ public class PersonaDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(PersonaDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             return false;
         } finally {
             try {

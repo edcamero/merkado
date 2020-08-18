@@ -1,7 +1,6 @@
 package DAO;
 
 import VO.Cargo;
-import VO.Producto;
 import database.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -119,8 +118,9 @@ public class CargoDao {
             return true;
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductoDao.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -151,6 +151,8 @@ public class CargoDao {
         } catch (SQLException ex) {
             Logger.getLogger(CargoDao.class
                     .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();

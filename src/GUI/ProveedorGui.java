@@ -291,6 +291,7 @@ public class ProveedorGui extends javax.swing.JFrame {
             if (Fachada.getInstancia().registrarProveedor(proveedor)) {
                 JOptionPane.showMessageDialog(this, "Se ha registrados un nuevo proveedor",
                         "Registro Exito!!", JOptionPane.INFORMATION_MESSAGE);
+                cargarProveedores();
                 limpiar();
             }
         }

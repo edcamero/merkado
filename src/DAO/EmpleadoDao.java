@@ -1,11 +1,8 @@
 package DAO;
 
 import VO.Cargo;
-import VO.Cliente;
 import VO.Empleado;
-import VO.Persona;
 import database.Conexion;
-import java.sql.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -133,6 +130,8 @@ public class EmpleadoDao {
         } catch (SQLException ex) {
             Logger.getLogger(EmpleadoDao.class
                     .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -166,6 +165,8 @@ public class EmpleadoDao {
         } catch (SQLException ex) {
             Logger.getLogger(PersonaDao.class
                     .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();

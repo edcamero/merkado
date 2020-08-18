@@ -5,7 +5,7 @@
  */
 package DAO;
 
-import VO.Producto;
+
 import VO.Proveedor;
 import database.Conexion;
 import java.sql.Connection;
@@ -141,6 +141,8 @@ public class ProveedorDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -175,6 +177,8 @@ public class ProveedorDao {
             //return respuesta;
         } catch (SQLException ex) {
             Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             return false;
         }finally {
             try {
