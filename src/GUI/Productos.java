@@ -22,9 +22,11 @@ public class Productos extends javax.swing.JFrame {
     int prod_id = 0;
     private DefaultTableModel model;
     TableRowSorter<DefaultTableModel> tr;
+    private ArrayList<Producto> productos;
 
     public Productos() {
         initComponents();
+        this.setTitle("GESTION DE PRODUCTOS");
         this.setLocationRelativeTo(null);
         txtNombre.setFocusable(true);
         cargar();
@@ -70,7 +72,7 @@ public class Productos extends javax.swing.JFrame {
 
     public void cargar() {
         // Creamos un objeto Table con el molde del nuestro
-        ArrayList<Producto> productos = Fachada.getInstancia().obtenerProductos();
+        productos = Fachada.getInstancia().obtenerProductos();
         String data[][] = {};
         String col[] = {"ID", "NOMBRE", "PRECIO/COMPRA", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION"};
         model = new DefaultTableModel(data, col);
@@ -456,7 +458,12 @@ public class Productos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-        //       
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "INGRESE SOLO LETRAS");
+        }    
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtPrecioCompraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioCompraKeyTyped
@@ -491,13 +498,16 @@ public class Productos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
-        JTable source = (JTable) evt.getSource();
-        prod_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
-        txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
-        txtPrecioCompra.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
-        txtPrecioVenta.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
-        txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
-        txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+        if (productos.size() > 0) {
+            JTable source = (JTable) evt.getSource();
+            prod_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
+            txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
+            txtPrecioCompra.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
+            txtPrecioVenta.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
+            txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
+            txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+        }
+
     }//GEN-LAST:event_tablaProductosMouseClicked
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
@@ -527,7 +537,7 @@ public class Productos extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(tipo_producto.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Productos().setVisible(true);

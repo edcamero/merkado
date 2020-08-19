@@ -17,9 +17,11 @@ public class Cargos extends javax.swing.JFrame {
     private DefaultTableModel model;
     TableRowSorter<DefaultTableModel> tr;
     private int carg_id;
+    private ArrayList<Cargo> cargos;
 
     public Cargos() {
         initComponents();
+        this.setTitle("GESTION DE LOS CARGOS");
         this.setLocationRelativeTo(null);
         cargar();
     }
@@ -32,7 +34,7 @@ public class Cargos extends javax.swing.JFrame {
 
     public void cargar() {
         // Creamos un objeto Table con el molde del nuestro
-        ArrayList<Cargo> cargos = Fachada.getInstancia().obtenerCargos();
+        cargos = Fachada.getInstancia().obtenerCargos();
         String data[][] = {};
         String col[] = {"ID", "NOMBRE", "SALARIO", "DESCRIPCION"};
         model = new DefaultTableModel(data, col);
@@ -149,6 +151,12 @@ public class Cargos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtDescripcion);
 
         jLabel3.setText("Salario:");
+
+        txtSalario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSalarioKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -346,12 +354,23 @@ public class Cargos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void tablaCargosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCargosMouseClicked
-        JTable source = (JTable) evt.getSource();
-        carg_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
-        txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
-        txtSalario.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
-        txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
+        if(cargos.size() > 0){
+            JTable source = (JTable) evt.getSource();
+            carg_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
+            txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
+            txtSalario.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
+            txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
+        }
     }//GEN-LAST:event_tablaCargosMouseClicked
+
+    private void txtSalarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSalarioKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isLetter(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "DIGITE SOLO NUMEROS");
+        }
+    }//GEN-LAST:event_txtSalarioKeyTyped
 
     /**
      * @param args the command line arguments

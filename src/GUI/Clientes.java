@@ -24,9 +24,12 @@ public class Clientes extends javax.swing.JFrame {
     int prod_id, clie_id;
     boolean estado = false;
     TableRowSorter<DefaultTableModel> tr;
+    private ArrayList<Cliente> clientes;
+    private ArrayList<Persona> personas;
 
     public Clientes() {
         initComponents();
+        this.setTitle("GESTION DE CLIENTES");
         this.setLocationRelativeTo(null);
         this.cargarCliente();
     }
@@ -40,8 +43,8 @@ public class Clientes extends javax.swing.JFrame {
     }
 
     public void cargarCliente() {
-        ArrayList<Persona> personas = Fachada.getInstancia().obtenerPersona();
-        ArrayList<Cliente> clientes = Fachada.getInstancia().obtenerClientes(personas);
+        personas = Fachada.getInstancia().obtenerPersona();
+        clientes = Fachada.getInstancia().obtenerClientes(personas);
         String data[][] = {};
         String col[] = {"ID", "NOMBRE", "APELLIDO", "CEDULA", "TELEFONO", "DIRECCION"};
         model = new DefaultTableModel(data, col);
@@ -188,6 +191,12 @@ public class Clientes extends javax.swing.JFrame {
 
         jLabel1.setText("Cedula:");
 
+        txtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDocumentoKeyTyped(evt);
+            }
+        });
+
         jLabel2.setText("Nombre:");
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -195,10 +204,27 @@ public class Clientes extends javax.swing.JFrame {
                 txtNombreActionPerformed(evt);
             }
         });
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         jLabel3.setText("Apellido");
 
+        txtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidoKeyTyped(evt);
+            }
+        });
+
         jLabel4.setText("Telefono:");
+
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
+            }
+        });
 
         jLabel5.setText("Direccion:");
 
@@ -375,7 +401,7 @@ public class Clientes extends javax.swing.JFrame {
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(boxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,13 +440,16 @@ public class Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
-        JTable source = (JTable) evt.getSource();
-        clie_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
-        txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
-        txtApellido.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
-        txtDocumento.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
-        txtTelefono.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
-        txtDireccion.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+        if(clientes.size() > 0){
+            JTable source = (JTable) evt.getSource();
+            clie_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
+            txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
+            txtApellido.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
+            txtDocumento.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
+            txtTelefono.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
+            txtDireccion.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+        }
+        
     }//GEN-LAST:event_tablaClientesMouseClicked
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -434,6 +463,42 @@ public class Clientes extends javax.swing.JFrame {
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         filtro();
     }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void txtDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocumentoKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isLetter(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "DIGITE SOLO NUMEROS");
+        }
+    }//GEN-LAST:event_txtDocumentoKeyTyped
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "INGRESE SOLO LETRAS");
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "INGRESE SOLO LETRAS");
+        }
+    }//GEN-LAST:event_txtApellidoKeyTyped
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isLetter(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "DIGITE SOLO NUMEROS");
+        }
+    }//GEN-LAST:event_txtTelefonoKeyTyped
 
     /**
      * @param args the command line arguments

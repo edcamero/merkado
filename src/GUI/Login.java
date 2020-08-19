@@ -13,10 +13,7 @@ import merka.Fachada;
 import merka.Fachada;
 import org.apache.commons.codec.digest.DigestUtils;
 
-/**
- *
- * @author USUARIO
- */
+
 public class Login extends javax.swing.JFrame {
 
     private String usuario, password;
@@ -26,6 +23,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        this.setTitle("INICIAR SESION");
         setLocationRelativeTo(null);
         txtUsuario.setFocusable(true);
 
