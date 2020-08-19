@@ -9,7 +9,10 @@ import javax.swing.JOptionPane;
 import merka.Fachada;
 import VO.Proveedor;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -298,18 +301,18 @@ public class ProveedorGui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        if(validar()){
+        if (validar()) {
             proveedor.setNombre(txtnombre.getText());
             proveedor.setNit(txtNit.getText());
             proveedor.setDireccion(txtDireccion.getText());
             proveedor.setTelefono(txtTelefono.getText());
-            if(Fachada.getInstancia().actualizarProveedor(proveedor)){
+            if (Fachada.getInstancia().actualizarProveedor(proveedor)) {
                 JOptionPane.showMessageDialog(this, "Se ha modificado el proveedor",
                         "Modificación Exitosa!!", JOptionPane.INFORMATION_MESSAGE);
                 limpiar();
                 btnRegistrar.setEnabled(true);
             }
-            
+
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
@@ -330,11 +333,11 @@ public class ProveedorGui extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaProveedoresMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if(Fachada.getInstancia().eliminarProveedor(proveedor.getId())){
+        if (Fachada.getInstancia().eliminarProveedor(proveedor.getId())) {
             JOptionPane.showMessageDialog(this, "Se elimino el usuario: " + proveedor.getNombre());
-                cargarProveedores();
-                limpiar();
-                btnRegistrar.setEnabled(true);
+            cargarProveedores();
+            limpiar();
+            btnRegistrar.setEnabled(true);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -342,29 +345,12 @@ public class ProveedorGui extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProveedorGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProveedorGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProveedorGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProveedorGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+            javax.swing.UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel"); //javax.swing.UIManager.setLookAndFeel(info.getClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(tipo_producto.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

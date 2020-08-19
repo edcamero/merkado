@@ -1,20 +1,18 @@
-
 package GUI;
 
 import VO.Producto;
 import VO.TipoProducto;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import merka.Fachada;
 
-/**
- *
- * @author cfuen
- */
 public class Productos extends javax.swing.JFrame {
 
     String nombre, descripcion;
@@ -43,7 +41,7 @@ public class Productos extends javax.swing.JFrame {
         this.tipoProducto = Fachada.getInstancia().obtenerTipoProducto(boxTipoProducto.getSelectedItem().toString().trim());
         System.out.println(this.tipoProducto.getId());
         System.out.println(this.tipoProducto.getNombre());
-        producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion,tipoProducto.getId());
+        producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion, tipoProducto.getId());
         return (Fachada.getInstancia().registrarProducto(producto));
     }
 
@@ -494,9 +492,6 @@ public class Productos extends javax.swing.JFrame {
 
     private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
         JTable source = (JTable) evt.getSource();
-//      int row = source.rowAtPoint( evt.getPoint() );
-//      int column = source.columnAtPoint( evt.getPoint() );
-//      String s=source.getModel().getValueAt(row, column)+"";
         prod_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
         txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
         txtPrecioCompra.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
@@ -526,31 +521,13 @@ public class Productos extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+            javax.swing.UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel"); //javax.swing.UIManager.setLookAndFeel(info.getClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(tipo_producto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Productos().setVisible(true);

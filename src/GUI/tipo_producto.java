@@ -341,9 +341,6 @@ public class tipo_producto extends javax.swing.JFrame {
             Logger.getLogger(tipo_producto.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //</editor-fold>
-        //</editor-fold>
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new tipo_producto().setVisible(true);

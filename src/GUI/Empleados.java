@@ -454,13 +454,13 @@ public class Empleados extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-       try {
+        try {
 
             javax.swing.UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel"); //javax.swing.UIManager.setLookAndFeel(info.getClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(tipo_producto.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
+
         //</editor-fold>
 
         /* Create and display the form */
