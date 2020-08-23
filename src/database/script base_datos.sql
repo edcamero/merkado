@@ -1,23 +1,26 @@
-
+DROP TABLE IF EXISTS factura_producto;
+DROP TABLE IF EXISTS facturas;
 DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS tipo_usuarios;
+DROP TABLE IF EXISTS producto_proveedor;
+DROP TABLE IF EXISTS proveedor;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS tipo_productos;
 DROP TABLE IF EXISTS clientes;
 DROP TABLE IF EXISTS empleados;
 DROP TABLE IF EXISTS personas;
 DROP TABLE IF EXISTS cargos;
-DROP TABLE IF EXISTS proveedor;
+
 DROP TABLE IF EXISTS _usuarios;
 DROP TABLE IF EXISTS _tipo_usuarios;
 DROP TABLE IF EXISTS _tipo_productos;
 DROP TABLE IF EXISTS _productos;
-DROP TABLE IF EXISTS _tipo_productos;
 DROP TABLE IF EXISTS _clientes;
 DROP TABLE IF EXISTS _empleados;
 DROP TABLE IF EXISTS _personas;
 DROP TABLE IF EXISTS _cargos;
 DROP TABLE IF EXISTS _proveedor;
+DROP TABLE IF EXISTS _producto_proveedor;
 
 
 
@@ -123,6 +126,28 @@ CREATE TABLE PRODUCTO_PROVEEDOR(
     CONSTRAINT prpr_prod_fk foreign key(prod_id) references PRODUCTOS(prod_id),
     CONSTRAINT prpr_prov_fk foreign key(prov_id) references PROVEEDOR(prov_id)
 );	
+
+CREATE TABLE FACTURAS(
+fact_id serial,
+fact_fecha date,
+clie_id integer,
+empl_id integer,
+CONSTRAINT factura_pk PRIMARY KEY(fact_id),
+CONSTRAINT fact_clie_fk foreign key(clie_id) references CLIENTES(clie_id),
+CONSTRAINT fact_empl_fk foreign key(empl_id) references EMPLEADOS(empl_id)
+);
+
+CREATE TABLE FACTURA_PRODUCTO(
+fapr_id serial,
+fact_id integer,
+prod_id integer,
+fapr_cantidad integer,
+fapr_total integer,
+CONSTRAINT factura_producto_pk PRIMARY KEY(fapr_id),
+CONSTRAINT fapr_prod_fk foreign key(prod_id) references CLIENTES(clie_id),
+CONSTRAINT fapr_fact_fk foreign key(fact_id) references FACTURAS(fact_id)
+);
+
 
 
 ------------------------------
