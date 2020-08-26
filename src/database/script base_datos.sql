@@ -108,14 +108,13 @@ CREATE TABLE PRODUCTOS(
 
 CREATE TABLE PROVEEDOR(
 
-	prov_id SERIAL,
-	prov_nombre VARCHAR(40) NOT NULL UNIQUE,
-	prov_nit VARCHAR(12) NOT NULL,
-	prov_direccion VARCHAR(50) NOT NULL,
-	prov_telefono VARCHAR(10) NOT NULL,
-	CONSTRAINT proveedor_pk PRIMARY KEY(prov_id)
-	
-	);
+    prov_id SERIAL,
+    prov_nombre VARCHAR(40) NOT NULL UNIQUE,
+    prov_nit VARCHAR(12) NOT NULL,
+    prov_direccion VARCHAR(50) NOT NULL,
+    prov_telefono VARCHAR(10) NOT NULL,
+    CONSTRAINT proveedor_pk PRIMARY KEY(prov_id)
+);
 
 	
 CREATE TABLE PRODUCTO_PROVEEDOR(
@@ -128,24 +127,24 @@ CREATE TABLE PRODUCTO_PROVEEDOR(
 );	
 
 CREATE TABLE FACTURAS(
-fact_id serial,
-fact_fecha date,
-clie_id integer,
-empl_id integer,
-CONSTRAINT factura_pk PRIMARY KEY(fact_id),
-CONSTRAINT fact_clie_fk foreign key(clie_id) references CLIENTES(clie_id),
-CONSTRAINT fact_empl_fk foreign key(empl_id) references EMPLEADOS(empl_id)
+    fact_id serial,
+    fact_fecha date,
+    clie_id integer,
+    empl_id integer,
+    CONSTRAINT factura_pk PRIMARY KEY(fact_id),
+    CONSTRAINT fact_clie_fk foreign key(clie_id) references CLIENTES(clie_id),
+    CONSTRAINT fact_empl_fk foreign key(empl_id) references EMPLEADOS(empl_id)
 );
 
 CREATE TABLE FACTURA_PRODUCTO(
-fapr_id serial,
-fact_id integer,
-prod_id integer,
-fapr_cantidad integer,
-fapr_total integer,
-CONSTRAINT factura_producto_pk PRIMARY KEY(fapr_id),
-CONSTRAINT fapr_prod_fk foreign key(prod_id) references CLIENTES(clie_id),
-CONSTRAINT fapr_fact_fk foreign key(fact_id) references FACTURAS(fact_id)
+    fapr_id serial,
+    fact_id integer,
+    prod_id integer,
+    fapr_cantidad integer,
+    fapr_total integer,
+    CONSTRAINT factura_producto_pk PRIMARY KEY(fapr_id),
+    CONSTRAINT fapr_prod_fk foreign key(prod_id) references CLIENTES(clie_id),
+    CONSTRAINT fapr_fact_fk foreign key(fact_id) references FACTURAS(fact_id)
 );
 
 
