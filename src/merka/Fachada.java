@@ -139,6 +139,10 @@ public class Fachada {
     public boolean eliminarCliente(boolean estado, int clie_id) {
         return mediador.eliminarCliente(estado, clie_id);
     }
+    
+    public Cliente buscarCliente(String documento){
+        return mediador.buscarCliente(documento);
+    }
 
     //************************* CARGOS *****************************
     public boolean registrarCargo(Cargo cargo) {

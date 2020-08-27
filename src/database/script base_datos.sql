@@ -143,7 +143,7 @@ CREATE TABLE FACTURA_PRODUCTO(
     fapr_cantidad integer,
     fapr_total integer,
     CONSTRAINT factura_producto_pk PRIMARY KEY(fapr_id),
-    CONSTRAINT fapr_prod_fk foreign key(prod_id) references CLIENTES(clie_id),
+    CONSTRAINT fapr_prod_fk foreign key(prod_id) references PRODUCTOS(prod_id),
     CONSTRAINT fapr_fact_fk foreign key(fact_id) references FACTURAS(fact_id)
 );
 

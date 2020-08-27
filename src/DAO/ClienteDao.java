@@ -24,7 +24,7 @@ public class ClienteDao {
         boolean resultado = false;
 
         String consulta = "INSERT INTO public.clientes(\n"
-                + "	fk_pers_id, estado)\n"
+                + "	pers_id, estado)\n"
                 + "	VALUES (?,?) returning clie_id;";
         try {
             con = Conexion.objConexion().getConexion();
@@ -153,7 +153,7 @@ public class ClienteDao {
             Logger.getLogger(PersonaDao.class
                     .getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
-                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -166,4 +166,38 @@ public class ClienteDao {
         }
         return resultado;
     }
+
+    //buscar cliente
+    public Cliente buscarCliente(String documento) {
+        Cliente cliente = null;
+        String consulta = "SELECT *\n"
+                + "	FROM clientes as c inner join personas as p\n"
+                + "	on p.pers_id = c.pers_id\n"
+                + "    where p.pers_documento = ?;";
+        try {
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            pst.setString(1, documento);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                cliente = new Cliente(rs.getInt(1), rs.getBoolean(3), new Persona(rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return cliente;
+    }
+
 }
