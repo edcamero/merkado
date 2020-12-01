@@ -9,6 +9,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
 
     public PanelPrincipal() {
         initComponents();
+        this.setExtendedState(PanelPrincipal.MAXIMIZED_BOTH);
         this.setTitle("NOMBRE DEL SUPERMERCADO");
         this.setLocationRelativeTo(null);
     }

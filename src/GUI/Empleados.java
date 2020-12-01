@@ -31,7 +31,7 @@ public class Empleados extends javax.swing.JFrame {
         this.setTitle("GESTION DE EMPLEADOS");
         this.setLocationRelativeTo(null);
         this.setTitle("Gestion de Empleado");
-        cargarCargos2();
+        cargarCargos();
         cargar();
     }
 

@@ -26,6 +26,7 @@ public class Productos extends javax.swing.JFrame {
 
     public Productos() {
         initComponents();
+        
         this.setTitle("GESTION DE PRODUCTOS");
         this.setLocationRelativeTo(null);
         txtNombre.setFocusable(true);
