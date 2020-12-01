@@ -39,10 +39,7 @@ public class Productos extends javax.swing.JFrame {
         this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
         this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
         this.descripcion = txtDescripcion.getText().trim();
-        System.out.println(boxTipoProducto.getSelectedItem().toString().trim());
         this.tipoProducto = Fachada.getInstancia().obtenerTipoProducto(boxTipoProducto.getSelectedItem().toString().trim());
-        System.out.println(this.tipoProducto.getId());
-        System.out.println(this.tipoProducto.getNombre());
         producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion, tipoProducto.getId());
         return (Fachada.getInstancia().registrarProducto(producto));
     }
@@ -53,7 +50,7 @@ public class Productos extends javax.swing.JFrame {
         this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
         this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
         this.descripcion = txtDescripcion.getText().trim();
-        this.tipoProducto = Fachada.getInstancia().obtenerTipoProducto(boxBuscar.getSelectedItem().toString());
+        this.tipoProducto = Fachada.getInstancia().obtenerTipoProducto(boxTipoProducto.getSelectedItem().toString().trim());
         Producto producto2 = new Producto(prod_id, nombre, precioCompra, precioVenta, cantidad, descripcion, tipoProducto.getId());
         return (Fachada.getInstancia().actualizarProducto(producto2));
     }
@@ -463,7 +460,7 @@ public class Productos extends javax.swing.JFrame {
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(null, "INGRESE SOLO LETRAS");
-        }    
+        }
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtPrecioCompraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioCompraKeyTyped

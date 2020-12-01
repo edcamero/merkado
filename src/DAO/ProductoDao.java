@@ -114,7 +114,8 @@ public class ProductoDao {
                     + "prod_precio_compra =  ?,"
                     + "prod_precio_venta =  ?, "
                     + "prod_cantidad =  ?, "
-                    + "prod_descripcion = ? WHERE prod_id=? returning *";
+                    + "prod_descripcion = ?, "
+                    + "tipr_id = ? WHERE prod_id = ? returning *";
             
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -125,7 +126,8 @@ public class ProductoDao {
             pst.setInt(3, producto.getPrecioVenta());
             pst.setInt(4, producto.getCantidad());
             pst.setString(5, producto.getDescripcion());
-            pst.setInt(6, producto.getId());
+            pst.setInt(6, producto.getTipoProducto());
+            pst.setInt(7, producto.getId());
             rs = pst.executeQuery();
 
             return true;
