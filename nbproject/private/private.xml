@@ -1,27 +1,9 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/enyerson/Documentos/merkado/src/merka/Fachada.java</file>
-            <file>file:/home/enyerson/Documentos/merkado/src/DAO/ProveedorDao.java</file>
-            <file>file:/home/enyerson/Documentos/merkado/src/GUI/Empleados.java</file>
-            <file>file:/home/enyerson/Documentos/merkado/src/GUI/ProveedorGui.java</file>
-            <file>file:/home/enyerson/Documentos/merkado/src/database/script%20base_datos.sql</file>
-            <file>file:/home/enyerson/Documentos/merkado/src/merka/Mediador.java</file>
-            <file>file:/home/enyerson/Documentos/merkado/src/GUI/AddUsuario.java</file>
+            <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/GUI/Productos.java</file>
         </group>
     </open-files>
 </project-private>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/cfuen/OneDrive/Documentos/NetBeansProjects/merkado/src/DAO/ProductoDao.java</file>
-        </group>
-    </open-files>
-</project-private>
->>>>>>> 422a8b4f42b95953d232aa2b012a20572c1e79c5

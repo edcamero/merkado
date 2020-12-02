@@ -26,14 +26,14 @@ public class ProductoDao {
         boolean resultado = false;
 
         String consulta = "INSERT INTO public.productos(\n"
-                + "	prod_code,prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion, tipr_id)\n"
-                + "	VALUES (?,?, ?, ?, ?, ?, ?) returning prod_id;";
+                + "	prod_code, prod_nombre, prod_precio_compra, prod_precio_venta, prod_cantidad, prod_descripcion, tipr_id)\n"
+                + "	VALUES (?, ?, ?, ?, ?, ?, ?) returning prod_id;";
         try {
             con = Conexion.objConexion().getConexion();
 
             PreparedStatement pst = con.prepareStatement(consulta);
 
-            pst.setInt(1, producto.getCodigo());
+            pst.setString(1, producto.getCodigo());
             pst.setString(2, producto.getNombre());
             pst.setInt(3, producto.getPrecioCompra());
             pst.setInt(4, producto.getPrecioVenta());
@@ -87,7 +87,7 @@ public class ProductoDao {
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Producto P = new Producto(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
+                Producto P = new Producto(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
                         rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
                 lista.add(P);
             }

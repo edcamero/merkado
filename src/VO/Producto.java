@@ -4,14 +4,14 @@ public class Producto {
 
     private int id;
     private String nombre;
-    private int codigo;
+    private String codigo;
     private int precioCompra;
     private int precioVenta;
     private int cantidad;
     private String descripcion;
     private int tipoProducto;
 
-    public Producto(String nombre, int codigo, int precioCompra, int precioVenta, int cantidad, String descripcion, int tipoProducto) {
+    public Producto(String codigo, String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion, int tipoProducto) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.precioCompra = precioCompra;
@@ -21,7 +21,7 @@ public class Producto {
         this.tipoProducto = tipoProducto;
     }
 
-    public Producto(int id, int codigo, String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion, int tipoProducto) {
+    public Producto(int id, String codigo, String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion, int tipoProducto) {
         this.id = id;
         this.codigo = codigo;
         this.nombre = nombre;
@@ -48,14 +48,13 @@ public class Producto {
         this.id = id;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-    
 
     public String getNombre() {
         return nombre;

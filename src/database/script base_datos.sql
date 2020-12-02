@@ -96,7 +96,7 @@ INSERT INTO public.tipo_productos(tipr_nombre,tipr_descripcion) VALUES ('LACTEOS
 
 CREATE TABLE PRODUCTOS(
    prod_id SERIAL,
-   prod_code INT UNIQUE,
+   prod_code VARCHAR UNIQUE,
    prod_nombre VARCHAR(40) NOT NULL UNIQUE, 
    prod_precio_compra INT NOT NULL,
    prod_precio_venta INT NOT NULL,
