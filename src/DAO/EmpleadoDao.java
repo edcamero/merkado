@@ -1,11 +1,8 @@
 package DAO;
 
 import VO.Cargo;
-import VO.Cliente;
 import VO.Empleado;
-import VO.Persona;
 import database.Conexion;
-import java.sql.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -107,5 +104,79 @@ public class EmpleadoDao {
             }
         }
         return lista;
+    }
+
+    //ACTUALIZAR EMPLEADO
+    public boolean actualizarEmpleado(Empleado empleado) {
+
+        boolean resultado = false;
+        try {
+            String consulta = "UPDATE empleados SET empl_fecha_contratacion=?, carg_id=? WHERE empl_id=?";
+            //con = Conexion.getDataSource().getConnection();
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            java.util.Date utilDate = empleado.getFechaContratacion();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+            pst.setDate(1, sqlDate);
+            pst.setInt(2, empleado.getCargo().getId());
+            pst.setInt(3, empleado.getId());
+
+            pst.executeUpdate();
+
+            resultado = true;
+        } catch (SQLException ex) {
+            Logger.getLogger(EmpleadoDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+                con.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return resultado;
+    }
+
+//ELIMINAR CLIENTE
+    public boolean eliminarEmpleado(boolean estado, int empl_id) {
+        boolean resultado = false;
+        try {
+            String consulta = "UPDATE empleados SET empl_estado=? WHERE empl_id=?";
+            //con = Conexion.getDataSource().getConnection();
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            pst.setBoolean(1, estado);
+            pst.setInt(2, empl_id);
+
+            pst.executeUpdate();
+
+            resultado = true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PersonaDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+                con.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return resultado;
     }
 }

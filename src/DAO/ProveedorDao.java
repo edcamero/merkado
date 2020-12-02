@@ -5,7 +5,6 @@
  */
 package DAO;
 
-import VO.Producto;
 import VO.Proveedor;
 import database.Conexion;
 import java.sql.Connection;
@@ -51,7 +50,7 @@ public class ProveedorDao {
         } catch (SQLException ex) {
             Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
-                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 if (rs != null) {
@@ -91,7 +90,6 @@ public class ProveedorDao {
                 Proveedor proveedor = new Proveedor(rs.getInt("prov_id"),
                         rs.getString("prov_nombre"), rs.getString("prov_nit"),
                         rs.getString("prov_direccion"), rs.getString("prov_telefono")
-                        
                 );
                 lista.add(proveedor);
 
@@ -99,7 +97,7 @@ public class ProveedorDao {
         } catch (SQLException ex) {
             Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
-                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -141,6 +139,8 @@ public class ProveedorDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
@@ -158,25 +158,27 @@ public class ProveedorDao {
 
     public boolean eliminarProveedor(int id) {
         boolean respuesta = false;
-            String consulta = "DELETE FROM public.proveedor\n"
-                    + "	WHERE prov_id=?;";
+        String consulta = "DELETE FROM public.proveedor\n"
+                + "	WHERE prov_id=?;";
         try {
-            
+
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            pst.setInt(1,id);
+            pst.setInt(1, id);
             if (pst.executeUpdate() > 0) {
-                respuesta=true;
+                respuesta = true;
             }
             con.close();
-            
+
             //return respuesta;
         } catch (SQLException ex) {
             Logger.getLogger(ProveedorDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             return false;
-        }finally {
+        } finally {
             try {
                 pst.close();
                 rs.close();

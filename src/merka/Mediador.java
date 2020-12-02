@@ -25,9 +25,9 @@ public class Mediador {
         clienteDao = new ClienteDao();
         cargoDao = new CargoDao();
         empleadoDao = new EmpleadoDao();
-        proveedorDao=new ProveedorDao();
+        proveedorDao = new ProveedorDao();
     }
-    
+
     public boolean login(String username, String pass) {
         return usuarioDao.login(username, pass);
     }
@@ -127,6 +127,15 @@ public class Mediador {
         return empleadoDao.obtenerEmpleados();
     }
 
+    public boolean actualizarEmpleado(Empleado empleado) {
+        this.actualizarPersona(empleado);
+        return empleadoDao.actualizarEmpleado(empleado);
+    }
+    
+    public boolean eliminarEmpleado(boolean estado, int empl_id){
+        return empleadoDao.eliminarEmpleado(estado, empl_id);
+    }
+
     //******************CLIENTE**************************
     public boolean registrarCliente(Cliente cliente) {
         return clienteDao.registrarCliente(cliente);
@@ -142,6 +151,10 @@ public class Mediador {
 
     public boolean eliminarCliente(boolean estado, int clie_id) {
         return clienteDao.eliminarCliente(estado, clie_id);
+    }
+    
+    public Cliente buscarCliente(String documento){
+        return clienteDao.buscarCliente(documento);
     }
 
     //************************* CARGOS *****************************
@@ -161,21 +174,20 @@ public class Mediador {
         return cargoDao.eliminarCargo(estado, carg_id);
     }
 
-    
-     //************************* PROVEEDOR *****************************
-    public boolean registrarProveedor(Proveedor proveedor){
+    //************************* PROVEEDOR *****************************
+    public boolean registrarProveedor(Proveedor proveedor) {
         return proveedorDao.registrarProveedor(proveedor);
     }
-    
-    public ArrayList<Proveedor> obtenerProveedores(){
+
+    public ArrayList<Proveedor> obtenerProveedores() {
         return proveedorDao.obtenerProveedores();
     }
-    
-    public boolean actualizarProveedor(Proveedor proveedor){
+
+    public boolean actualizarProveedor(Proveedor proveedor) {
         return proveedorDao.actualizarProveedor(proveedor);
     }
-    
-    public boolean eliminarProveedor(int id){
+
+    public boolean eliminarProveedor(int id) {
         return proveedorDao.eliminarProveedor(id);
     }
 }

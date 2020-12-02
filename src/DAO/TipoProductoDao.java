@@ -5,7 +5,6 @@
  */
 package DAO;
 
-import VO.Producto;
 import VO.TipoProducto;
 import database.Conexion;
 import java.sql.Connection;
@@ -94,7 +93,7 @@ public class TipoProductoDao {
         }
         return lista;
     }
-    
+
     //OBTENER TIPO DE PRODUCTO
     public TipoProducto obtenerTipoProducto(String tipr_nombre) {
         TipoProducto tipoProducto = new TipoProducto();
@@ -106,7 +105,7 @@ public class TipoProductoDao {
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, tipr_nombre);
-            
+
             rs = pst.executeQuery();
             while (rs.next()) {
                 tipoProducto = new TipoProducto(rs.getInt(1), rs.getString(2), rs.getString(3));
@@ -128,13 +127,12 @@ public class TipoProductoDao {
     }
 
     //ACUTLIZAR EL TIPO DE PRODUCTO
-
     /**
      *
      * @param tipoProducto
      * @return
      */
-    public  boolean actualizarTipoProducto(TipoProducto tipoProducto) {
+    public boolean actualizarTipoProducto(TipoProducto tipoProducto) {
 
         try {
 //            String consulta = "update productos\n"
@@ -160,17 +158,17 @@ public class TipoProductoDao {
             System.out.println("id" + pst);
             rs = pst.executeQuery();
 
-            pst.close();
-            rs.close();
-            con.close();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(ProductoDao.class
                     .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 pst.close();
                 rs.close();
+                con.close();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
                         + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
@@ -178,9 +176,9 @@ public class TipoProductoDao {
         }
         return false;
     }
-    
+
     //ELIMINAR TIPO DE PRODUCTO
-    public  boolean eliminarTipoProducto(int tipr_id) {
+    public boolean eliminarTipoProducto(int tipr_id) {
         try {
             String consulta = "DELETE FROM tipo_productos "
                     + "WHERE tipr_id = ?";
@@ -197,6 +195,8 @@ public class TipoProductoDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             return false;
         } finally {
             try {

@@ -5,7 +5,6 @@
  */
 package DAO;
 
-import VO.Producto;
 import VO.TipoUsuario;
 import database.Conexion;
 import java.sql.Connection;
@@ -15,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,6 +44,8 @@ public class TipoUsuarioDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(TipoUsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 rs.close();
@@ -51,6 +53,8 @@ public class TipoUsuarioDao {
                 con.close();
             } catch (SQLException ex) {
                 Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
             }
         }
         return lista;
