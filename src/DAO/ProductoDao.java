@@ -49,8 +49,13 @@ public class ProductoDao {
             pst.close();
             rs.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al intentar almacenar la información:\n"
-                    + e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.getErrorCode());
+            if (e.getErrorCode() == 0) {
+                JOptionPane.showMessageDialog(null, "¡Nro. de Codigo de Barras ya existe!", "Codigo Duplicado",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } finally {
             try {
                 if (rs != null) {

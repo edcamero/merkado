@@ -75,13 +75,13 @@ public class Productos extends javax.swing.JFrame {
         // Creamos un objeto Table con el molde del nuestro
         productos = Fachada.getInstancia().obtenerProductos();
         String data[][] = {};
-        String col[] = {"ID", "CODIGO", "NOMBRE", "PRECIO/COMPRA", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION"};
+        String col[] = {"ID", "CODIGO", "NOMBRE", "PRECIO/COMPRA", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION", "TIPO/PRODUCTO"};
         model = new DefaultTableModel(data, col);
         ///alumno d = cab;
         //************************************
         if (productos.size() != 0) {
             for (Producto producto : productos) {
-                Object[] fila = new Object[7];
+                Object[] fila = new Object[8];
                 fila[0] = producto.getId();
                 fila[1] = producto.getCodigo();
                 fila[2] = producto.getNombre();
@@ -89,6 +89,7 @@ public class Productos extends javax.swing.JFrame {
                 fila[4] = producto.getPrecioVenta();
                 fila[5] = producto.getCantidad();
                 fila[6] = producto.getDescripcion();
+                fila[7] = producto.getTipoProducto();
                 model.addRow(fila);
             }
             this.tablaProductos.setModel(model);
@@ -541,6 +542,8 @@ public class Productos extends javax.swing.JFrame {
             txtPrecioVenta.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
             txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
             txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 6).toString());
+//            boxTipoProducto.setSelectedItem(source.getValueAt(source.getSelectedRow(), 7).toString());
+
         }
 
     }//GEN-LAST:event_tablaProductosMouseClicked
