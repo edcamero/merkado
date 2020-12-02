@@ -122,8 +122,8 @@ public class ProductoDao {
             con = Conexion.objConexion().getConexion();
             pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            
-            pst.setInt(1, producto.getPrecioCompra());
+
+            pst.setString(1, producto.getCodigo());
             pst.setString(2, producto.getNombre());
             pst.setInt(3, producto.getPrecioCompra());
             pst.setInt(4, producto.getPrecioVenta());

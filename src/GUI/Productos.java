@@ -535,11 +535,12 @@ public class Productos extends javax.swing.JFrame {
         if (productos.size() > 0) {
             JTable source = (JTable) evt.getSource();
             prod_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
-            txtNombre.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
-            txtPrecioCompra.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
-            txtPrecioVenta.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
-            txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
-            txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+            txtCode.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
+            txtNombre.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
+            txtPrecioCompra.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
+            txtPrecioVenta.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
+            txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+            txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 6).toString());
         }
 
     }//GEN-LAST:event_tablaProductosMouseClicked
