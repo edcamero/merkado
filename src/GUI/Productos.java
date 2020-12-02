@@ -16,7 +16,7 @@ import merka.Fachada;
 public class Productos extends javax.swing.JFrame {
 
     String nombre, descripcion;
-    int precioCompra, precioVenta, cantidad;
+    int precioCompra, precioVenta, cantidad, codigo;
     Producto producto = null;
     TipoProducto tipoProducto = new TipoProducto();
     int prod_id = 0;
@@ -26,7 +26,7 @@ public class Productos extends javax.swing.JFrame {
 
     public Productos() {
         initComponents();
-        
+
         this.setTitle("GESTION DE PRODUCTOS");
         this.setLocationRelativeTo(null);
         txtNombre.setFocusable(true);
@@ -36,23 +36,25 @@ public class Productos extends javax.swing.JFrame {
 
     private boolean registrarProducto() {
         this.nombre = txtNombre.getText().trim();
+        this.codigo = Integer.parseInt(txtCode.getText().trim());
         this.precioCompra = Integer.parseInt(txtPrecioCompra.getText().trim());
         this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
         this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
         this.descripcion = txtDescripcion.getText().trim();
         this.tipoProducto = Fachada.getInstancia().obtenerTipoProducto(boxTipoProducto.getSelectedItem().toString().trim());
-        producto = new Producto(nombre, precioCompra, precioVenta, cantidad, descripcion, tipoProducto.getId());
+        producto = new Producto(nombre, codigo, precioCompra, precioVenta, cantidad, descripcion, tipoProducto.getId());
         return (Fachada.getInstancia().registrarProducto(producto));
     }
 
     private boolean modificarProducto() {
         this.nombre = txtNombre.getText().trim();
         this.precioCompra = Integer.parseInt(txtPrecioCompra.getText().trim());
+        this.codigo = Integer.parseInt(txtCode.getText().trim());
         this.precioVenta = Integer.parseInt(txtPrecioVenta.getText().trim());
         this.cantidad = Integer.parseInt(txtCantidad.getText().trim());
         this.descripcion = txtDescripcion.getText().trim();
         this.tipoProducto = Fachada.getInstancia().obtenerTipoProducto(boxTipoProducto.getSelectedItem().toString().trim());
-        Producto producto2 = new Producto(prod_id, nombre, precioCompra, precioVenta, cantidad, descripcion, tipoProducto.getId());
+        Producto producto2 = new Producto(prod_id, codigo, nombre, precioCompra, precioVenta, cantidad, descripcion, tipoProducto.getId());
         return (Fachada.getInstancia().actualizarProducto(producto2));
     }
 
@@ -72,19 +74,20 @@ public class Productos extends javax.swing.JFrame {
         // Creamos un objeto Table con el molde del nuestro
         productos = Fachada.getInstancia().obtenerProductos();
         String data[][] = {};
-        String col[] = {"ID", "NOMBRE", "PRECIO/COMPRA", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION"};
+        String col[] = {"ID", "CODIGO", "NOMBRE", "PRECIO/COMPRA", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION"};
         model = new DefaultTableModel(data, col);
         ///alumno d = cab;
         //************************************
         if (productos.size() != 0) {
             for (Producto producto : productos) {
-                Object[] fila = new Object[6];
+                Object[] fila = new Object[7];
                 fila[0] = producto.getId();
-                fila[1] = producto.getNombre();
-                fila[2] = producto.getPrecioCompra();
-                fila[3] = producto.getPrecioVenta();
-                fila[4] = producto.getCantidad();
-                fila[5] = producto.getDescripcion();
+                fila[1] = producto.getCodigo();
+                fila[2] = producto.getNombre();
+                fila[3] = producto.getPrecioCompra();
+                fila[4] = producto.getPrecioVenta();
+                fila[5] = producto.getCantidad();
+                fila[6] = producto.getDescripcion();
                 model.addRow(fila);
             }
             this.tablaProductos.setModel(model);
@@ -172,6 +175,8 @@ public class Productos extends javax.swing.JFrame {
         txtDescripcion = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         boxTipoProducto = new javax.swing.JComboBox<>();
+        txtCode = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
@@ -197,7 +202,7 @@ public class Productos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null));
 
         jLabel1.setText("Nombre:");
 
@@ -235,6 +240,19 @@ public class Productos extends javax.swing.JFrame {
 
         jLabel6.setText("Tipo/Producto:");
 
+        txtCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodeActionPerformed(evt);
+            }
+        });
+        txtCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodeKeyTyped(evt);
+            }
+        });
+
+        jLabel9.setText("Codigo");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -266,13 +284,21 @@ public class Productos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtDescripcion)
-                            .addComponent(boxTipoProducto, 0, 176, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(boxTipoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -295,11 +321,10 @@ public class Productos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(boxTipoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(boxTipoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null));
 
         btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -355,7 +380,7 @@ public class Productos extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -421,9 +446,9 @@ public class Productos extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -525,6 +550,14 @@ public class Productos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtBuscarKeyTyped
 
+    private void txtCodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodeKeyTyped
+
+    private void txtCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -558,6 +591,7 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -566,6 +600,7 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JTable tablaProductos;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtCode;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecioCompra;
