@@ -21,7 +21,6 @@ public class Main {
     private static Conexion conexion;
 
     public static void main(String[] args) {
-        System.out.println("hola bb");
         try {
             connection = getConnection();
             if (connection != null) {
