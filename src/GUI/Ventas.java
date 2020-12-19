@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import merka.Fachada;
@@ -21,6 +23,7 @@ public class Ventas extends javax.swing.JFrame {
     private ArrayList<FacturaProducto> detalles = new ArrayList<FacturaProducto>();
     private DefaultTableModel model;
     private int totalPagar = 0;
+    private int cantidad;
 
     public Ventas() {
         initComponents();
@@ -37,7 +40,21 @@ public class Ventas extends javax.swing.JFrame {
         String data[][] = {};
         String col[] = {"CODIGO", "NOMBRE", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION", "TOTAL"};
         model = new DefaultTableModel(data, col);
-        this.tablaProductos.setModel(model);
+        if (detalles.size() != 0) {
+            for (FacturaProducto factProd : detalles) {
+                Object[] fila = new Object[8];
+                fila[0] = factProd.getProducto().getCodigo();
+                fila[1] = factProd.getProducto().getNombre();
+                fila[2] = factProd.getProducto().getPrecioVenta();
+                fila[3] = factProd.getCantidad();
+                fila[4] = factProd.getProducto().getDescripcion();
+                fila[5] = factProd.getTotal();
+                model.addRow(fila);
+            }
+            this.tablaProductos.setModel(model);
+        } else {
+            this.tablaProductos.setModel(model);
+        }
     }
 
     public void limpiar() {
@@ -335,6 +352,11 @@ public class Ventas extends javax.swing.JFrame {
         });
 
         jButton7.setText("Eliminar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -445,6 +467,11 @@ public class Ventas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProductosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaProductos);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones De La Venta"));
@@ -634,6 +661,40 @@ public class Ventas extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
+        // TODO add your handling code here:
+        if (detalles.size() > 0) {
+            JTable source = (JTable) evt.getSource();
+            txtCodBarras.setText(source.getValueAt(source.getSelectedRow(), 0).toString());
+            txtNombreProducto.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
+            txtPrecio.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
+            txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
+            txtSubTotal.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+            cantidad = (int) source.getValueAt(source.getSelectedRow(), 3);
+        }
+    }//GEN-LAST:event_tablaProductosMouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // ELIMINAR PRODUCTO DE LA FACTURA
+        for (int i = 0; i < detalles.size(); i++) {
+            if (detalles.get(i).getProducto().getCodigo().equals(txtCodBarras.getText().trim())) {
+                if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
+                    detalles.remove(i);
+                    cargar();
+                    limpiar();
+                    JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");
+                } else if (Integer.parseInt(txtCantidad.getText()) < cantidad) {
+                    detalles.get(i).setCantidad(Integer.parseInt(txtCantidad.getText()));
+                    cargar();
+                    limpiar();
+                    JOptionPane.showMessageDialog(null, "SE MODIFICIO LA CANTIDAD DEL PRODUCTO");
+                } else {
+                    JOptionPane.showMessageDialog(null, "NO SE ELIMINO EL PRODUCTO");
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
