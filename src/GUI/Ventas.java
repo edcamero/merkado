@@ -344,7 +344,7 @@ public class Ventas extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Cancelar");
+        jButton5.setText("Limpiar");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -591,21 +591,44 @@ public class Ventas extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         //agregar productos a la lista de la factura
-        factProd = new FacturaProducto(producto, Integer.parseInt(txtCantidad.getText().trim()), Integer.parseInt(txtSubTotal.getText().trim()));
-        Object[] fila = new Object[6];
-        fila[0] = factProd.getProducto().getCodigo();
-        fila[1] = factProd.getProducto().getNombre();
-        fila[2] = factProd.getProducto().getPrecioVenta();
-        fila[3] = factProd.getCantidad();
-        fila[4] = factProd.getProducto().getDescripcion();
-        fila[5] = factProd.getTotal();
-        model.addRow(fila);
-        this.tablaProductos.setModel(model);
-        totalPagar += factProd.getTotal();
+        boolean esta = false;
+        for (int i = 0; i < detalles.size(); i++) {
+            if (detalles.get(i).getProducto().getCodigo().equals(txtCodBarras.getText().trim())) {
+                if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
+                    detalles.get(i).setCantidad(detalles.get(i).getCantidad() + 1);
+                    detalles.get(i).setTotal(detalles.get(i).getCantidad() * detalles.get(i).getProducto().getPrecioVenta());
+                    totalPagar += detalles.get(i).getProducto().getPrecioVenta();
+                    this.cargar();
+                    this.limpiar();
+                    JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
+                } else {
+                    detalles.get(i).setCantidad(detalles.get(i).getCantidad() + Integer.parseInt(txtCantidad.getText().trim()));
+                    detalles.get(i).setTotal(detalles.get(i).getCantidad() * detalles.get(i).getProducto().getPrecioVenta());
+                    totalPagar += Integer.parseInt(txtCantidad.getText().trim()) * detalles.get(i).getProducto().getPrecioVenta();
+                    this.cargar();
+                    this.limpiar();
+                    JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
+                }
+                esta = true;
+            }
+        }
+        if (!esta) {
+            factProd = new FacturaProducto(producto, Integer.parseInt(txtCantidad.getText().trim()), Integer.parseInt(txtSubTotal.getText().trim()));
+            Object[] fila = new Object[6];
+            fila[0] = factProd.getProducto().getCodigo();
+            fila[1] = factProd.getProducto().getNombre();
+            fila[2] = factProd.getProducto().getPrecioVenta();
+            fila[3] = factProd.getCantidad();
+            fila[4] = factProd.getProducto().getDescripcion();
+            fila[5] = factProd.getTotal();
+            model.addRow(fila);
+            this.tablaProductos.setModel(model);
+            totalPagar = totalPagar + factProd.getTotal();
+            this.limpiar();
+            JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
+            detalles.add(factProd);
+        }
         txtTotal.setText(String.valueOf(totalPagar));
-        this.limpiar();
-        detalles.add(factProd);
-
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
