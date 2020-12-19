@@ -112,6 +112,39 @@ public class ProductoDao {
         return lista;
     }
 
+    //OBTENER LOS PRODUCTO
+    public Producto obtenerProducto(String codigo) {
+        Producto p = null;
+        String consulta = "select * FROM productos where prod_code=?;";
+        try {
+            //con = Conexion.getConexion();
+            con = Conexion.objConexion().getConexion();
+            //con = conexion.getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            pst.setString(1, codigo);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                p = new Producto(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
+                        rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al intentar obtener la informacion:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return p;
+    }
+
     //MODIFICAR PRODUCTOS
     public boolean actualizarProducto(Producto producto) {
         try {

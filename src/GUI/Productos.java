@@ -23,6 +23,7 @@ public class Productos extends javax.swing.JFrame {
     private DefaultTableModel model;
     TableRowSorter<DefaultTableModel> tr;
     private ArrayList<Producto> productos;
+    private ArrayList<TipoProducto> tipoProductos;
 
     public Productos() {
         initComponents();
@@ -74,6 +75,7 @@ public class Productos extends javax.swing.JFrame {
     public void cargar() {
         // Creamos un objeto Table con el molde del nuestro
         productos = Fachada.getInstancia().obtenerProductos();
+        tipoProductos = Fachada.getInstancia().obtenerTipoProductos();
         String data[][] = {};
         String col[] = {"ID", "CODIGO", "NOMBRE", "PRECIO/COMPRA", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION", "TIPO/PRODUCTO"};
         model = new DefaultTableModel(data, col);
@@ -542,8 +544,13 @@ public class Productos extends javax.swing.JFrame {
             txtPrecioVenta.setText(source.getValueAt(source.getSelectedRow(), 4).toString());
             txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
             txtDescripcion.setText(source.getValueAt(source.getSelectedRow(), 6).toString());
-//            boxTipoProducto.setSelectedItem(source.getValueAt(source.getSelectedRow(), 7).toString());
-
+            int tipo = (int) source.getValueAt(source.getSelectedRow(), 7);
+            for (TipoProducto tipoProducto : tipoProductos) {
+                if (tipoProducto.getId() == tipo) {
+                    boxTipoProducto.setSelectedItem(tipoProducto.getNombre());
+                }
+            }
+            System.out.println(source.getValueAt(source.getSelectedRow(), 7));
         }
 
     }//GEN-LAST:event_tablaProductosMouseClicked
