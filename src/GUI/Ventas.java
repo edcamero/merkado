@@ -254,6 +254,11 @@ public class Ventas extends javax.swing.JFrame {
 
         jLabel8.setText("Codigo De Barras:");
 
+        txtCodBarras.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtCodBarrasMouseEntered(evt);
+            }
+        });
         txtCodBarras.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCodBarrasKeyPressed(evt);
@@ -557,8 +562,24 @@ public class Ventas extends javax.swing.JFrame {
 
     private void txtCodBarrasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyPressed
         // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                producto = Fachada.getInstancia().obtenerProducto(txtCodBarras.getText().trim());
+                txtNombreProducto.setText(producto.getNombre());
+                txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
+                txtCantidad.setText("1");
+                txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+    }//GEN-LAST:event_txtCodBarrasKeyPressed
+
+    private void txtCodBarrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyTyped
 //        try {
-//            producto = Fachada.getInstancia().obtenerProducto(txtCodBarras.getText().trim());
+//            String cadena = txtCodBarras.getText().trim();
+//            producto = Fachada.getInstancia().obtenerProducto(cadena);
 //            txtNombreProducto.setText(producto.getNombre());
 //            txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
 //            txtCantidad.setText("1");
@@ -566,19 +587,11 @@ public class Ventas extends javax.swing.JFrame {
 //        } catch (Exception e) {
 //            System.out.println(e);
 //        }
-    }//GEN-LAST:event_txtCodBarrasKeyPressed
-
-    private void txtCodBarrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyTyped
-        try {
-            producto = Fachada.getInstancia().obtenerProducto(txtCodBarras.getText().trim());
-            txtNombreProducto.setText(producto.getNombre());
-            txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
-            txtCantidad.setText("1");
-            txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
     }//GEN-LAST:event_txtCodBarrasKeyTyped
+
+    private void txtCodBarrasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCodBarrasMouseEntered
+
+    }//GEN-LAST:event_txtCodBarrasMouseEntered
 
     /**
      * @param args the command line arguments
