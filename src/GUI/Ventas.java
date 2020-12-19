@@ -1,6 +1,7 @@
 package GUI;
 
 import VO.Cliente;
+import VO.FacturaProducto;
 import VO.Producto;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 import merka.Fachada;
 
 public class Ventas extends javax.swing.JFrame {
@@ -15,6 +17,10 @@ public class Ventas extends javax.swing.JFrame {
     private Cliente cliente;
     private ArrayList<Producto> productos;
     private Producto producto = new Producto();
+    private FacturaProducto factProd;
+    private ArrayList<FacturaProducto> detalles = new ArrayList<FacturaProducto>();
+    private DefaultTableModel model;
+    private int totalPagar = 0;
 
     public Ventas() {
         initComponents();
@@ -22,6 +28,24 @@ public class Ventas extends javax.swing.JFrame {
         fecha.setDate(new Date());
         txtNombreProducto.setText(producto.getNombre());
         txtCodBarras.setText(producto.getNombre());
+        txtTotal.setText("0");
+        cargar();
+    }
+
+    public void cargar() {
+        // Creamos un objeto Table con el molde del nuestro
+        String data[][] = {};
+        String col[] = {"CODIGO", "NOMBRE", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION", "TOTAL"};
+        model = new DefaultTableModel(data, col);
+        this.tablaProductos.setModel(model);
+    }
+
+    public void limpiar() {
+        txtCodBarras.setText("");
+        txtNombreProducto.setText("");
+        txtPrecio.setText("");
+        txtCantidad.setText("");
+        txtSubTotal.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -50,7 +74,7 @@ public class Ventas extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         fecha = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
+        txtTotal = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         txtNombreProducto = new javax.swing.JTextField();
@@ -69,7 +93,7 @@ public class Ventas extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tablaProductos = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -198,11 +222,18 @@ public class Ventas extends javax.swing.JFrame {
 
         jLabel12.setText("Codigo De La Venta:");
 
+        jTextField12.setFocusable(false);
+
         jLabel13.setText("Fecha:");
 
         fecha.setEnabled(false);
 
         jLabel14.setText("TOTAL");
+
+        txtTotal.setFont(new java.awt.Font("Franklin Gothic Demi Cond", 1, 26)); // NOI18N
+        txtTotal.setForeground(new java.awt.Color(0, 153, 0));
+        txtTotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTotal.setFocusable(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -222,7 +253,7 @@ public class Ventas extends javax.swing.JFrame {
                             .addComponent(jLabel14))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField13)
+                            .addComponent(txtTotal)
                             .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -240,7 +271,7 @@ public class Ventas extends javax.swing.JFrame {
                     .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -297,6 +328,11 @@ public class Ventas extends javax.swing.JFrame {
         });
 
         jButton5.setText("Cancelar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Eliminar");
 
@@ -307,7 +343,7 @@ public class Ventas extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,32 +381,28 @@ public class Ventas extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel11)
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addComponent(jLabel9)
+                                    .addGap(84, 84, 84)))
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCodBarras)
+                            .addComponent(txtNombreProducto)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel11)
-                                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                            .addComponent(jLabel9)
-                                            .addGap(84, 84, 84)))
-                                    .addComponent(jLabel15)
-                                    .addComponent(jLabel7))
+                                .addComponent(txtPrecio)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNombreProducto)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(txtPrecio)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(txtSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(28, 28, 28)
-                                .addComponent(txtCodBarras)))))
+                                .addComponent(txtSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -402,7 +434,7 @@ public class Ventas extends javax.swing.JFrame {
                 .addGap(36, 36, 36))
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -413,13 +445,18 @@ public class Ventas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tablaProductos);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones De La Venta"));
 
         jButton2.setText("Generar Venta");
 
-        jButton3.setText("cancelar");
+        jButton3.setText("Salir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -526,8 +563,22 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        System.out.println(producto.getNombre());
+        //agregar productos a la lista de la factura
+        factProd = new FacturaProducto(producto, Integer.parseInt(txtCantidad.getText().trim()), Integer.parseInt(txtSubTotal.getText().trim()));
+        Object[] fila = new Object[6];
+        fila[0] = factProd.getProducto().getCodigo();
+        fila[1] = factProd.getProducto().getNombre();
+        fila[2] = factProd.getProducto().getPrecioVenta();
+        fila[3] = factProd.getCantidad();
+        fila[4] = factProd.getProducto().getDescripcion();
+        fila[5] = factProd.getTotal();
+        model.addRow(fila);
+        this.tablaProductos.setModel(model);
+        totalPagar += factProd.getTotal();
+        txtTotal.setText(String.valueOf(totalPagar));
+        this.limpiar();
+        detalles.add(factProd);
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
@@ -548,16 +599,6 @@ public class Ventas extends javax.swing.JFrame {
 
     private void txtCodBarrasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyReleased
         // Buscar por codigo de barras
-//        try {
-//            producto = Fachada.getInstancia().obtenerProducto(txtCodBarras.getText().trim());
-//            txtNombreProducto.setText(producto.getNombre());
-//            txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
-//            txtCantidad.setText("1");
-//            txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-
     }//GEN-LAST:event_txtCodBarrasKeyReleased
 
     private void txtCodBarrasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyPressed
@@ -569,6 +610,7 @@ public class Ventas extends javax.swing.JFrame {
                 txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
                 txtCantidad.setText("1");
                 txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
+                txtCantidad.requestFocusInWindow();
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -577,21 +619,21 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodBarrasKeyPressed
 
     private void txtCodBarrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyTyped
-//        try {
-//            String cadena = txtCodBarras.getText().trim();
-//            producto = Fachada.getInstancia().obtenerProducto(cadena);
-//            txtNombreProducto.setText(producto.getNombre());
-//            txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
-//            txtCantidad.setText("1");
-//            txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
+
     }//GEN-LAST:event_txtCodBarrasKeyTyped
 
     private void txtCodBarrasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCodBarrasMouseEntered
 
     }//GEN-LAST:event_txtCodBarrasMouseEntered
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        limpiar();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -647,9 +689,8 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTable tablaProductos;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCodBarras;
@@ -660,6 +701,7 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtSubTotal;
     private javax.swing.JTextField txtTelefono;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
     private Date Date() {
