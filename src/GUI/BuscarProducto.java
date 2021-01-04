@@ -1,9 +1,12 @@
 package GUI;
 
 import VO.Producto;
+import VO.TipoProducto;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -16,32 +19,39 @@ public class BuscarProducto extends javax.swing.JFrame {
     TableRowSorter<DefaultTableModel> tr;
     private ArrayList<Producto> productos;
     private Producto producto;
+    JTextField codigo, nombre, precio, cantidad, subTotal;
+    Ventas ventas;
 
-    public BuscarProducto(Producto p) {
+    public BuscarProducto(Producto p, JTextField c, JTextField n, JTextField prec, JTextField cant, JTextField subT) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.cargar();
+        producto = p;
+        codigo = c;
+        nombre = n;
+        precio = prec;
+        cantidad = cant;
+        subTotal = subT;
     }
 
     public void cargar() {
         // Creamos un objeto Table con el molde del nuestro
         productos = Fachada.getInstancia().obtenerProductos();
         String data[][] = {};
-        String col[] = {"ID", "CODIGO", "NOMBRE", "PRECIO/COMPRA", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION", "TIPO/PRODUCTO"};
+        String col[] = {"ID", "CODIGO", "NOMBRE", "PRECIO/COMPRA", "PRECIO/VENTA", "DESCRIPCION", "TIPO/PRODUCTO"};
         model = new DefaultTableModel(data, col);
         ///alumno d = cab;
         //************************************
         if (productos.size() != 0) {
             for (Producto producto : productos) {
-                Object[] fila = new Object[8];
+                Object[] fila = new Object[7];
                 fila[0] = producto.getId();
                 fila[1] = producto.getCodigo();
                 fila[2] = producto.getNombre();
                 fila[3] = producto.getPrecioCompra();
                 fila[4] = producto.getPrecioVenta();
-                fila[5] = producto.getCantidad();
-                fila[6] = producto.getDescripcion();
-                fila[7] = producto.getTipoProducto();
+                fila[5] = producto.getDescripcion();
+                fila[6] = producto.getTipoProducto();
                 model.addRow(fila);
             }
             this.tablaProductos.setModel(model);
@@ -88,6 +98,11 @@ public class BuscarProducto extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProductosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaProductos);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
@@ -216,8 +231,37 @@ public class BuscarProducto extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //guardar el producto seleccionado
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
+        // guardar el producto seleccionado
+        if (productos.size() > 0) {
+            JTable source = (JTable) evt.getSource();
+            int prod_id = Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString());
+            String code = source.getValueAt(source.getSelectedRow(), 1).toString();
+            String nombre = source.getValueAt(source.getSelectedRow(), 2).toString();
+            int precioCompra = (int) source.getValueAt(source.getSelectedRow(), 3);
+            int precioVenta = (int) source.getValueAt(source.getSelectedRow(), 4);
+            String descripcion = source.getValueAt(source.getSelectedRow(), 5).toString();
+            int tipo = (int) source.getValueAt(source.getSelectedRow(), 6);
+
+            producto.setId(prod_id);
+            producto.setCodigo(code);
+            producto.setNombre(nombre);
+            producto.setPrecioCompra(precioCompra);
+            producto.setPrecioVenta(precioVenta);
+            producto.setCantidad(1);
+            producto.setDescripcion(descripcion);
+            producto.setTipoProducto(tipo);
+
+            this.codigo.setText(code);
+            this.nombre.setText(nombre);
+            this.precio.setText(String.valueOf(precioVenta));
+            this.cantidad.setText(String.valueOf(1));
+            this.subTotal.setText(String.valueOf(precioVenta));
+        }
+    }//GEN-LAST:event_tablaProductosMouseClicked
 
     /**
      * @param args the command line arguments

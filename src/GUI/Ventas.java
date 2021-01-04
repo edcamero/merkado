@@ -591,6 +591,8 @@ public class Ventas extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         //agregar productos a la lista de la factura
+
+        //buscamos si el producto ya esta en la factura para no repetir
         boolean esta = false;
         for (int i = 0; i < detalles.size(); i++) {
             if (detalles.get(i).getProducto().getCodigo().equals(txtCodBarras.getText().trim())) {
@@ -612,6 +614,8 @@ public class Ventas extends javax.swing.JFrame {
                 esta = true;
             }
         }
+
+        //si el producto no esta se agrega a la factura
         if (!esta) {
             factProd = new FacturaProducto(producto, Integer.parseInt(txtCantidad.getText().trim()), Integer.parseInt(txtSubTotal.getText().trim()));
             Object[] fila = new Object[6];
