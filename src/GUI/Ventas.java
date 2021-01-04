@@ -668,7 +668,12 @@ public class Ventas extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // ELIMINAR PRODUCTO DE LA FACTURA
-        boolean elimino = factura.EliminarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
+        boolean elimino = false;
+        if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
+            elimino = factura.EliminarProducto(producto, 1);
+        } else {
+            elimino = factura.EliminarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
+        }
         if (elimino) {
             this.cargar();
             JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");
