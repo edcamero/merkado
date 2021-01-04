@@ -33,6 +33,10 @@ public class Fachada {
         return mediador.obtenerProductos();
     }
 
+    public Producto obtenerProducto(String codigo) {
+        return mediador.obtenerProducto(codigo);
+    }
+
     public boolean actualizarProducto(Producto producto) {
         return mediador.actualizarProducto(producto);
     }
@@ -139,8 +143,8 @@ public class Fachada {
     public boolean eliminarCliente(boolean estado, int clie_id) {
         return mediador.eliminarCliente(estado, clie_id);
     }
-    
-    public Cliente buscarCliente(String documento){
+
+    public Cliente buscarCliente(String documento) {
         return mediador.buscarCliente(documento);
     }
 

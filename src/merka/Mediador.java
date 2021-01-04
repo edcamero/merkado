@@ -43,6 +43,12 @@ public class Mediador {
         return lista;
     }
 
+    public Producto obtenerProducto(String codigo) {
+        Producto p = new Producto();
+        p = productoDao.obtenerProducto(codigo);
+        return p;
+    }
+
     public boolean actualizarProducto(Producto producto) {
         return productoDao.actualizarProducto(producto);
     }
@@ -131,8 +137,8 @@ public class Mediador {
         this.actualizarPersona(empleado);
         return empleadoDao.actualizarEmpleado(empleado);
     }
-    
-    public boolean eliminarEmpleado(boolean estado, int empl_id){
+
+    public boolean eliminarEmpleado(boolean estado, int empl_id) {
         return empleadoDao.eliminarEmpleado(estado, empl_id);
     }
 
@@ -152,8 +158,8 @@ public class Mediador {
     public boolean eliminarCliente(boolean estado, int clie_id) {
         return clienteDao.eliminarCliente(estado, clie_id);
     }
-    
-    public Cliente buscarCliente(String documento){
+
+    public Cliente buscarCliente(String documento) {
         return clienteDao.buscarCliente(documento);
     }
 
