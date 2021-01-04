@@ -11,6 +11,9 @@ public class Producto {
     private String descripcion;
     private int tipoProducto;
 
+    public Producto() {
+    }
+
     public Producto(String codigo, String nombre, int precioCompra, int precioVenta, int cantidad, String descripcion, int tipoProducto) {
         this.nombre = nombre;
         this.codigo = codigo;
