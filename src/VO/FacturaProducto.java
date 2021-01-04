@@ -60,6 +60,11 @@ public class FacturaProducto {
         this.total = producto.getPrecioVenta() * this.cantidad;
     }
 
+    public void removeCantidad(int cantidad) {
+        this.cantidad -= cantidad;
+        this.total = producto.getPrecioVenta() * this.cantidad;
+    }
+
     public int getTotal() {
         return total;
     }
