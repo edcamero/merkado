@@ -587,7 +587,7 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        //new BuscarProducto(producto, txtCodBarras, txtNombreProducto, txtPrecio, txtCantidad, txtSubTotal).setVisible(true);
+        new BuscarProducto(producto, txtCodBarras, txtNombreProducto, txtPrecio, txtCantidad, txtSubTotal).setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -596,7 +596,7 @@ public class Ventas extends javax.swing.JFrame {
         this.cargar();
         this.limpiar();
         JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
-        txtTotal.setText(String.valueOf(totalPagar));
+        txtTotal.setText(String.valueOf(factura.getTotalFactura()));
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased

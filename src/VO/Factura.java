@@ -65,6 +65,14 @@ public class Factura {
         this.empleado = empleado;
     }
 
+    public int getTotalFactura() {
+        return totalFactura;
+    }
+
+    public void setTotalFactura(int totalFactura) {
+        this.totalFactura = totalFactura;
+    }
+
     public ArrayList<FacturaProducto> getDetalles() {
         return detalles;
     }

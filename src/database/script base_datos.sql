@@ -186,7 +186,7 @@ CREATE TABLE _TIPO_PRODUCTOS(
 --TABLA PARA AUDITORIA DE PRODUCTOS
 CREATE TABLE _PRODUCTOS(
    prod_id integer,
-   prod_code INT UNIQUE,
+   prod_code VARCHAR UNIQUE,
    prod_nombre VARCHAR(40) NOT NULL UNIQUE, 
    prod_precio_compra INT NOT NULL,
    prod_precio_venta INT NOT NULL,
