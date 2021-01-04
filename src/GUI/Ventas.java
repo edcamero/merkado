@@ -1,6 +1,7 @@
 package GUI;
 
 import VO.Cliente;
+import VO.Factura;
 import VO.FacturaProducto;
 import VO.Producto;
 import java.awt.event.KeyEvent;
@@ -20,7 +21,7 @@ public class Ventas extends javax.swing.JFrame {
     private ArrayList<Producto> productos;
     private Producto producto = new Producto();
     private FacturaProducto factProd;
-    private ArrayList<FacturaProducto> detalles = new ArrayList<FacturaProducto>();
+    private Factura factura = new Factura();
     private DefaultTableModel model;
     private int totalPagar = 0;
     private int cantidad;
@@ -40,8 +41,8 @@ public class Ventas extends javax.swing.JFrame {
         String data[][] = {};
         String col[] = {"CODIGO", "NOMBRE", "PRECIO/VENTA", "CANTIDAD", "DESCRIPCION", "TOTAL"};
         model = new DefaultTableModel(data, col);
-        if (detalles.size() != 0) {
-            for (FacturaProducto factProd : detalles) {
+        if (factura.getDetalles().size() != 0) {
+            for (FacturaProducto factProd : factura.getDetalles()) {
                 Object[] fila = new Object[8];
                 fila[0] = factProd.getProducto().getCodigo();
                 fila[1] = factProd.getProducto().getNombre();
@@ -586,48 +587,15 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        new BuscarProducto(producto, txtCodBarras, txtNombreProducto, txtPrecio, txtCantidad, txtSubTotal).setVisible(true);
+        //new BuscarProducto(producto, txtCodBarras, txtNombreProducto, txtPrecio, txtCantidad, txtSubTotal).setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         //agregar productos a la lista de la factura
-        boolean esta = false;
-        for (int i = 0; i < detalles.size(); i++) {
-            if (detalles.get(i).getProducto().getCodigo().equals(txtCodBarras.getText().trim())) {
-                if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
-                    detalles.get(i).setCantidad(detalles.get(i).getCantidad() + 1);
-                    detalles.get(i).setTotal(detalles.get(i).getCantidad() * detalles.get(i).getProducto().getPrecioVenta());
-                    totalPagar += detalles.get(i).getProducto().getPrecioVenta();
-                    this.cargar();
-                    this.limpiar();
-                    JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
-                } else {
-                    detalles.get(i).setCantidad(detalles.get(i).getCantidad() + Integer.parseInt(txtCantidad.getText().trim()));
-                    detalles.get(i).setTotal(detalles.get(i).getCantidad() * detalles.get(i).getProducto().getPrecioVenta());
-                    totalPagar += Integer.parseInt(txtCantidad.getText().trim()) * detalles.get(i).getProducto().getPrecioVenta();
-                    this.cargar();
-                    this.limpiar();
-                    JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
-                }
-                esta = true;
-            }
-        }
-        if (!esta) {
-            factProd = new FacturaProducto(producto, Integer.parseInt(txtCantidad.getText().trim()), Integer.parseInt(txtSubTotal.getText().trim()));
-            Object[] fila = new Object[6];
-            fila[0] = factProd.getProducto().getCodigo();
-            fila[1] = factProd.getProducto().getNombre();
-            fila[2] = factProd.getProducto().getPrecioVenta();
-            fila[3] = factProd.getCantidad();
-            fila[4] = factProd.getProducto().getDescripcion();
-            fila[5] = factProd.getTotal();
-            model.addRow(fila);
-            this.tablaProductos.setModel(model);
-            totalPagar = totalPagar + factProd.getTotal();
-            this.limpiar();
-            JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
-            detalles.add(factProd);
-        }
+        factura.AgregarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
+        this.cargar();
+        this.limpiar();
+        JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
         txtTotal.setText(String.valueOf(totalPagar));
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -687,7 +655,7 @@ public class Ventas extends javax.swing.JFrame {
 
     private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
         // TODO add your handling code here:
-        if (detalles.size() > 0) {
+        if (factura.getDetalles().size() > 0) {
             JTable source = (JTable) evt.getSource();
             txtCodBarras.setText(source.getValueAt(source.getSelectedRow(), 0).toString());
             txtNombreProducto.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
@@ -700,15 +668,15 @@ public class Ventas extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // ELIMINAR PRODUCTO DE LA FACTURA
-        for (int i = 0; i < detalles.size(); i++) {
-            if (detalles.get(i).getProducto().getCodigo().equals(txtCodBarras.getText().trim())) {
+        for (int i = 0; i < factura.getDetalles().size(); i++) {
+            if (factura.getDetalles().get(i).getProducto().getCodigo().equals(txtCodBarras.getText().trim())) {
                 if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
-                    detalles.remove(i);
+                    factura.getDetalles().remove(i);
                     cargar();
                     limpiar();
                     JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");
                 } else if (Integer.parseInt(txtCantidad.getText()) < cantidad) {
-                    detalles.get(i).setCantidad(Integer.parseInt(txtCantidad.getText()));
+                    factura.getDetalles().get(i).setCantidad(Integer.parseInt(txtCantidad.getText()));
                     cargar();
                     limpiar();
                     JOptionPane.showMessageDialog(null, "SE MODIFICIO LA CANTIDAD DEL PRODUCTO");

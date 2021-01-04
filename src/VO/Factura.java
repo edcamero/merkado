@@ -6,12 +6,15 @@ import java.util.Date;
 public class Factura {
 
     private int id;
+    private int totalFactura;
     private Date fecha;
     private Cliente cliente;
     private Empleado empleado;
     private ArrayList<FacturaProducto> detalles;
 
     public Factura() {
+        this.detalles = new ArrayList<>();
+        this.totalFactura = 0;
     }
 
     public Factura(Date fecha, Cliente cliente, Empleado empleado, ArrayList<FacturaProducto> detalles) {
@@ -68,5 +71,22 @@ public class Factura {
 
     public void setDetalles(ArrayList<FacturaProducto> detalles) {
         this.detalles = detalles;
+    }
+
+    public boolean AgregarProducto(Producto producto, int cantidad) {
+        FacturaProducto facturaPro = new FacturaProducto(producto, cantidad);
+        boolean existe = this.detalles.contains(facturaPro);
+        if (!existe) {
+            this.detalles.add(facturaPro);
+            this.totalFactura += facturaPro.getTotal();
+        } else {
+            for (FacturaProducto detalle : this.detalles) {
+                if (detalle.equals(facturaPro)) {
+                    detalle.addCantidad(cantidad);
+                    this.totalFactura += facturaPro.getTotal();
+                }
+            }
+        }
+        return true;
     }
 }
