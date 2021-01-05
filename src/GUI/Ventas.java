@@ -621,7 +621,7 @@ public class Ventas extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
-                mostrarInfoProductor(txtCodBarras.getText().trim(),1);
+                mostrarInfoProductor(txtCodBarras.getText().trim(), 1);
 
             } catch (Exception e) {
                 System.out.println(e);
@@ -630,7 +630,7 @@ public class Ventas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtCodBarrasKeyPressed
 
-    private void mostrarInfoProductor(String codidoBarras,int cantidad) {
+    private void mostrarInfoProductor(String codidoBarras, int cantidad) {
         producto = Fachada.getInstancia().obtenerProducto(codidoBarras);
         txtCodBarras.setText(codidoBarras);
         txtNombreProducto.setText(producto.getNombre());
@@ -639,7 +639,6 @@ public class Ventas extends javax.swing.JFrame {
         txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
         txtCantidad.requestFocusInWindow();
         btnAgregarAfactura.setEnabled(true);
-
     }
     private void txtCodBarrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyTyped
 
@@ -662,8 +661,7 @@ public class Ventas extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (factura.getDetalles().size() > 0) {
             JTable source = (JTable) evt.getSource();
-            mostrarInfoProductor(source.getValueAt(source.getSelectedRow(), 0).toString(),(int)(source.getValueAt(source.getSelectedRow(), 3)));
-            
+            mostrarInfoProductor(source.getValueAt(source.getSelectedRow(), 0).toString(), (int) (source.getValueAt(source.getSelectedRow(), 3)));
         }
     }//GEN-LAST:event_tablaProductosMouseClicked
 
