@@ -33,6 +33,7 @@ public class Ventas extends javax.swing.JFrame {
         txtNombreProducto.setText(producto.getNombre());
         txtCodBarras.setText(producto.getNombre());
         txtTotal.setText("0");
+        btnAgregarAfactura.setEnabled(false);
         cargar();
     }
 
@@ -64,6 +65,7 @@ public class Ventas extends javax.swing.JFrame {
         txtPrecio.setText("");
         txtCantidad.setText("");
         txtSubTotal.setText("");
+        btnAgregarAfactura.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -105,7 +107,7 @@ public class Ventas extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         txtSubTotal = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
+        btnAgregarAfactura = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -338,10 +340,10 @@ public class Ventas extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones Del Producto"));
 
-        jButton4.setText("Agregar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarAfactura.setText("Agregar");
+        btnAgregarAfactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnAgregarAfacturaActionPerformed(evt);
             }
         });
 
@@ -365,7 +367,7 @@ public class Ventas extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAgregarAfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
@@ -381,7 +383,7 @@ public class Ventas extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAgregarAfactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -588,16 +590,17 @@ public class Ventas extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         new BuscarProducto(producto, txtCodBarras, txtNombreProducto, txtPrecio, txtCantidad, txtSubTotal).setVisible(true);
+        btnAgregarAfactura.setEnabled(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnAgregarAfacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAfacturaActionPerformed
         //agregar productos a la lista de la factura
         factura.AgregarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
         this.cargar();
         this.limpiar();
         JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
         txtTotal.setText(String.valueOf(factura.getTotalFactura()));
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnAgregarAfacturaActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
         // cantidad:
@@ -623,12 +626,8 @@ public class Ventas extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
-                producto = Fachada.getInstancia().obtenerProducto(txtCodBarras.getText().trim());
-                txtNombreProducto.setText(producto.getNombre());
-                txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
-                txtCantidad.setText("1");
-                txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
-                txtCantidad.requestFocusInWindow();
+                mostrarInfoProductor(txtCodBarras.getText().trim(),1);
+
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -636,6 +635,16 @@ public class Ventas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtCodBarrasKeyPressed
 
+    private void mostrarInfoProductor(String codidoBarras,int cantidad) {
+        producto = Fachada.getInstancia().obtenerProducto(codidoBarras);
+        txtCodBarras.setText(codidoBarras);
+        txtNombreProducto.setText(producto.getNombre());
+        txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
+        txtCantidad.setText(String.valueOf(cantidad));
+        txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
+        txtCantidad.requestFocusInWindow();
+
+    }
     private void txtCodBarrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyTyped
 
     }//GEN-LAST:event_txtCodBarrasKeyTyped
@@ -657,11 +666,7 @@ public class Ventas extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (factura.getDetalles().size() > 0) {
             JTable source = (JTable) evt.getSource();
-            txtCodBarras.setText(source.getValueAt(source.getSelectedRow(), 0).toString());
-            txtNombreProducto.setText(source.getValueAt(source.getSelectedRow(), 1).toString());
-            txtPrecio.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
-            txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
-            txtSubTotal.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
+            mostrarInfoProductor(source.getValueAt(source.getSelectedRow(), 0).toString(),(int)(source.getValueAt(source.getSelectedRow(), 3)));
             cantidad = (int) source.getValueAt(source.getSelectedRow(), 3);
         }
     }//GEN-LAST:event_tablaProductosMouseClicked
@@ -706,11 +711,11 @@ public class Ventas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarAfactura;
     private com.toedter.calendar.JDateChooser fecha;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
