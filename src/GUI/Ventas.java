@@ -18,13 +18,9 @@ import merka.Fachada;
 public class Ventas extends javax.swing.JFrame {
 
     private Cliente cliente;
-    private ArrayList<Producto> productos;
     private Producto producto = new Producto();
-    private FacturaProducto factProd;
     private Factura factura = new Factura();
     private DefaultTableModel model;
-    private int totalPagar = 0;
-    private int cantidad;
 
     public Ventas() {
         initComponents();
@@ -662,7 +658,6 @@ public class Ventas extends javax.swing.JFrame {
             txtPrecio.setText(source.getValueAt(source.getSelectedRow(), 2).toString());
             txtCantidad.setText(source.getValueAt(source.getSelectedRow(), 3).toString());
             txtSubTotal.setText(source.getValueAt(source.getSelectedRow(), 5).toString());
-            cantidad = (int) source.getValueAt(source.getSelectedRow(), 3);
         }
     }//GEN-LAST:event_tablaProductosMouseClicked
 
@@ -679,7 +674,7 @@ public class Ventas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");
             txtTotal.setText(String.valueOf(factura.getTotalFactura()));
         } else {
-            JOptionPane.showMessageDialog(null, "NO SE ENCONTRO EL PRODUCTO");
+            JOptionPane.showMessageDialog(null, "NO SE ELIMINO EL PRODUCTO");
         }
         this.limpiar();
     }//GEN-LAST:event_jButton7ActionPerformed

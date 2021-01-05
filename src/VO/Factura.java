@@ -106,18 +106,19 @@ public class Factura {
         if (existe) {
             for (FacturaProducto detalle : this.detalles) {
                 if (detalle.equals(facturaPro)) {
-                    detalle.removeCantidad(cantidad);
-                    this.totalFactura -= facturaPro.getTotal();
-                    if (detalle.getCantidad() == 0) {
-                        detalles.remove(detalle);
+                    if (detalle.removeCantidad(cantidad)) {
+                        this.totalFactura -= facturaPro.getTotal();
+                        if (detalle.getCantidad() == 0) {
+                            detalles.remove(detalle);
+                        }
+                        return true;
                     }
-                    return existe;
                 }
             }
         } else {
-            return existe;
+            return false;
         }
-        return existe;
+        return false;
     }
 
 }
