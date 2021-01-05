@@ -81,6 +81,7 @@ public class Factura {
         this.detalles = detalles;
     }
 
+    //agregar productos a la factura
     public boolean AgregarProducto(Producto producto, int cantidad) {
         FacturaProducto facturaPro = new FacturaProducto(producto, cantidad);
         boolean existe = this.detalles.contains(facturaPro);
@@ -97,4 +98,26 @@ public class Factura {
         }
         return true;
     }
+
+    //eliminar productos de la factura
+    public boolean EliminarProducto(Producto producto, int cantidad) {
+        FacturaProducto facturaPro = new FacturaProducto(producto, cantidad);
+        boolean existe = this.detalles.contains(facturaPro);
+        if (existe) {
+            for (FacturaProducto detalle : this.detalles) {
+                if (detalle.equals(facturaPro)) {
+                    detalle.removeCantidad(cantidad);
+                    this.totalFactura -= facturaPro.getTotal();
+                    if (detalle.getCantidad() == 0) {
+                        detalles.remove(detalle);
+                    }
+                    return existe;
+                }
+            }
+        } else {
+            return existe;
+        }
+        return existe;
+    }
+
 }

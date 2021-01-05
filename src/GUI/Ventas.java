@@ -668,23 +668,20 @@ public class Ventas extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // ELIMINAR PRODUCTO DE LA FACTURA
-        for (int i = 0; i < factura.getDetalles().size(); i++) {
-            if (factura.getDetalles().get(i).getProducto().getCodigo().equals(txtCodBarras.getText().trim())) {
-                if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
-                    factura.getDetalles().remove(i);
-                    cargar();
-                    limpiar();
-                    JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");
-                } else if (Integer.parseInt(txtCantidad.getText()) < cantidad) {
-                    factura.getDetalles().get(i).setCantidad(Integer.parseInt(txtCantidad.getText()));
-                    cargar();
-                    limpiar();
-                    JOptionPane.showMessageDialog(null, "SE MODIFICIO LA CANTIDAD DEL PRODUCTO");
-                } else {
-                    JOptionPane.showMessageDialog(null, "NO SE ELIMINO EL PRODUCTO");
-                }
-            }
+        boolean elimino = false;
+        if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
+            elimino = factura.EliminarProducto(producto, 1);
+        } else {
+            elimino = factura.EliminarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
         }
+        if (elimino) {
+            this.cargar();
+            JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");
+            txtTotal.setText(String.valueOf(factura.getTotalFactura()));
+        } else {
+            JOptionPane.showMessageDialog(null, "NO SE ENCONTRO EL PRODUCTO");
+        }
+        this.limpiar();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
