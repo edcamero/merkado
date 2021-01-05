@@ -1,6 +1,7 @@
 package VO;
 
 import java.util.Objects;
+import javax.swing.JOptionPane;
 
 public class FacturaProducto {
 
@@ -60,9 +61,15 @@ public class FacturaProducto {
         this.total = producto.getPrecioVenta() * this.cantidad;
     }
 
-    public void removeCantidad(int cantidad) {
-        this.cantidad -= cantidad;
-        this.total = producto.getPrecioVenta() * this.cantidad;
+    public boolean removeCantidad(int cantidad) {
+        if (this.cantidad - cantidad >= 0) {
+            this.cantidad -= cantidad;
+            this.total = producto.getPrecioVenta() * this.cantidad;
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "LA CANTIDAD A ELIMINAR NO ES VALIDA");
+            return false;
+        }
     }
 
     public int getTotal() {

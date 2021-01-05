@@ -5,7 +5,6 @@ import VO.Factura;
 import VO.FacturaProducto;
 import VO.Producto;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,13 +17,9 @@ import merka.Fachada;
 public class Ventas extends javax.swing.JFrame {
 
     private Cliente cliente;
-    private ArrayList<Producto> productos;
     private Producto producto = new Producto();
-    private FacturaProducto factProd;
     private Factura factura = new Factura();
     private DefaultTableModel model;
-    private int totalPagar = 0;
-    private int cantidad;
 
     public Ventas() {
         initComponents();
@@ -643,6 +638,7 @@ public class Ventas extends javax.swing.JFrame {
         txtCantidad.setText(String.valueOf(cantidad));
         txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
         txtCantidad.requestFocusInWindow();
+        btnAgregarAfactura.setEnabled(true);
 
     }
     private void txtCodBarrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyTyped
@@ -667,7 +663,7 @@ public class Ventas extends javax.swing.JFrame {
         if (factura.getDetalles().size() > 0) {
             JTable source = (JTable) evt.getSource();
             mostrarInfoProductor(source.getValueAt(source.getSelectedRow(), 0).toString(),(int)(source.getValueAt(source.getSelectedRow(), 3)));
-            cantidad = (int) source.getValueAt(source.getSelectedRow(), 3);
+            
         }
     }//GEN-LAST:event_tablaProductosMouseClicked
 
@@ -684,7 +680,7 @@ public class Ventas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");
             txtTotal.setText(String.valueOf(factura.getTotalFactura()));
         } else {
-            JOptionPane.showMessageDialog(null, "NO SE ENCONTRO EL PRODUCTO");
+            JOptionPane.showMessageDialog(null, "NO SE ELIMINO EL PRODUCTO");
         }
         this.limpiar();
     }//GEN-LAST:event_jButton7ActionPerformed
