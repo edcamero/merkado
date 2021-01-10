@@ -185,6 +185,11 @@ public class Fachada {
 
     public boolean eliminarProveedor(int id) {
         return mediador.eliminarProveedor(id);
-
     }
+
+    //************************* FACTURA *****************************//
+    public boolean registrarFactura(Factura f) {
+        return mediador.registrarFactura(f);
+    }
+
 }

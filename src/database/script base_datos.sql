@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS factura_producto_temp;
+DROP TABLE IF EXISTS facturas_temp;
 DROP TABLE IF EXISTS factura_producto;
 DROP TABLE IF EXISTS facturas;
 DROP TABLE IF EXISTS usuarios;
@@ -148,6 +150,28 @@ CREATE TABLE FACTURA_PRODUCTO(
     CONSTRAINT fapr_fact_fk foreign key(fact_id) references FACTURAS(fact_id)
 );
 
+CREATE TABLE FACTURAS_TEMP(
+    fact_id serial,
+    fact_fecha date,
+    clie_id integer,
+    empl_id integer,
+    fact_total integer,
+    CONSTRAINT factura_temp_pk PRIMARY KEY(fact_id),
+    CONSTRAINT fact_clie_fk foreign key(clie_id) references CLIENTES(clie_id),
+    CONSTRAINT fact_empl_fk foreign key(empl_id) references EMPLEADOS(empl_id)
+);
+
+CREATE TABLE FACTURA_PRODUCTO_TEMP(
+    fapr_id serial,
+    fact_id integer,
+    prod_id integer,
+    fapr_cantidad integer,
+    fapr_total integer,
+    CONSTRAINT factura_producto_temp_pk PRIMARY KEY(fapr_id),
+    CONSTRAINT fapr_prod_fk foreign key(prod_id) references PRODUCTOS(prod_id),
+    CONSTRAINT fapr_fact_fk foreign key(fact_id) references FACTURAS(fact_id)
+);
+
 
 
 ------------------------------
@@ -259,4 +283,4 @@ CREATE TABLE _PRODUCTO_PROVEEDOR(
 	prov_id numeric,
 	prpr_fecha_operacion timestamp not null,
         prpr_operacion VARCHAR(1) NOT NULL
-);	
+);

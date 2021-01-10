@@ -183,6 +183,8 @@ public class ClienteDao {
             rs = pst.executeQuery();
             if (rs.next()) {
                 cliente = new Cliente(rs.getInt(1), rs.getBoolean(3), new Persona(rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+            } else {
+                System.out.println("no hay registros");
             }
 
         } catch (SQLException ex) {

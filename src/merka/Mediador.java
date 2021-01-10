@@ -15,6 +15,7 @@ public class Mediador {
     private CargoDao cargoDao;
     private ProveedorDao proveedorDao;
     private EmpleadoDao empleadoDao;
+    private FacturaDao facturaDao;
 
     public Mediador() {
         usuarioDao = new UsuarioDao();
@@ -26,6 +27,7 @@ public class Mediador {
         cargoDao = new CargoDao();
         empleadoDao = new EmpleadoDao();
         proveedorDao = new ProveedorDao();
+        facturaDao = new FacturaDao();
     }
 
     public boolean login(String username, String pass) {
@@ -195,5 +197,10 @@ public class Mediador {
 
     public boolean eliminarProveedor(int id) {
         return proveedorDao.eliminarProveedor(id);
+    }
+
+    //************************* FACTURA *****************************
+    public boolean registrarFactura(Factura f) {
+        return facturaDao.registrarFactura(f);
     }
 }

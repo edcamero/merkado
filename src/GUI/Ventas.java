@@ -63,6 +63,13 @@ public class Ventas extends javax.swing.JFrame {
         btnAgregarAfactura.setEnabled(false);
     }
 
+    public void cargarCliente() {
+        txtNombre.setText(cliente.getNombre());
+        txtApellido.setText(cliente.getApellido());
+        txtTelefono.setText(cliente.getTelefono());
+        txtDireccion.setText(cliente.getDireccion());
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -568,11 +575,13 @@ public class Ventas extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (!txtDocumento.getText().equals("")) {
                 cliente = Fachada.getInstancia().buscarCliente(txtDocumento.getText().trim());
-                if (!cliente.equals(null)) {
-                    txtNombre.setText(cliente.getNombre());
-                    txtApellido.setText(cliente.getApellido());
-                    txtTelefono.setText(cliente.getTelefono());
-                    txtDireccion.setText(cliente.getDireccion());
+                if (cliente != null) {
+                    JOptionPane.showMessageDialog(this, "EL CLIENTE FUE ENCONTRADO");
+                    factura.setCliente(cliente);
+                    this.cargarCliente();
+                } else {
+                    JOptionPane.showMessageDialog(this, "EL CLIENTE NO FUE ENCONTRADO");
+                    txtDocumento.setText("");
                 }
             }
         }
@@ -590,6 +599,11 @@ public class Ventas extends javax.swing.JFrame {
 
     private void btnAgregarAfacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAfacturaActionPerformed
         //agregar productos a la lista de la factura
+        if (factura.getTotalFactura() == 0) {
+            factura.setFecha(fecha.getDate());
+            System.out.println("entro");
+            Fachada.getInstancia().registrarFactura(factura);
+        }
         factura.AgregarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
         this.cargar();
         this.limpiar();
@@ -622,7 +636,6 @@ public class Ventas extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
                 mostrarInfoProductor(txtCodBarras.getText().trim(), 1);
-
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -632,13 +645,17 @@ public class Ventas extends javax.swing.JFrame {
 
     private void mostrarInfoProductor(String codidoBarras, int cantidad) {
         producto = Fachada.getInstancia().obtenerProducto(codidoBarras);
-        txtCodBarras.setText(codidoBarras);
-        txtNombreProducto.setText(producto.getNombre());
-        txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
-        txtCantidad.setText(String.valueOf(cantidad));
-        txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
-        txtCantidad.requestFocusInWindow();
-        btnAgregarAfactura.setEnabled(true);
+        if (producto != null) {
+            txtCodBarras.setText(codidoBarras);
+            txtNombreProducto.setText(producto.getNombre());
+            txtPrecio.setText(String.valueOf(producto.getPrecioVenta()));
+            txtCantidad.setText(String.valueOf(cantidad));
+            txtSubTotal.setText(String.valueOf(producto.getPrecioVenta()));
+            txtCantidad.requestFocusInWindow();
+            btnAgregarAfactura.setEnabled(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "PRODUCTO NO ENCONTRADO");
+        }
     }
     private void txtCodBarrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodBarrasKeyTyped
 
@@ -668,19 +685,21 @@ public class Ventas extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // ELIMINAR PRODUCTO DE LA FACTURA
         boolean elimino = false;
-        if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
-            elimino = factura.EliminarProducto(producto, 1);
-        } else {
-            elimino = factura.EliminarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
+        if (producto != null) {
+            if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
+                elimino = factura.EliminarProducto(producto, 1);
+            } else {
+                elimino = factura.EliminarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
+            }
+            if (elimino) {
+                this.cargar();
+                JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");
+                txtTotal.setText(String.valueOf(factura.getTotalFactura()));
+            } else {
+                JOptionPane.showMessageDialog(null, "NO SE ELIMINO EL PRODUCTO");
+            }
+            this.limpiar();
         }
-        if (elimino) {
-            this.cargar();
-            JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");
-            txtTotal.setText(String.valueOf(factura.getTotalFactura()));
-        } else {
-            JOptionPane.showMessageDialog(null, "NO SE ELIMINO EL PRODUCTO");
-        }
-        this.limpiar();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
