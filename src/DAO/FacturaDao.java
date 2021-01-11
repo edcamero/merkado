@@ -24,9 +24,9 @@ public class FacturaDao {
 
         boolean resultado = false;
 
-        String consulta = "INSERT INTO public.facturas_temp(\n"
-                + "	fact_fecha, clie_id, empl_id, fact_total)\n"
-                + "	VALUES (?, ?, ?, ?) returning fact_id;";
+        String consulta = "INSERT INTO public.facturas(\n"
+                + "	fact_fecha, clie_id, empl_id, fact_total, fact_estado)\n"
+                + "	VALUES (?, ?, ?, ?, ?) returning fact_id;";
         try {
             con = Conexion.objConexion().getConexion();
 
@@ -39,6 +39,7 @@ public class FacturaDao {
             pst.setInt(2, factura.getCliente().getId());
             pst.setInt(3, 1);
             pst.setInt(4, factura.getTotalFactura());
+            pst.setString(5, factura.getEstado());
 
             rs = pst.executeQuery();
             while (rs.next()) {

@@ -10,27 +10,39 @@ public class Factura {
     private Date fecha;
     private Cliente cliente;
     private Empleado empleado;
+    private String estado;
     private ArrayList<FacturaProducto> detalles;
 
     public Factura() {
         this.detalles = new ArrayList<>();
         this.totalFactura = 0;
+        this.estado = "PENDIENTE";
     }
 
-    public Factura(Date fecha, Cliente cliente, Empleado empleado, ArrayList<FacturaProducto> detalles) {
+    public Factura(Date fecha, Cliente cliente, Empleado empleado, ArrayList<FacturaProducto> detalles, String estado) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
         this.empleado = empleado;
         this.detalles = detalles;
+        this.estado = estado;
     }
 
-    public Factura(int id, Date fecha, Cliente cliente, Empleado empleado, ArrayList<FacturaProducto> detalles) {
+    public Factura(int id, Date fecha, Cliente cliente, Empleado empleado, ArrayList<FacturaProducto> detalles, String estado) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
         this.empleado = empleado;
         this.detalles = detalles;
+        this.estado = estado;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public int getId() {
