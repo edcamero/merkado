@@ -631,8 +631,13 @@ public class Ventas extends javax.swing.JFrame {
         // cantidad:
         try {
             int sub = 0;
-            sub = Integer.parseInt(txtPrecio.getText().trim()) * Integer.parseInt(txtCantidad.getText());
-            txtSubTotal.setText(String.valueOf(sub));
+            if ("".equals(txtCantidad.getText().trim())) {
+                txtSubTotal.setText("0");
+            } else {
+                sub = Integer.parseInt(txtPrecio.getText().trim()) * Integer.parseInt(txtCantidad.getText());
+                txtSubTotal.setText(String.valueOf(sub));
+            }
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -716,7 +721,11 @@ public class Ventas extends javax.swing.JFrame {
     private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
-                this.agregarProductoFactura();
+                if ("".equals(txtCantidad.getText().trim()) || "0".equals(txtCantidad.getText().trim())) {
+                    JOptionPane.showMessageDialog(this, "DIGITE LA CANTIDAD");
+                } else {
+                    this.agregarProductoFactura();
+                }
             } catch (Exception e) {
                 System.out.println(e);
             }
