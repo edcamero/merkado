@@ -19,6 +19,7 @@ public class Ventas extends javax.swing.JFrame {
     private Cliente cliente;
     private Producto producto = new Producto();
     private Factura factura = new Factura();
+    private FacturaProducto facturaProducto = new FacturaProducto();
     private DefaultTableModel model;
 
     public Ventas() {
@@ -68,6 +69,25 @@ public class Ventas extends javax.swing.JFrame {
         txtApellido.setText(cliente.getApellido());
         txtTelefono.setText(cliente.getTelefono());
         txtDireccion.setText(cliente.getDireccion());
+    }
+
+    public void guardarProducto() {
+        facturaProducto.setId_factura(1);
+        facturaProducto.setProducto(producto);
+        facturaProducto.addCantidad(Integer.parseInt(txtCantidad.getText().trim()));
+    }
+
+    public void agregarProductoFactura() {
+        if (factura.getTotalFactura() == 0) {
+            factura.setFecha(fecha.getDate());
+            Fachada.getInstancia().registrarFactura(factura);
+        }
+        this.guardarProducto();
+        factura.AgregarProducto(facturaProducto);
+        this.cargar();
+        this.limpiar();
+        JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
+        txtTotal.setText(String.valueOf(factura.getTotalFactura()));
     }
 
     @SuppressWarnings("unchecked")
@@ -331,6 +351,9 @@ public class Ventas extends javax.swing.JFrame {
         jLabel10.setText("Cantidad:");
 
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyReleased(evt);
             }
@@ -599,16 +622,7 @@ public class Ventas extends javax.swing.JFrame {
 
     private void btnAgregarAfacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAfacturaActionPerformed
         //agregar productos a la lista de la factura
-        if (factura.getTotalFactura() == 0) {
-            factura.setFecha(fecha.getDate());
-            System.out.println("entro");
-            Fachada.getInstancia().registrarFactura(factura);
-        }
-        factura.AgregarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
-        this.cargar();
-        this.limpiar();
-        JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
-        txtTotal.setText(String.valueOf(factura.getTotalFactura()));
+        this.agregarProductoFactura();
     }//GEN-LAST:event_btnAgregarAfacturaActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
@@ -701,6 +715,16 @@ public class Ventas extends javax.swing.JFrame {
             this.limpiar();
         }
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                this.agregarProductoFactura();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_txtCantidadKeyPressed
 
     /**
      * @param args the command line arguments

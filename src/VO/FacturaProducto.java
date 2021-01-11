@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 public class FacturaProducto {
 
     private int id;
+    private int id_factura;
     private Producto producto;
     private int cantidad;
     private int total;
@@ -19,14 +20,16 @@ public class FacturaProducto {
         this.total = producto.getPrecioVenta() * cantidad;
     }
 
-    public FacturaProducto(Producto producto, int cantidad, int total) {
+    public FacturaProducto(int id_factura, Producto producto, int cantidad, int total) {
+        this.id_factura = id_factura;
         this.producto = producto;
         this.cantidad = cantidad;
         this.total = total;
     }
 
-    public FacturaProducto(int id, Producto producto, int cantidad, int total) {
+    public FacturaProducto(int id, int id_factura, Producto producto, int cantidad, int total) {
         this.id = id;
+        this.id_factura = id_factura;
         this.producto = producto;
         this.cantidad = cantidad;
         this.total = total;
@@ -38,6 +41,14 @@ public class FacturaProducto {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getId_factura() {
+        return id_factura;
+    }
+
+    public void setId_factura(int id_factura) {
+        this.id_factura = id_factura;
     }
 
     public Producto getProducto() {

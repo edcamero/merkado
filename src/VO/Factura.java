@@ -2,6 +2,7 @@ package VO;
 
 import java.util.ArrayList;
 import java.util.Date;
+import merka.Fachada;
 
 public class Factura {
 
@@ -94,21 +95,23 @@ public class Factura {
     }
 
     //agregar productos a la factura
-    public boolean AgregarProducto(Producto producto, int cantidad) {
-        FacturaProducto facturaPro = new FacturaProducto(producto, cantidad);
-        boolean existe = this.detalles.contains(facturaPro);
+    public boolean AgregarProducto(FacturaProducto fp) {
+        boolean existe = this.detalles.contains(fp);
         if (!existe) {
-            this.detalles.add(facturaPro);
-            this.totalFactura += facturaPro.getTotal();
+            this.detalles.add(fp);
+            this.totalFactura += fp.getTotal();
+            Fachada.getInstancia().registrarFacturaProducto(fp);
+            return true;
         } else {
             for (FacturaProducto detalle : this.detalles) {
-                if (detalle.equals(facturaPro)) {
-                    detalle.addCantidad(cantidad);
-                    this.totalFactura += facturaPro.getTotal();
+                if (detalle.equals(fp)) {
+                    detalle.addCantidad(fp.getCantidad());
+                    this.totalFactura += fp.getTotal();
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     //eliminar productos de la factura
