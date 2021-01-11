@@ -210,4 +210,9 @@ public class Mediador {
     public boolean registrarFacturaProducto(FacturaProducto fp) {
         return facturaProductoDao.registrarFacturaProducto(fp);
     }
+
+    public boolean actualizarProductoFactura(FacturaProducto fp) {
+        return facturaProductoDao.actualizarProductoFactura(fp);
+    }
+
 }

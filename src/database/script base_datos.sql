@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS factura_producto_temp;
-DROP TABLE IF EXISTS facturas_temp;
+
 DROP TABLE IF EXISTS factura_producto;
 DROP TABLE IF EXISTS facturas;
 DROP TABLE IF EXISTS usuarios;

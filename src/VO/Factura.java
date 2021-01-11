@@ -95,7 +95,7 @@ public class Factura {
     }
 
     //agregar productos a la factura
-    public boolean AgregarProducto(FacturaProducto fp) {
+    public boolean AgregarProducto(FacturaProducto fp, int cantidad) {
         boolean existe = this.detalles.contains(fp);
         if (!existe) {
             this.detalles.add(fp);
@@ -105,8 +105,10 @@ public class Factura {
         } else {
             for (FacturaProducto detalle : this.detalles) {
                 if (detalle.equals(fp)) {
-                    detalle.addCantidad(fp.getCantidad());
-                    this.totalFactura += fp.getTotal();
+                    //detalle.addCantidad(cantidad);
+                    Fachada.getInstancia().actualizarProductoFactura(detalle);
+                    this.totalFactura += fp.getProducto().getPrecioVenta() * cantidad;
+                    ;
                     return true;
                 }
             }

@@ -1,11 +1,14 @@
 package DAO;
 
 import VO.FacturaProducto;
+import VO.Producto;
 import database.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class FacturaProductoDao {
@@ -72,5 +75,43 @@ public class FacturaProductoDao {
             }
         }
         return resultado;
+    }
+
+    //MODIFICAR PRODUCTO DE LA FACTURA
+    public boolean actualizarProductoFactura(FacturaProducto facturaProducto) {
+        try {
+            String consulta = "UPDATE factura_producto SET "
+                    + "fapr_cantidad =  ?, "
+                    + "fapr_total = ? WHERE fapr_id = ? returning *";
+
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            pst.setInt(1, facturaProducto.getCantidad());
+            System.out.println("cantidad deb " + facturaProducto.getCantidad());
+            pst.setInt(2, facturaProducto.getTotal());
+            pst.setInt(3, facturaProducto.getId());
+            rs = pst.executeQuery();
+
+            return true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+                con.close();
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return false;
     }
 }

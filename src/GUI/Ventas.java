@@ -78,16 +78,18 @@ public class Ventas extends javax.swing.JFrame {
     }
 
     public void agregarProductoFactura() {
+
         if (factura.getTotalFactura() == 0) {
             factura.setFecha(fecha.getDate());
             Fachada.getInstancia().registrarFactura(factura);
         }
         this.guardarProducto();
-        factura.AgregarProducto(facturaProducto);
+        factura.AgregarProducto(facturaProducto, Integer.parseInt(txtCantidad.getText().trim()));
         this.cargar();
         this.limpiar();
         JOptionPane.showMessageDialog(null, "SE AGREGO EL PRODUCTO");
         txtTotal.setText(String.valueOf(factura.getTotalFactura()));
+
     }
 
     @SuppressWarnings("unchecked")
@@ -629,13 +631,8 @@ public class Ventas extends javax.swing.JFrame {
         // cantidad:
         try {
             int sub = 0;
-            if (txtPrecio.getText().equals("")) {
-                sub = Integer.parseInt(txtPrecio.getText().trim()) * 1;
-                txtSubTotal.setText(String.valueOf(sub));
-            } else {
-                sub = Integer.parseInt(txtPrecio.getText().trim()) * Integer.parseInt(txtCantidad.getText());
-                txtSubTotal.setText(String.valueOf(sub));
-            }
+            sub = Integer.parseInt(txtPrecio.getText().trim()) * Integer.parseInt(txtCantidad.getText());
+            txtSubTotal.setText(String.valueOf(sub));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -733,8 +730,10 @@ public class Ventas extends javax.swing.JFrame {
         try {
 
             javax.swing.UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(tipo_producto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(tipo_producto.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
         /* Create and display the form */

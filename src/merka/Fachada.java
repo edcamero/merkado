@@ -191,10 +191,14 @@ public class Fachada {
     public boolean registrarFactura(Factura f) {
         return mediador.registrarFactura(f);
     }
-    
+
     //************************* PRODUCTO DE LA FACTURA *****************************//
     public boolean registrarFacturaProducto(FacturaProducto fp) {
         return mediador.registrarFacturaProducto(fp);
+    }
+
+    public boolean actualizarProductoFactura(FacturaProducto fp) {
+        return mediador.actualizarProductoFactura(fp);
     }
 
 }

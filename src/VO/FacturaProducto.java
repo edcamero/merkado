@@ -65,6 +65,7 @@ public class FacturaProducto {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+        this.total = producto.getPrecioVenta() * this.cantidad;
     }
 
     public void addCantidad(int cantidad) {
