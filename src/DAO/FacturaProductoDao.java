@@ -114,4 +114,40 @@ public class FacturaProductoDao {
         }
         return false;
     }
+
+    //ELIMINAR PRODUCTO DE LA FACTURA
+    public boolean eliminarProductoFactura(int fact_id, int prod_fact_id) {
+
+        try {
+            String consulta = "DELETE FROM factura_producto "
+                    + "WHERE prod_id = ? and fact_id = ?";
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            pst.setInt(1, prod_fact_id);
+            pst.setInt(2, fact_id);
+
+            if (pst.executeUpdate() > 0) {
+                return true;
+            }
+            con.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+                con.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return false;
+    }
 }

@@ -72,7 +72,7 @@ public class Ventas extends javax.swing.JFrame {
     }
 
     public void guardarProducto() {
-        facturaProducto.setId_factura(1);
+        facturaProducto.setId_factura(1); //le envio 1 como id de factura solo para prueba
         facturaProducto.setProducto(producto);
         facturaProducto.addCantidad(Integer.parseInt(txtCantidad.getText().trim()));
     }
@@ -702,11 +702,7 @@ public class Ventas extends javax.swing.JFrame {
         // ELIMINAR PRODUCTO DE LA FACTURA
         boolean elimino = false;
         if (producto != null) {
-            if (txtCantidad.getText().equals("0".trim()) || txtCantidad.getText().equals("".trim())) {
-                elimino = factura.EliminarProducto(producto, 1);
-            } else {
-                elimino = factura.EliminarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
-            }
+            elimino = factura.EliminarProducto(producto, Integer.parseInt(txtCantidad.getText().trim()));
             if (elimino) {
                 this.cargar();
                 JOptionPane.showMessageDialog(null, "SE ELIMINO EL PRODUCTO");

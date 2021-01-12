@@ -201,4 +201,8 @@ public class Fachada {
         return mediador.actualizarProductoFactura(fp);
     }
 
+    public boolean eliminarProductoFactura(int fact_id, int prod_id) {
+        return mediador.eliminarProductoFactura(fact_id, prod_id);
+    }
+
 }

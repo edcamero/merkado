@@ -215,4 +215,8 @@ public class Mediador {
         return facturaProductoDao.actualizarProductoFactura(fp);
     }
 
+    public boolean eliminarProductoFactura(int fact_id, int prod_id) {
+        return facturaProductoDao.eliminarProductoFactura(fact_id, prod_id);
+    }
+
 }

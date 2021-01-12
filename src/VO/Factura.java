@@ -105,7 +105,6 @@ public class Factura {
         } else {
             for (FacturaProducto detalle : this.detalles) {
                 if (detalle.equals(fp)) {
-                    //detalle.addCantidad(cantidad);
                     Fachada.getInstancia().actualizarProductoFactura(detalle);
                     this.totalFactura += fp.getProducto().getPrecioVenta() * cantidad;
                     ;
@@ -127,6 +126,10 @@ public class Factura {
                         this.totalFactura -= facturaPro.getTotal();
                         if (detalle.getCantidad() == 0) {
                             detalles.remove(detalle);
+                            System.out.println(detalle.getId_factura());
+                            Fachada.getInstancia().eliminarProductoFactura(detalle.getId_factura(), detalle.getProducto().getId());
+                        } else {
+                            Fachada.getInstancia().actualizarProductoFactura(detalle);
                         }
                         return true;
                     }
