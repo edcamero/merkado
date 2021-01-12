@@ -507,6 +507,11 @@ public class Ventas extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones De La Venta"));
 
         jButton2.setText("Generar Venta");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Salir");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -727,6 +732,12 @@ public class Ventas extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txtCantidadKeyPressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        System.out.println("id de la factura "+factura.getId());
+        Fachada.getInstancia().finalizarFactura(factura.getId());
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

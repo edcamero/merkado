@@ -206,6 +206,10 @@ public class Mediador {
         return facturaDao.registrarFactura(f);
     }
 
+    public boolean finalizarFactura(int fact_id) {
+        return facturaDao.finalizarFactura(fact_id);
+    }
+
     //************************* PRODUCTO DE LA FACTURA *****************************//
     public boolean registrarFacturaProducto(FacturaProducto fp) {
         return facturaProductoDao.registrarFacturaProducto(fp);

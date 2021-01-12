@@ -1,6 +1,7 @@
 package DAO;
 
 import VO.Factura;
+import VO.FacturaProducto;
 import VO.Producto;
 import database.Conexion;
 import java.sql.Connection;
@@ -8,6 +9,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class FacturaDao {
@@ -78,5 +81,40 @@ public class FacturaDao {
             }
         }
         return resultado;
+    }
+
+    //MODIFICAR PRODUCTO DE LA FACTURA
+    public boolean finalizarFactura(int fact_id) {
+        try {
+            String consulta = "UPDATE facturas SET "
+                    + "fact_estado = ? WHERE fact_id = ? returning *";
+
+            con = Conexion.objConexion().getConexion();
+            pst = con.prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            pst.setString(1, "FINALIZADA");
+            pst.setInt(2, fact_id);
+            rs = pst.executeQuery();
+
+            return true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+                con.close();
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al intentar cerrar la conexión:\n"
+                        + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return false;
     }
 }
